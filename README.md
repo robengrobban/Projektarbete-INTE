@@ -1,3 +1,3 @@
 # Projektarbete INTE
-Ett väldigt fint Projektarete 
+Ett väldigt fint Projektarete för kursen "Introduktion till Testning". 
 
