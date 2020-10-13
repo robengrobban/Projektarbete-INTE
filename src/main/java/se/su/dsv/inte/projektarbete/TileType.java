@@ -4,7 +4,7 @@ public enum TileType {
     GROUND(true);
 
     public boolean passable;
-    private TileType(boolean passable) {
+    TileType(boolean passable) {
         this.passable = passable;
     }
 }
