@@ -1,9 +1,9 @@
 package se.su.dsv.inte.projektarbete;
 
 /**
- * Enum to represent a units type.
+ * Enum to represent a element type.
  */
-public enum UnitType {
+public enum ElementType {
 
     AIR,
     LAND,
