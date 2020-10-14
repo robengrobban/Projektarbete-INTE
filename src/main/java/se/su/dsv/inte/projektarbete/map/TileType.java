@@ -1,9 +1,14 @@
-package se.su.dsv.inte.projektarbete;
+package se.su.dsv.inte.projektarbete.map;
 
+/**
+ * Enum to represent the type of a tile.
+ */
 public enum TileType {
-    GROUND(true);
+    GROUND(true),
+    DOOR(true);
 
     public boolean passable;
+
     TileType(boolean passable) {
         this.passable = passable;
     }
