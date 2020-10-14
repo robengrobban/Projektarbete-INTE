@@ -31,6 +31,9 @@ public class Weapon {
      */
     public Weapon(String name, String description, int baseDamage, int range, ElementType[] canAttackElementTypes, int durability, WeaponModifier modifier) {
 
+        // TODO: Verify String name
+        // TODO: Verify String description
+
         // Verify base damage value
         if ( baseDamage <= 0 ) {
             throw new IllegalArgumentException("Base Damage cannot be less than or equal to zero.");
