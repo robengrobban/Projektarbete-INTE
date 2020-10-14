@@ -9,6 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * Class to test the Weapons Class
  */
 public class WeaponTest {
+    /**
+     * TODO: Fix object comparison, assert might be incorrect.
+     */
 
     /**
      * Test the constructor with correct values sent.
