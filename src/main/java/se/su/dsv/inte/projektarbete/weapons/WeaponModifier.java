@@ -1,4 +1,4 @@
-package se.su.dsv.inte.projektarbete.weapons.modifiers;
+package se.su.dsv.inte.projektarbete.weapons;
 
 /**
  * Interface for weapon modifiers

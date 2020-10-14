@@ -2,7 +2,6 @@ package se.su.dsv.inte.projektarbete.weapons;
 
 import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.ElementType;
-import se.su.dsv.inte.projektarbete.weapons.modifiers.WeaponModifier;
 
 import static org.junit.jupiter.api.Assertions.*;
 

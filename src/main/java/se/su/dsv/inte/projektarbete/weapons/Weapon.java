@@ -1,7 +1,6 @@
 package se.su.dsv.inte.projektarbete.weapons;
 
 import se.su.dsv.inte.projektarbete.ElementType;
-import se.su.dsv.inte.projektarbete.weapons.modifiers.WeaponModifier;
 
 /**
  * Class to represent a weapon at the highest level.
