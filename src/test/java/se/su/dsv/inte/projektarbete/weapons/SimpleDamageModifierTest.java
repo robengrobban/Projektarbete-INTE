@@ -41,4 +41,67 @@ public class SimpleDamageModifierTest {
         assertEquals(damageModifier, sdm.getBaseDamageModifier());
     }
 
+    /**
+     * Test the equals method
+     */
+    @Test
+    public void testEqualSimpleDamageModifer() {
+        String name = "More damage...";
+        int cost = 5;
+        int damageModifier = 2;
+
+        SimpleDamageModifier sdm1 = new SimpleDamageModifier(name, cost, damageModifier);
+        SimpleDamageModifier sdm2 = new SimpleDamageModifier(name, cost, damageModifier);
+
+        assertTrue(sdm1.equals(sdm2));
+    }
+
+    /**
+     * Test the equals method different WeaponModifier
+     */
+    @Test
+    public void testEqualDifferentName() {
+        String name1 = "More damage?";
+        String name2 = "I do not know...";
+        int cost = 5;
+        int damageModifier = 2;
+
+        SimpleDamageModifier sdm1 = new SimpleDamageModifier(name1, cost, damageModifier);
+        SimpleDamageModifier sdm2 = new SimpleDamageModifier(name2, cost, damageModifier);
+
+        assertFalse(sdm1.equals(sdm2));
+    }
+
+    /**
+     * Test the equals method different WeaponModifier
+     */
+    @Test
+    public void testEqualDifferentCost() {
+        String name = "More damage!";
+        int cost1 = 5;
+        int cost2 = 10;
+        int damageModifier = 2;
+
+        SimpleDamageModifier sdm1 = new SimpleDamageModifier(name, cost1, damageModifier);
+        SimpleDamageModifier sdm2 = new SimpleDamageModifier(name, cost2, damageModifier);
+
+        assertFalse(sdm1.equals(sdm2));
+    }
+
+    /**
+     * Test the equals method different WeaponModifier
+     */
+    @Test
+    public void testEqualDifferentDamageModifier() {
+        String name = "More damage?!?!?!";
+        int cost = 5;
+        int damageModifier1 = 2;
+        int damageModifier2 = 3;
+
+        SimpleDamageModifier sdm1 = new SimpleDamageModifier(name, cost, damageModifier1);
+        SimpleDamageModifier sdm2 = new SimpleDamageModifier(name, cost, damageModifier2);
+
+        assertFalse(sdm1.equals(sdm2));
+    }
+
 }

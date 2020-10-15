@@ -25,4 +25,22 @@ public class SimpleDamageModifier extends WeaponModifier {
     public int getBaseDamageModifier() {
         return this.damageModifier;
     }
+
+
+    /**
+     * Determine if two Simple Damage Modifiers are the same
+     * @param o Object, other WeaponModifier
+     * @return boolean, true if they are the same and false if they are different.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if ( o instanceof SimpleDamageModifier ) {
+            SimpleDamageModifier other = (SimpleDamageModifier) o;
+
+            return super.equals(other) && this.damageModifier == other.damageModifier;
+        }
+        else {
+            return false;
+        }
+    }
 }

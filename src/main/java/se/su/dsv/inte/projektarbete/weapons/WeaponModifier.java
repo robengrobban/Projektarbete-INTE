@@ -18,7 +18,7 @@ public abstract class WeaponModifier {
      */
     public WeaponModifier(String name, int cost) {
         // TODO: Verify name och cost
-        this.name = name;
+        this.name = name.trim();
         this.cost = cost;
     }
 
@@ -45,5 +45,24 @@ public abstract class WeaponModifier {
      * @return int, the base damage modification
      */
     public abstract int getBaseDamageModifier();
+
+
+    /**
+     * Determine if two WeaponModifiers are the same.
+     * @param o Object, other WeaponModifier
+     * @return boolean, true if they are the same and false if they are different.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if ( o instanceof WeaponModifier ) {
+            WeaponModifier other = (WeaponModifier) o;
+
+            return this.name.equals(other.name) && this.cost == other.cost;
+        }
+        else {
+            return false;
+        }
+    }
+
 
 }
