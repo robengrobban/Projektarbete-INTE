@@ -185,6 +185,41 @@ public class Weapon {
     }
 
     /**
+     * Calculate the worth (in gold) for this weapon
+     * @return int, the worth (in gold)
+     */
+    public int getWorth() {
+        int worth = this.baseDamage + this.range + this.canAttack.size();
+
+        if ( this.modifier != null ) {
+            worth += this.modifier.getWorth();
+        }
+
+        // Truncation expected
+        worth *= durability/100.0;
+
+        return worth;
+    }
+
+    /**
+     * Deteriorate the weapon
+     */
+    public void deteriorate() {
+        if ( this.durability != 0 ) {
+            durability--;
+        }
+    }
+
+    /**
+     * Determine if the weapon is usable or not
+     * @return boolean, true if the weapon is usable or false if it is not usable
+     */
+    public boolean usable() {
+        // If the weapon has durability, it can be used
+        return this.getDurability() > 0;
+    }
+
+    /**
      * Test if two Weapons are the same or not.
      * @param o Object, the other weapon.
      * @return boolean, true if they are the same weapon and false if they are different weapons.

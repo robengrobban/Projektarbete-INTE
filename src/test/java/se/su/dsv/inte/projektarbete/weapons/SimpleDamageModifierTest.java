@@ -189,5 +189,19 @@ public class SimpleDamageModifierTest {
         assertFalse(sdm.equals(new Object()));
     }
 
+    /**
+     * Test if the modifier can calculate its own worth
+     */
+    @Test
+    public void testModifierWorthCaculation() {
+        String name = "Wall Street";
+        int cost = 10;
+        int damageModifier = 3;
+
+        SimpleDamageModifier sdm = new SimpleDamageModifier(name, cost, damageModifier);
+
+        assertEquals(13, sdm.getWorth());
+    }
+
 
 }

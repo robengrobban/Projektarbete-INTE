@@ -652,5 +652,139 @@ public class WeaponTest {
         assertEquals(6, w.getTotalDamage());
     }
 
+    /**
+     * Test if the weapon calculates its own worth correctly
+     */
+    @Test
+    public void testWeaponCalculateWorthNoModifierFullDurability() {
+        String name = "Sword of Value";
+        String desc = "This sword will give us money.";
+
+        int baseDamage = 12;
+        int range = 1;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack);
+
+        assertEquals(14, w.getWorth());
+    }
+
+    /**
+     * Test if the weapon calculates its own worth correctly
+     */
+    @Test
+    public void testWeaponCalculateWorthNoModifierHalfDurability() {
+        String name = "Sword of Value";
+        String desc = "This sword will give us money.";
+
+        int baseDamage = 12;
+        int range = 1;
+        int durability = 50;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack, durability);
+
+        assertEquals(7, w.getWorth());
+    }
+
+    /**
+     * Test if the weapon calculates its own worth correctly
+     */
+    @Test
+    public void testWeaponCalculateWorthWithModifierFullDurability() {
+        String name = "Sword of Value";
+        String desc = "This sword will give us money.";
+
+        int baseDamage = 12;
+        int range = 1;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        SimpleDamageModifier sdm = new SimpleDamageModifier("More Damage", 10, 6);
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack, sdm);
+
+        assertEquals(30, w.getWorth());
+    }
+
+    /**
+     * Test if the weapon calculates its own worth correctly
+     */
+    @Test
+    public void testWeaponCalculateWorthWithModifierHalfDurability() {
+        String name = "Sword of Value";
+        String desc = "This sword will give us money.";
+
+        int baseDamage = 12;
+        int range = 1;
+        int durability = 50;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        SimpleDamageModifier sdm = new SimpleDamageModifier("More Damage", 10, 6);
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack, durability, sdm);
+
+        assertEquals(15, w.getWorth());
+    }
+
+    /**
+     * Test if the weapon is usable, should be.
+     */
+    @Test
+    public void testWeaponUsable() {
+        String name = "Sword of usability";
+        String desc = "I will use this sword.";
+
+        int baseDamage = 13;
+        int range = 2;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack);
+
+        assertTrue(w.usable());
+    }
+
+    /**
+     * Test if the weapon is usable, should not be.
+     */
+    @Test
+    public void testWeaponUnusable() {
+        String name = "Sword of un-usability";
+        String desc = "I will not use this sword.";
+
+        int baseDamage = 13;
+        int range = 2;
+        int durability = 0;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack, durability);
+
+        assertFalse(w.usable());
+    }
+
+    /**
+     * Test if the weapon can deteriorate and stop deteriorating when reached 0.
+     */
+    @Test
+    public void testWeaponDeteriorate() {
+        String name = "Sword of deterioration";
+        String desc = "This sword just deteriorates when hold";
+
+        int baseDamage = 3;
+        int range = 2;
+        int durability = 1;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack, durability);
+
+        // Deteriorate once.
+        w.deteriorate();
+        assertEquals(0, w.getDurability());
+
+        // Try to deteriorate once more.
+        w.deteriorate();
+        assertEquals(0, w.getDurability());
+
+    }
+
 
 }

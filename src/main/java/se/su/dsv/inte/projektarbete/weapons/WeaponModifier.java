@@ -55,6 +55,13 @@ public abstract class WeaponModifier {
      */
     public abstract int getBaseDamageModifier();
 
+    /**
+     * Calculate the worth (in gold) for this modifier
+     * @return int, the worth (in gold)
+     */
+    public int getWorth() {
+        return this.cost;
+    }
 
     /**
      * Determine if two WeaponModifiers are the same.

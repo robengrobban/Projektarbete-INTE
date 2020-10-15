@@ -30,6 +30,14 @@ public class SimpleDamageModifier extends WeaponModifier {
         return this.damageModifier;
     }
 
+    /**
+     * Calculate the worth (in gold) for this modifier
+     * @return int, the worth (in gold)
+     */
+    @Override
+    public int getWorth() {
+        return super.getWorth() + this.damageModifier;
+    }
 
     /**
      * Determine if two Simple Damage Modifiers are the same
