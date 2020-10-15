@@ -1,7 +1,5 @@
 package se.su.dsv.inte.projektarbete;
 
-import se.su.dsv.inte.projektarbete.weapons.WeaponModifier;
-
 /**
  * Class to represent a modifier at the highest level.
  */
