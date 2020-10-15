@@ -44,7 +44,7 @@ public class SimpleDamageModifier extends WeaponModifier {
             return super.equals(other) && this.damageModifier == other.damageModifier;
         }
         else {
-            return false;
+            return super.equals(o);
         }
     }
 }

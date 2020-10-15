@@ -569,6 +569,22 @@ public class WeaponTest {
     }
 
     /**
+     * Test the equals method with a class that is not Weapon
+     */
+    @Test
+    public void testWeaponEqualsMethodWrongClass() {
+        String name = "Sword 2";
+        String desc = "The 2 sword ever created.";
+        int baseDamage = 12;
+        int range = 2;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack);
+
+        assertFalse(w.equals(new Object()));
+    }
+
+    /**
      * Test if the weapon can correctly determine if a target is attackable or not.
      */
     @Test

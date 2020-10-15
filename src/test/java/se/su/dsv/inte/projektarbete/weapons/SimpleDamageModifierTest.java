@@ -175,4 +175,19 @@ public class SimpleDamageModifierTest {
         assertFalse(sdm1.equals(sdm2));
     }
 
+    /**
+     * Test the equals method with wrong class
+     */
+    @Test
+    public void testEqualWrongClass() {
+        String name = "More damage?!?!?!";
+        int cost = 5;
+        int damageModifier = 2;
+
+        SimpleDamageModifier sdm = new SimpleDamageModifier(name, cost, damageModifier);
+
+        assertFalse(sdm.equals(new Object()));
+    }
+
+
 }
