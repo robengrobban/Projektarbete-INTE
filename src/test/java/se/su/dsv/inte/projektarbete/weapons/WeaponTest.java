@@ -3,6 +3,7 @@ package se.su.dsv.inte.projektarbete.weapons;
 import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.ElementType;
 
+import javax.swing.text.Element;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -12,9 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * Class to test the Weapons Class
  */
 public class WeaponTest {
-    /**
-     * TODO: Fix object comparison, assert might be incorrect.
-     */
 
     /**
      * Test the constructor with correct values sent.
@@ -570,7 +568,73 @@ public class WeaponTest {
         assertFalse(w1.equals(w2));
     }
 
+    /**
+     * Test if the weapon can correctly determine if a target is attackable or not.
+     */
+    @Test
+    public void testWeaponCanAttackTargetInList() {
+        String name = "A Spear";
+        String desc = "A long spear!";
+        int baseDamage = 12;
+        int range = 2;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
 
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack);
+
+        assertTrue(w.canAttack( ElementType.LAND ));
+
+    }
+
+    /**
+     * Test if the weapon can correctly determine if a target is attackable or not.
+     */
+    @Test
+    public void testWeaponCannotAttackTargetThatIsNotInList() {
+        String name = "A Spear";
+        String desc = "A long spear!";
+        int baseDamage = 12;
+        int range = 2;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack);
+
+        assertFalse(w.canAttack( ElementType.AIR ));
+
+    }
+
+    /**
+     * Test if the weapon returns the correct total damage.
+     */
+    @Test
+    public void testWeaponCorrectTotalDamageNoModifier() {
+        String name = "A rusty Sword";
+        String desc = "The sword is so rusty that you shuold really consider switching it...";
+        int baseDamage = 2;
+        int range = 1;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack);
+
+        assertEquals(2, w.getTotalDamage());
+    }
+
+    /**
+     * Test if the weapon returns the correct total damage with a modifier.
+     */
+    @Test
+    public void testWeaponCorrectTotalDamageWithSimpleDamageModifier() {
+        String name = "A rusty Sword";
+        String desc = "The sword is rusty, but it has as magic coting that gives it SO MYCH MORE DAMAGE...";
+        int baseDamage = 2;
+        int range = 1;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        SimpleDamageModifier sdm = new SimpleDamageModifier("Magic Coting...", 2, 4);
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack, sdm);
+
+        assertEquals(6, w.getTotalDamage());
+    }
 
 
 }

@@ -10,8 +10,12 @@ public class SimpleDamageModifier extends WeaponModifier {
 
     // Constructors
     public SimpleDamageModifier(String name, int cost, int damageModifier) {
-        // TODO: Verify damageModifier
         super(name, cost);
+
+        // Verify damage modifier
+        if ( damageModifier == 0 ) {
+            throw new IllegalArgumentException("Damage modifier cannot be zero.");
+        }
         this.damageModifier = damageModifier;
     }
 

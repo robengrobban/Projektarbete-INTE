@@ -42,6 +42,77 @@ public class SimpleDamageModifierTest {
     }
 
     /**
+     * Test constructor with an illegal argument of damage modifier being zero.
+     */
+    @Test
+    public void testConstructorDamageModifierZero() {
+        String name = "Zero damage addded";
+        int cost = 1000000;
+        int damageModifier = 0;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new SimpleDamageModifier(name, cost, damageModifier);
+        } );
+    }
+
+    /**
+     * Test constructor with an illegal argument of name null
+     */
+    @Test
+    public void testConstructorNameNull() {
+        String name = null;
+        int cost = 12;
+        int damageModifier = 1;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new SimpleDamageModifier(name, cost, damageModifier);
+        } );
+    }
+
+    /**
+     * Test constructor with an illegal argument of an empty name
+     */
+    @Test
+    public void testConstructorNameEmpty() {
+        String name = "";
+        int cost = 1;
+        int damageModifier = 1;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new SimpleDamageModifier(name, cost, damageModifier);
+        } );
+    }
+
+    /**
+     * Test constructor with an illegal argument of a cost of zero.
+     */
+    @Test
+    public void testConstructorCostZero() {
+        String name = "Bad modifier";
+        int cost = 0;
+        int damageModifier = 1;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new SimpleDamageModifier(name, cost, damageModifier);
+        } );
+    }
+
+    /**
+     * Test constructor with an illegal argument of a negative cost.
+     */
+    @Test
+    public void testConstructorCostNegative() {
+        String name = "Bad modifier";
+        int cost = -1;
+        int damageModifier = 1;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new SimpleDamageModifier(name, cost, damageModifier);
+        } );
+    }
+
+
+    /**
      * Test the equals method
      */
     @Test

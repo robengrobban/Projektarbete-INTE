@@ -17,7 +17,16 @@ public abstract class WeaponModifier {
      * @param name String, modifier name
      */
     public WeaponModifier(String name, int cost) {
-        // TODO: Verify name och cost
+
+        // Verify name
+        if ( name == null || name.trim().equals("") ) {
+            throw new IllegalArgumentException("Name needs to be set.");
+        }
+        // Verify cost
+        else if ( cost <= 0 ) {
+            throw new IllegalArgumentException("Cost need to be bigger than zero.");
+        }
+
         this.name = name.trim();
         this.cost = cost;
     }

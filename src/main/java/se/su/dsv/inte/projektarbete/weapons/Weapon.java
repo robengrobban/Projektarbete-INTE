@@ -2,8 +2,6 @@ package se.su.dsv.inte.projektarbete.weapons;
 
 import se.su.dsv.inte.projektarbete.ElementType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 
 /**
@@ -165,6 +163,26 @@ public class Weapon {
         return this.modifier;
     }
 
+    /**
+     * Check if weapon can attack element type or not
+     * @return boolean, true if it can be used to attack that target and false if it cannot.
+     */
+    public boolean canAttack(ElementType target) {
+        return this.canAttack.contains(target);
+    }
+
+    /**
+     * Get the total damage that this Weapon does
+     * @return int, the total damage dealt by weapon
+     */
+    public int getTotalDamage() {
+        if ( this.modifier != null ) {
+            return this.baseDamage + this.modifier.getBaseDamageModifier();
+        }
+        else {
+            return this.baseDamage;
+        }
+    }
 
     /**
      * Test if two Weapons are the same or not.
