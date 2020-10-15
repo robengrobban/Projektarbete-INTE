@@ -105,7 +105,6 @@ public class Weapon {
         this(name, description, baseDamage, range, canAttack, 100, null);
     }
 
-
     // Methods
     /**
      * Get weapon name

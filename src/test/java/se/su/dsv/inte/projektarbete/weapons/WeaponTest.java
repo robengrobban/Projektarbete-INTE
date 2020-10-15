@@ -3,7 +3,6 @@ package se.su.dsv.inte.projektarbete.weapons;
 import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.ElementType;
 
-import javax.swing.text.Element;
 import java.util.Arrays;
 import java.util.HashSet;
 

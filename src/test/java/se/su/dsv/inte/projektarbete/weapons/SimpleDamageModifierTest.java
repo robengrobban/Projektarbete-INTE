@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Class for testing IncreasedDamageModifier
+ * Class for testing SimpleDamageModifier
  */
 public class SimpleDamageModifierTest {
 
