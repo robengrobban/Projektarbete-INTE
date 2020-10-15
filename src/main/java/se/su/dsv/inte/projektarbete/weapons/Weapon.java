@@ -2,6 +2,8 @@ package se.su.dsv.inte.projektarbete.weapons;
 
 import se.su.dsv.inte.projektarbete.ElementType;
 
+import java.util.HashSet;
+
 /**
  * Class to represent a weapon at the highest level.
  */
@@ -15,7 +17,7 @@ public class Weapon {
     private int range;
     private int durability;
 
-    private ElementType[] canAttackElementTypes;
+    private HashSet<ElementType> canAttack;
     private WeaponModifier modifier;
 
     // Constructors
@@ -25,14 +27,22 @@ public class Weapon {
      * @param description String, the description
      * @param baseDamage int, the base damage dealt (>0)
      * @param range int, the range of weapon (>0)
-     * @param canAttackElementTypes ElementType[], alla the element types that this weapon can attack
+     * @param canAttack HashSet<ElementType, alla the element types that this weapon can attack
      * @param durability int, the current durability (0-100)
      * @param modifier WeaponModifier, the modifiers for this weapon
      */
-    public Weapon(String name, String description, int baseDamage, int range, ElementType[] canAttackElementTypes, int durability, WeaponModifier modifier) {
+    public Weapon(String name, String description, int baseDamage, int range, HashSet<ElementType> canAttack, int durability, WeaponModifier modifier) {
 
+        // Verify name
+        if ( name == null || name.trim().equals("") ) {
+            throw new IllegalArgumentException("Name must be set.");
+        }
+        // Verify description
+        else if ( description == null || description.trim().equals("") ) {
+            throw new IllegalArgumentException("Description must be set.");
+        }
         // Verify base damage value
-        if ( baseDamage <= 0 ) {
+        else if ( baseDamage <= 0 ) {
             throw new IllegalArgumentException("Base Damage cannot be less than or equal to zero.");
         }
         // Verify range value
@@ -40,7 +50,7 @@ public class Weapon {
             throw new IllegalArgumentException("Range cannot be less than or equal to zero.");
         }
         // Verify can attack elements
-        else if ( canAttackElementTypes == null || canAttackElementTypes.length == 0 ) {
+        else if ( canAttack == null || canAttack.size() == 0 ) {
             throw new IllegalArgumentException("List with elements that the weapon can attack must have enum values");
         }
         // Verify durability values
@@ -48,11 +58,11 @@ public class Weapon {
             throw new IllegalArgumentException("Durability cannot be less than zero or greater then one hundred.");
         }
 
-        this.name = name;
-        this.description = description;
+        this.name = name.trim();
+        this.description = description.trim();
         this.baseDamage = baseDamage;
         this.range = range;
-        this.canAttackElementTypes = canAttackElementTypes;
+        this.canAttack = canAttack;
         this.durability = durability;
         this.modifier = modifier;
     }
@@ -63,11 +73,11 @@ public class Weapon {
      * @param description String, the description
      * @param baseDamage int, the base damage dealt (>0)
      * @param range int, the range of weapon (>0)
-     * @param canAttackElementTypes ElementType[], alla the element types that this weapon can attack
+     * @param canAttack HashSet<ElementType, alla the element types that this weapon can attack
      * @param durability int, the current durability (0-100)
      */
-    public Weapon(String name, String description, int baseDamage, int range, ElementType[] canAttackElementTypes, int durability) {
-        this(name, description, baseDamage, range, canAttackElementTypes, durability, null);
+    public Weapon(String name, String description, int baseDamage, int range, HashSet<ElementType> canAttack, int durability) {
+        this(name, description, baseDamage, range, canAttack, durability, null);
     }
 
     /**
@@ -76,11 +86,11 @@ public class Weapon {
      * @param description String, the description
      * @param baseDamage int, the base damage dealt (>0)
      * @param range int, the range of weapon (>0)
-     * @param canAttackElementTypes ElementType[], alla the element types that this weapon can attack
+     * @param canAttack HashSet<ElementType, alla the element types that this weapon can attack
      * @param modifier WeaponModifier, the modifier for that weapon
      */
-    public Weapon(String name, String description, int baseDamage, int range, ElementType[] canAttackElementTypes, WeaponModifier modifier) {
-        this(name, description, baseDamage, range, canAttackElementTypes, 100, modifier);
+    public Weapon(String name, String description, int baseDamage, int range, HashSet<ElementType> canAttack, WeaponModifier modifier) {
+        this(name, description, baseDamage, range, canAttack, 100, modifier);
     }
 
     /**
@@ -89,10 +99,10 @@ public class Weapon {
      * @param description String, the description
      * @param baseDamage int, the base damage dealt (>0)
      * @param range int, the range of weapon (>0)
-     * @param canAttackElementTypes ElementType[], alla the element types that this weapon can attack
+     * @param canAttack HashSet<ElementType, alla the element types that this weapon can attack
      */
-    public Weapon(String name, String description, int baseDamage, int range, ElementType[] canAttackElementTypes) {
-        this(name, description, baseDamage, range, canAttackElementTypes, 100, null);
+    public Weapon(String name, String description, int baseDamage, int range, HashSet<ElementType> canAttack) {
+        this(name, description, baseDamage, range, canAttack, 100, null);
     }
 
 
@@ -139,10 +149,10 @@ public class Weapon {
 
     /**
      * Get the element types this weapon can attack
-     * @return ElementType[], the elements this weapon can attack
+     * @return HashSet<ElementType, the elements this weapon can attack
      */
-    public ElementType[] getCanAttackElementTypes() {
-        return this.canAttackElementTypes;
+    public HashSet<ElementType> getCanAttack() {
+        return this.canAttack;
     }
 
     /**
@@ -152,5 +162,64 @@ public class Weapon {
     public WeaponModifier getModifier() {
         return this.modifier;
     }
+
+    /**
+     * Check if weapon can attack element type or not
+     * @return boolean, true if it can be used to attack that target and false if it cannot.
+     */
+    public boolean canAttack(ElementType target) {
+        return this.canAttack.contains(target);
+    }
+
+    /**
+     * Get the total damage that this Weapon does
+     * @return int, the total damage dealt by weapon
+     */
+    public int getTotalDamage() {
+        if ( this.modifier != null ) {
+            return this.baseDamage + this.modifier.getBaseDamageModifier();
+        }
+        else {
+            return this.baseDamage;
+        }
+    }
+
+    /**
+     * Test if two Weapons are the same or not.
+     * @param o Object, the other weapon.
+     * @return boolean, true if they are the same weapon and false if they are different weapons.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Weapon) {
+            Weapon other = (Weapon) o;
+
+            // Check if same name
+            boolean sameName = this.name.equals(other.name);
+
+            // Check if same description
+            boolean sameDescription = this.description.equals(other.description);
+
+            // Check if same base damage
+            boolean sameBaseDamage = this.baseDamage == other.baseDamage;
+
+            // Check if same range
+            boolean sameRange = this.range == other.range;
+
+            // Check if same durability
+            boolean sameDurability = this.durability == other.durability;
+
+            // Check if same can attack
+            boolean sameCanAttack = this.canAttack.equals(other.canAttack);
+
+            // Check if same modifier
+            boolean sameModifier = (this.modifier == null && other.modifier == null) || (this.modifier.equals(other.modifier));
+
+            return sameName && sameDescription && sameBaseDamage && sameRange && sameDurability && sameCanAttack && sameModifier;
+        } else {
+            return false;
+        }
+    }
+
 
 }
