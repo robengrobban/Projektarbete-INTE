@@ -1,7 +1,7 @@
 package se.su.dsv.inte.projektarbete.map;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 public class Map {
     private static final int HIGHER_LIMIT = 10;
@@ -96,10 +96,11 @@ public class Map {
     /**
      * @param lower lowest allowed number.
      * @param higher highest allowed number.
-     * @return random number between lower and higher.
+     * @return int, random number between lower and higher.
      */
     private int randomInt(int lower, int higher) {
-        return ThreadLocalRandom.current().nextInt(lower, higher + 1);
+        Random r = new Random();
+        return r.nextInt(higher - lower) + lower;
     }
 
     /**

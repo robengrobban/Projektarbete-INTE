@@ -4,6 +4,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MapTest {
+    private static final int HIGHER_LIMIT = 10;
+    private static final int LOWER_LIMIT = 4;
+
+    @Test
+    void randomMapCreated() {
+        Map map = new Map();
+        assertTrue(LOWER_LIMIT <= map.getXSize() || map.getXSize() <= HIGHER_LIMIT);
+        assertTrue(LOWER_LIMIT <= map.getYSize() || map.getYSize() <= HIGHER_LIMIT);
+    }
+
     /**
      * Test the constructor so as the map has the correct size.
      */
