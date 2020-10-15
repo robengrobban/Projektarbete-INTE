@@ -32,7 +32,7 @@ public class SimpleDefenceModifier extends ArmourModifier {
      */
     @Override
     public int getWorth() {
-        return super.getWorth() + this.defenseModifier;
+        return super.getCost() + this.defenseModifier;
     }
 
     /**

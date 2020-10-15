@@ -36,7 +36,7 @@ public class SimpleDamageModifier extends WeaponModifier {
      */
     @Override
     public int getWorth() {
-        return super.getWorth() + this.damageModifier;
+        return super.getCost() + this.damageModifier;
     }
 
     /**

@@ -43,19 +43,17 @@ public abstract class Modifier {
 
     /**
      * Get the cost of this modifier
-     * @return
+     * @return int, the cost of this modifier
      */
     public int getCost() {
         return this.cost;
     }
 
     /**
-     * Calculate the worth (in gold) for this modifier
-     * @return int, the worth (in gold)
+     * Calculate the worth for this modifier
+     * @return int, the worth
      */
-    public int getWorth() {
-        return this.cost;
-    }
+    public abstract int getWorth();
 
     /**
      * Determine if two WeaponModifiers are the same.
