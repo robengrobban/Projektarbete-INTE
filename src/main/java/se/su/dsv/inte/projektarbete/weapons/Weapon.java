@@ -27,7 +27,7 @@ public class Weapon {
      * @param description String, the description
      * @param baseDamage int, the base damage dealt (>0)
      * @param range int, the range of weapon (>0)
-     * @param canAttack HashSet<ElementType, alla the element types that this weapon can attack
+     * @param canAttack HashSet<ElementType>, alla the element types that this weapon can attack
      * @param durability int, the current durability (0-100)
      * @param modifier WeaponModifier, the modifiers for this weapon
      */
@@ -73,7 +73,7 @@ public class Weapon {
      * @param description String, the description
      * @param baseDamage int, the base damage dealt (>0)
      * @param range int, the range of weapon (>0)
-     * @param canAttack HashSet<ElementType, alla the element types that this weapon can attack
+     * @param canAttack HashSet<ElementType>, alla the element types that this weapon can attack
      * @param durability int, the current durability (0-100)
      */
     public Weapon(String name, String description, int baseDamage, int range, HashSet<ElementType> canAttack, int durability) {
@@ -86,7 +86,7 @@ public class Weapon {
      * @param description String, the description
      * @param baseDamage int, the base damage dealt (>0)
      * @param range int, the range of weapon (>0)
-     * @param canAttack HashSet<ElementType, alla the element types that this weapon can attack
+     * @param canAttack HashSet<ElementType>, alla the element types that this weapon can attack
      * @param modifier WeaponModifier, the modifier for that weapon
      */
     public Weapon(String name, String description, int baseDamage, int range, HashSet<ElementType> canAttack, WeaponModifier modifier) {
@@ -99,7 +99,7 @@ public class Weapon {
      * @param description String, the description
      * @param baseDamage int, the base damage dealt (>0)
      * @param range int, the range of weapon (>0)
-     * @param canAttack HashSet<ElementType, alla the element types that this weapon can attack
+     * @param canAttack HashSet<ElementType>, alla the element types that this weapon can attack
      */
     public Weapon(String name, String description, int baseDamage, int range, HashSet<ElementType> canAttack) {
         this(name, description, baseDamage, range, canAttack, 100, null);
