@@ -5,6 +5,18 @@ package se.su.dsv.inte.projektarbete.armour;
  */
 public enum ArmourType {
 
-    LIGHT, MEDIUM, HEAVY;
+    LIGHT(1),
+    MEDIUM(2),
+    HEAVY(3);
+
+    private int factor;
+
+    ArmourType(int factor) {
+        this.factor = factor;
+    }
+
+    public int getFactor() {
+        return this.factor;
+    }
 
 }

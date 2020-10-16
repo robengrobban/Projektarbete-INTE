@@ -124,6 +124,53 @@ public class Armour {
     }
 
     /**
+     * Calculate the total armour
+     * @return int, the total armour
+     */
+    public int getTotalArmour() {
+        int sum = this.baseDefence * this.type.getFactor();
+
+        if ( this.modifier != null ) {
+            sum += this.modifier.getBaseDefenceModifier();
+        }
+
+        if ( this.durability <= 50 && this.durability != 0 ) {
+            sum *= 0.5;
+        }
+        else if ( this.durability == 0 ) {
+            sum = 0;
+        }
+
+        return sum;
+    }
+
+    /**
+     * Deteriorate the armour, if possible
+     */
+    public void deteriorate() {
+        if ( this.durability != 0 ) {
+            this.durability--;
+        }
+    }
+
+    /**
+     * Calculate the worth of the armour
+     * @return int, the value
+     */
+    public int getWorth() {
+        int sum = this.baseDefence * this.type.getFactor();
+
+        if ( this.modifier != null ) {
+            sum += this.modifier.getWorth();
+        }
+
+        // Truncation expected
+        sum *= this.durability/100.0;
+
+        return sum;
+    }
+
+    /**
      * Test if two pieces of armour are the same
      * @param o Object, the other object
      * @return boolean, true if the are the same and false is they are different

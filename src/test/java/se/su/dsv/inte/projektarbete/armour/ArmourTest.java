@@ -352,6 +352,265 @@ public class ArmourTest {
         assertFalse(a.equals(new Object()));
     }
 
+    /**
+     * Test the calculation total armour with no modifier and full durability
+     */
+    @Test
+    public void testCalculateTotalArmourNoModifierAndFullDurability() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
 
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 12;
+        int durability = 100;
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability);
+
+        assertEquals(12, a.getTotalArmour());
+    }
+
+    /**
+     * Test the calculation of total armour with no modifier and half durability
+     */
+    @Test
+    public void testCalculateTotalArmourNoModifierAndHalfDurability() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 12;
+        int durability = 50;
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability);
+
+        assertEquals(6, a.getTotalArmour());
+    }
+
+    /**
+     * Test the calculation of total armour with modifier and full durability
+     */
+    @Test
+    public void testCalculateTotalArmourWithModifierFullDurability() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 12;
+        int durability = 100;
+
+        SimpleDefenceModifier sdm = new SimpleDefenceModifier("MORE", 10, 8);
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability, sdm);
+
+        assertEquals(20, a.getTotalArmour());
+    }
+
+    /**
+     * Test the calculation of total armour with modifier and half durability
+     */
+    @Test
+    public void testCalculateTotalArmourWithModifierHalfDurability() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.MEDIUM;
+        int baseDefence = 12;
+        int durability = 50;
+
+        SimpleDefenceModifier sdm = new SimpleDefenceModifier("MORE", 10, 8);
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability, sdm);
+
+        assertEquals(16, a.getTotalArmour());
+    }
+
+    /**
+     * Test the calculate of total armour with no modifier and zero durability
+     */
+    @Test
+    public void testCalculateTotalArmourNoModifierZeroDurability() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 12;
+        int durability = 0;
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability);
+
+        assertEquals(0, a.getTotalArmour());
+    }
+
+    /**
+     * Test the calculate of total armour with modifier and zero durability
+     */
+    @Test
+    public void testCalculateTotalArmourWithModifierZeroDurability() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 12;
+        int durability = 0;
+
+        SimpleDefenceModifier sdm = new SimpleDefenceModifier("MORE", 10, 8);
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability, sdm);
+
+        assertEquals(0, a.getTotalArmour());
+    }
+
+    /**
+     * Test the deteriorate
+     */
+    @Test
+    public void testDeteriorateArmour() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 12;
+        int durability = 2;
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability);
+
+        // Deteriorate once
+        a.deteriorate();
+        assertEquals(1, a.getDurability());
+
+        // Deteriorate twice
+        a.deteriorate();
+        assertEquals(0, a.getDurability());
+
+        // Deteriorate again, not under 0
+        a.deteriorate();
+        assertEquals(0, a.getDurability());
+
+    }
+
+    /**
+     * Test the worth with modifier and full durability
+     */
+    @Test
+    public void testWorthWithModifierFullDurability() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.HEAVY;
+        int baseDefence = 12;
+        int durability = 100;
+
+        SimpleDefenceModifier sdm = new SimpleDefenceModifier("MORE", 10, 8);
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability, sdm);
+
+        assertEquals(54, a.getWorth());
+    }
+
+    /**
+     * Test the worth with no modifier and full durability
+     */
+    @Test
+    public void testWorthNoModifierFullDurability() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.MEDIUM;
+        int baseDefence = 10;
+        int durability = 100;
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability);
+
+        assertEquals(20, a.getWorth());
+    }
+
+    /**
+     * Test the worth with modifier and half durability
+     */
+    @Test
+    public void testWorthWithModifierHalfDurability() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 8;
+        int durability = 50;
+
+        SimpleDefenceModifier sdm = new SimpleDefenceModifier("MORE", 12, 8);
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability, sdm);
+
+        assertEquals(14, a.getWorth());
+    }
+
+    /**
+     * Test the worth with no modifier and half durability
+     */
+    @Test
+    public void testWorthNoModiferHalfDurability() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 16;
+        int durability = 50;
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability);
+
+        assertEquals(8, a.getWorth());
+    }
+
+    /**
+     * Test the worth with modifier and zero durability
+     */
+    @Test
+    public void testWorthWithModifierZeroDurability() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.HEAVY;
+        int baseDefence = 12;
+        int durability = 0;
+
+        SimpleDefenceModifier sdm = new SimpleDefenceModifier("MORE", 10, 8);
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability, sdm);
+
+        assertEquals(0, a.getWorth());
+    }
+
+    /**
+     * Test the worth with no modifier and zero durability
+     */
+    @Test
+    public void testWorthNoModifierZeroDurability() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.MEDIUM;
+        int baseDefence = 165;
+        int durability = 0;
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability);
+
+        assertEquals(0, a.getWorth());
+    }
+
+    /**
+     * Test the worth modifier with a uneven base damage no modifier half durability
+     */
+    @Test
+    public void testWorthNoModifierHalfDurabilityUnevenBaseDamage() {
+        String name = "So much armour!";
+        String desc = "Yes, yes there is!";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 11;
+        int durability = 50;
+
+        Armour a = new Armour(name, desc, type, baseDefence, durability);
+
+        assertEquals(5, a.getWorth());
+    }
 
 }
