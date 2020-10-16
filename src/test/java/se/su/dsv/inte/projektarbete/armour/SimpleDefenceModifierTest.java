@@ -22,7 +22,7 @@ public class SimpleDefenceModifierTest {
 
         assertEquals(name, sdm.getName());
         assertEquals(cost, sdm.getCost());
-        assertEquals(defenseModifier, sdm.getBaseDefenseModifier());
+        assertEquals(defenseModifier, sdm.getBaseDefenceModifier());
     }
 
     /**
@@ -53,6 +53,83 @@ public class SimpleDefenceModifierTest {
 
         assertEquals(14, sdm.getWorth());
 
+    }
+
+    /**
+     * Test the equals method
+     */
+    @Test
+    public void testEqualSimpleDamageModifier() {
+        String name = "More defence...";
+        int cost = 5;
+        int defenceModifier = 2;
+
+        SimpleDefenceModifier sdm1 = new SimpleDefenceModifier(name, cost, defenceModifier);
+        SimpleDefenceModifier sdm2 = new SimpleDefenceModifier(name, cost, defenceModifier);
+
+        assertTrue(sdm1.equals(sdm2));
+    }
+
+    /**
+     * Test the equals method different ArmourModifier
+     */
+    @Test
+    public void testEqualDifferentName() {
+        String name1 = "More defence?";
+        String name2 = "I do not know...";
+        int cost = 5;
+        int defenceModifier = 2;
+
+        SimpleDefenceModifier sdm1 = new SimpleDefenceModifier(name1, cost, defenceModifier);
+        SimpleDefenceModifier sdm2 = new SimpleDefenceModifier(name2, cost, defenceModifier);
+
+        assertFalse(sdm1.equals(sdm2));
+    }
+
+    /**
+     * Test the equals method different ArmourModifier
+     */
+    @Test
+    public void testEqualDifferentCost() {
+        String name = "More defence!";
+        int cost1 = 5;
+        int cost2 = 10;
+        int defenceModifier = 2;
+
+        SimpleDefenceModifier sdm1 = new SimpleDefenceModifier(name, cost1, defenceModifier);
+        SimpleDefenceModifier sdm2 = new SimpleDefenceModifier(name, cost2, defenceModifier);
+
+        assertFalse(sdm1.equals(sdm2));
+    }
+
+    /**
+     * Test the equals method different DefenceModifier
+     */
+    @Test
+    public void testEqualDifferentDefenceModifier() {
+        String name = "More defence?!?!?!";
+        int cost = 5;
+        int defenceModifier1 = 2;
+        int defenceModifier2 = 3;
+
+        SimpleDefenceModifier sdm1 = new SimpleDefenceModifier(name, cost, defenceModifier1);
+        SimpleDefenceModifier sdm2 = new SimpleDefenceModifier(name, cost, defenceModifier2);
+
+        assertFalse(sdm1.equals(sdm2));
+    }
+
+    /**
+     * Test the equals method with wrong class
+     */
+    @Test
+    public void testEqualWrongClass() {
+        String name = "More defence?!?!?!";
+        int cost = 5;
+        int defenceModifier = 2;
+
+        SimpleDefenceModifier sdm = new SimpleDefenceModifier(name, cost, defenceModifier);
+
+        assertFalse(sdm.equals(new Object()));
     }
 
 

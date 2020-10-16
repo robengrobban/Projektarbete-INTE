@@ -193,7 +193,7 @@ public class SimpleDamageModifierTest {
      * Test if the modifier can calculate its own worth
      */
     @Test
-    public void testModifierWorthCaculation() {
+    public void testModifierWorthCalculation() {
         String name = "Wall Street";
         int cost = 10;
         int damageModifier = 3;
