@@ -1,6 +1,8 @@
 package se.su.dsv.inte.projektarbete.map;
 
 import org.junit.jupiter.api.Test;
+import se.su.dsv.inte.projektarbete.Item;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PointTest {
