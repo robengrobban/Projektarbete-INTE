@@ -4,11 +4,6 @@ public abstract class Character {
     private String name;
     private int health;
     private ThreatLevel threatLevel;
-    public enum ThreatLevel {
-        HOSTILE,
-        NEUTRAL,
-        FRIENDLY
-    }
 
     public Character(String name, ThreatLevel threatLevel) {
         health = 100;
