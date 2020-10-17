@@ -200,7 +200,7 @@ public class SimpleDamageModifierTest {
 
         SimpleDamageModifier sdm = new SimpleDamageModifier(name, cost, damageModifier);
 
-        assertEquals(13, sdm.getWorth());
+        assertEquals(13, sdm.getValue());
     }
 
 

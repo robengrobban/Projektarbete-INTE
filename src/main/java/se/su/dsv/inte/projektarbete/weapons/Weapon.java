@@ -1,18 +1,16 @@
 package se.su.dsv.inte.projektarbete.weapons;
 
 import se.su.dsv.inte.projektarbete.ElementType;
+import se.su.dsv.inte.projektarbete.Item;
 
 import java.util.HashSet;
 
 /**
  * Class to represent a weapon at the highest level.
  */
-public class Weapon {
+public class Weapon extends Item {
 
     // Instance variables
-    private String name;
-    private String description;
-
     private int baseDamage;
     private int range;
     private int durability;
@@ -32,17 +30,10 @@ public class Weapon {
      * @param modifier WeaponModifier, the modifiers for this weapon
      */
     public Weapon(String name, String description, int baseDamage, int range, HashSet<ElementType> canAttack, int durability, WeaponModifier modifier) {
+        super(name, description);
 
-        // Verify name
-        if ( name == null || name.trim().equals("") ) {
-            throw new IllegalArgumentException("Name must be set.");
-        }
-        // Verify description
-        else if ( description == null || description.trim().equals("") ) {
-            throw new IllegalArgumentException("Description must be set.");
-        }
         // Verify base damage value
-        else if ( baseDamage <= 0 ) {
+        if ( baseDamage <= 0 ) {
             throw new IllegalArgumentException("Base Damage cannot be less than or equal to zero.");
         }
         // Verify range value
@@ -58,8 +49,6 @@ public class Weapon {
             throw new IllegalArgumentException("Durability cannot be less than zero or greater then one hundred.");
         }
 
-        this.name = name.trim();
-        this.description = description.trim();
         this.baseDamage = baseDamage;
         this.range = range;
         this.canAttack = canAttack;
@@ -106,22 +95,6 @@ public class Weapon {
     }
 
     // Methods
-    /**
-     * Get weapon name
-     * @return String, the name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Get weapon description
-     * @return String, the description
-     */
-    public String getDescription() {
-        return this.description;
-    }
-
     /**
      * Get the base damage
      * @return int, the base damage
@@ -184,20 +157,21 @@ public class Weapon {
     }
 
     /**
-     * Calculate the worth (in gold) for this weapon
-     * @return int, the worth (in gold)
+     * Calculate the value for this weapon
+     * @return int, the value
      */
-    public int getWorth() {
-        int worth = this.baseDamage + this.range + this.canAttack.size();
+    @Override
+    public int getValue() {
+        int value = this.baseDamage + this.range + this.canAttack.size();
 
         if ( this.modifier != null ) {
-            worth += this.modifier.getWorth();
+            value += this.modifier.getValue();
         }
 
         // Truncation expected
-        worth *= durability/100.0;
+        value *= durability/100.0;
 
-        return worth;
+        return value;
     }
 
     /**
@@ -228,11 +202,8 @@ public class Weapon {
         if (o instanceof Weapon) {
             Weapon other = (Weapon) o;
 
-            // Check if same name
-            boolean sameName = this.name.equals(other.name);
-
-            // Check if same description
-            boolean sameDescription = this.description.equals(other.description);
+            // Check if same Item
+            boolean sameItem = super.equals(other);
 
             // Check if same base damage
             boolean sameBaseDamage = this.baseDamage == other.baseDamage;
@@ -249,7 +220,7 @@ public class Weapon {
             // Check if same modifier
             boolean sameModifier = (this.modifier == null && other.modifier == null) || (this.modifier.equals(other.modifier));
 
-            return sameName && sameDescription && sameBaseDamage && sameRange && sameDurability && sameCanAttack && sameModifier;
+            return sameItem && sameBaseDamage && sameRange && sameDurability && sameCanAttack && sameModifier;
         } else {
             return false;
         }

@@ -31,11 +31,11 @@ public class SimpleDamageModifier extends WeaponModifier {
     }
 
     /**
-     * Calculate the worth (in gold) for this modifier
-     * @return int, the worth (in gold)
+     * Calculate the value for this modifier
+     * @return int, the value
      */
     @Override
-    public int getWorth() {
+    public int getValue() {
         return super.getCost() + this.damageModifier;
     }
 

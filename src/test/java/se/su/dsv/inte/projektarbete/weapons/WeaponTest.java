@@ -2,6 +2,7 @@ package se.su.dsv.inte.projektarbete.weapons;
 
 import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.ElementType;
+import se.su.dsv.inte.projektarbete.Item;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -665,7 +666,7 @@ public class WeaponTest {
 
         Weapon w = new Weapon(name, desc, baseDamage, range, canAttack);
 
-        assertEquals(14, w.getWorth());
+        assertEquals(14, w.getValue());
     }
 
     /**
@@ -683,7 +684,7 @@ public class WeaponTest {
 
         Weapon w = new Weapon(name, desc, baseDamage, range, canAttack, durability);
 
-        assertEquals(7, w.getWorth());
+        assertEquals(7, w.getValue());
     }
 
     /**
@@ -702,7 +703,7 @@ public class WeaponTest {
 
         Weapon w = new Weapon(name, desc, baseDamage, range, canAttack, sdm);
 
-        assertEquals(30, w.getWorth());
+        assertEquals(30, w.getValue());
     }
 
     /**
@@ -722,7 +723,7 @@ public class WeaponTest {
 
         Weapon w = new Weapon(name, desc, baseDamage, range, canAttack, durability, sdm);
 
-        assertEquals(15, w.getWorth());
+        assertEquals(15, w.getValue());
     }
 
     /**
