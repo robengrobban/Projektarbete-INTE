@@ -95,6 +95,15 @@ public class Weapon extends Item {
     }
 
     // Methods
+
+    /**
+     * Set modifier
+     * @param modifier WeaponModifier, the modifier to set
+     */
+    public void setModifier(WeaponModifier modifier) {
+        this.modifier = modifier;
+    }
+
     /**
      * Get the base damage
      * @return int, the base damage
