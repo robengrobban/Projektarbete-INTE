@@ -13,6 +13,10 @@ public class Point {
         this.type = type;
     }
 
+    /**
+     * @param type type value.
+     * @param interactableObject interactableObject value.
+     */
     public Point(TileType type, InteractableObject interactableObject) {
         this.interactableObject = interactableObject;
         this.type = type;
@@ -25,6 +29,10 @@ public class Point {
         return type;
     }
 
+    /**
+     * @return InteractableObject, the point's object.
+     * @throws NullPointerException, if no object is present.
+     */
     public InteractableObject getInteractableObject() {
         if (interactableObject == null) {
             throw new NullPointerException("No InteractableObject here");
@@ -32,6 +40,9 @@ public class Point {
         return interactableObject;
     }
 
+    /**
+     * Sets the object to null.
+     */
     public void removeIntractableObject() {
         interactableObject = null;
     }
