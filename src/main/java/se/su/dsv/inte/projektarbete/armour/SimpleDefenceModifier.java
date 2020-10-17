@@ -29,11 +29,11 @@ public class SimpleDefenceModifier extends ArmourModifier {
     // Methods
 
     /**
-     * Get the worth of this modifier
-     * @return int, the worth
+     * Get the value of this modifier
+     * @return int, the value
      */
     @Override
-    public int getWorth() {
+    public int getValue() {
         return super.getCost() + this.defenceModifier;
     }
 

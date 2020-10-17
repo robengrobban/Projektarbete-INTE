@@ -504,7 +504,7 @@ public class ArmourTest {
 
         Armour a = new Armour(name, desc, type, baseDefence, durability, sdm);
 
-        assertEquals(54, a.getWorth());
+        assertEquals(54, a.getValue());
     }
 
     /**
@@ -521,7 +521,7 @@ public class ArmourTest {
 
         Armour a = new Armour(name, desc, type, baseDefence, durability);
 
-        assertEquals(20, a.getWorth());
+        assertEquals(20, a.getValue());
     }
 
     /**
@@ -540,7 +540,7 @@ public class ArmourTest {
 
         Armour a = new Armour(name, desc, type, baseDefence, durability, sdm);
 
-        assertEquals(14, a.getWorth());
+        assertEquals(14, a.getValue());
     }
 
     /**
@@ -557,7 +557,7 @@ public class ArmourTest {
 
         Armour a = new Armour(name, desc, type, baseDefence, durability);
 
-        assertEquals(8, a.getWorth());
+        assertEquals(8, a.getValue());
     }
 
     /**
@@ -576,7 +576,7 @@ public class ArmourTest {
 
         Armour a = new Armour(name, desc, type, baseDefence, durability, sdm);
 
-        assertEquals(0, a.getWorth());
+        assertEquals(0, a.getValue());
     }
 
     /**
@@ -593,7 +593,7 @@ public class ArmourTest {
 
         Armour a = new Armour(name, desc, type, baseDefence, durability);
 
-        assertEquals(0, a.getWorth());
+        assertEquals(0, a.getValue());
     }
 
     /**
@@ -610,7 +610,7 @@ public class ArmourTest {
 
         Armour a = new Armour(name, desc, type, baseDefence, durability);
 
-        assertEquals(5, a.getWorth());
+        assertEquals(5, a.getValue());
     }
 
 }
