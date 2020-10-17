@@ -18,12 +18,18 @@ public class ChestTest {
 
     private static final String VALID_DESCRIPTION = "a chest";
 
+    /**
+     * Chest created containing no items, checks that empty array is returned.
+     */
     @Test
     void createChestWithEmptyArray() {
         Chest chest = new Chest(NO_ITEMS, VALID_DESCRIPTION);
         assertEquals(NO_ITEMS, chest.open());
     }
 
+    /**
+     * Chest created contains items, checks if same weapons are returned
+     */
     @Test
     void createChestWithItems() {
         Chest chest = new Chest(ITEMS, VALID_DESCRIPTION);
