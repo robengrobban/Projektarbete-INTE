@@ -158,7 +158,7 @@ public class Weapon extends Item {
      */
     public int getTotalDamage() {
         if ( this.modifier != null ) {
-            return this.baseDamage + this.modifier.getBaseDamageModifier();
+            return this.modifier.calculateBaseDamageModification( this.baseDamage );
         }
         else {
             return this.baseDamage;

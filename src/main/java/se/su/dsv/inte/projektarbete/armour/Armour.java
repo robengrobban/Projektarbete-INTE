@@ -128,7 +128,7 @@ public class Armour extends Item {
         int sum = this.baseDefence * this.type.getFactor();
 
         if ( this.modifier != null ) {
-            sum += this.modifier.getBaseDefenceModifier();
+            sum = this.modifier.calculateBaseDefenceModification( sum );
         }
 
         if ( this.durability <= 50 && this.durability != 0 ) {
