@@ -148,4 +148,69 @@ public class SpellTest {
         } );
     }
 
+    /**
+     * Test equals method with correct values
+     */
+    @Test
+    public void testEqualsMethodCorrectValues() {
+        Spell spell1 = new Spell("name", "desc", 2, 10) {};
+        Spell spell2 = new Spell("name", "desc", 2, 10) {};
+
+        assertTrue(spell1.equals(spell2));
+    }
+
+    /**
+     * Test equals method different name
+     */
+    @Test
+    public void testEqualsMethodDifferentName() {
+        Spell spell1 = new Spell("name1", "desc", 2, 10) {};
+        Spell spell2 = new Spell("name2", "desc", 2, 10) {};
+
+        assertFalse(spell1.equals(spell2));
+    }
+
+    /**
+     * Test equals method different description
+     */
+    @Test
+    public void testEqualsMethodDifferentDescription() {
+        Spell spell1 = new Spell("name", "desc1", 2, 10) {};
+        Spell spell2 = new Spell("name", "desc2", 2, 10) {};
+
+        assertFalse(spell1.equals(spell2));
+    }
+
+    /**
+     * Test equals method different range
+     */
+    @Test
+    public void testEqualsMethodDifferentRange() {
+        Spell spell1 = new Spell("name", "desc", 2, 10) {};
+        Spell spell2 = new Spell("name", "desc", 3, 10) {};
+
+        assertFalse(spell1.equals(spell2));
+    }
+
+    /**
+     * Test equals method different mana cost
+     */
+    @Test
+    public void testEqualsMethodDifferentManaCost() {
+        Spell spell1 = new Spell("name", "desc", 2, 10) {};
+        Spell spell2 = new Spell("name", "desc", 2, 11) {};
+
+        assertFalse(spell1.equals(spell2));
+    }
+
+    /**
+     * Test equals method different objects
+     */
+    @Test
+    public void testEqualsMethodDifferentObject() {
+        Spell spell = new Spell("name", "desc", 2, 10) {};
+
+        assertFalse(spell.equals(new Object()));
+    }
+
 }
