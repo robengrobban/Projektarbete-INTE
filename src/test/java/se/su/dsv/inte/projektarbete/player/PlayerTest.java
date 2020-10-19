@@ -1,7 +1,6 @@
 package se.su.dsv.inte.projektarbete.player;
 
 import org.junit.jupiter.api.Test;
-import se.su.dsv.inte.projektarbete.weapons.Weapon;
 
 import static org.junit.jupiter.api.Assertions.*;
 

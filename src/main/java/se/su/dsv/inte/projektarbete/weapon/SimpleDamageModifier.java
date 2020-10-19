@@ -1,4 +1,4 @@
-package se.su.dsv.inte.projektarbete.weapons;
+package se.su.dsv.inte.projektarbete.weapon;
 
 /**
  * Class that represents an increase in base damage
@@ -41,7 +41,7 @@ public class SimpleDamageModifier extends WeaponModifier {
     }
 
     /**
-     * Get the base damage that modifies the weapons base damage
+     * Get the base damage that modifies the weapon base damage
      * @return int, base damage modification
      */
     public int getDamageModifier() {
