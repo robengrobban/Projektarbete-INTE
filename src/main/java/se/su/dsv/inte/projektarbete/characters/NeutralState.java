@@ -13,7 +13,7 @@ public class NeutralState implements State {
     @Override
     public void Attack() {
         System.out.println("Switching state from Neutral to Hostile");
-        controller.setCurrentState(controller.getHostileState());
+        controller.setCurrentState(StateType.HOSTILE);
         controller.Attack();
     }
 
