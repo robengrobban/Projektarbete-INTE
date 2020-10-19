@@ -29,6 +29,20 @@ public abstract class Character {
     }
 
     /**
+     * Constructor with full range of values + custom health
+     * @param name String, name of Character
+     * @param armour Armour, armour equipped by Character
+     * @param weapon Weapon, weapon equipped by character
+     */
+    public Character(String name, Armour armour, Weapon weapon, int health) {
+        this.health = health;
+        this.name = name;
+        this.armour = armour;
+        this.weapon = weapon;
+        this.baseDamage = weapon.getTotalDamage();
+    }
+
+    /**
      * Constructor with no Weapon but Armour
      * @param name String, name of Character
      * @param armour Armour, armour equipped by Character

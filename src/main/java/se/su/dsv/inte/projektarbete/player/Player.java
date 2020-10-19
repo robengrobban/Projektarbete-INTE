@@ -1,28 +1,32 @@
 package se.su.dsv.inte.projektarbete.player;
 
+import se.su.dsv.inte.projektarbete.Item;
+import se.su.dsv.inte.projektarbete.armour.Armour;
+import se.su.dsv.inte.projektarbete.characters.Character;
 import se.su.dsv.inte.projektarbete.weapons.Weapon;
 
-public abstract class Player {
+import java.util.HashMap;
 
-    private String name;
+public abstract class Player extends Character {
 
-    private int health;
     private int damage;
 
     private int stamina;
     private int staminaUsed;
 
     private int defence;
-
     private int attack;
 
     private int experience;
     private int level;
 
+    private Item[] inventory;
+
     /**
      * Constructor for creating a new player with a new name.
      */
     public Player(String name) {
+        super(name, 10);
         if (name == null || name.trim().equals("")) {
             throw new IllegalArgumentException("Name must be set.");
         }
@@ -41,9 +45,9 @@ public abstract class Player {
      * @param experience experience points the player has
      * @param level current level of the player
      */
-    public Player(String name, int health, int damage, int stamina, int staminaUsed, int defence, int attack, int experience, int level) {
-        this.name = name;
-        this.health = health;
+    public Player(String name, int health, int damage, int stamina, int staminaUsed, int defence,
+                  int attack, int experience, int level, Weapon weapon, Armour armour) {
+        super(name, armour, weapon, health);
         this.damage = damage;
         this.stamina = stamina;
         this.staminaUsed = staminaUsed;
@@ -54,19 +58,11 @@ public abstract class Player {
     }
 
     /**
-     * Gets the name of the player.
-     * @return Player name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
      * Gets the total health of the player.
      * @return Total health
      */
     public int getTotalHealth() {
-        return health;
+        return getHealth();
     }
 
     /**
@@ -74,7 +70,7 @@ public abstract class Player {
      * @return Current health points.
      */
     public int getCurrentHealth() {
-        return this.health - this.damage;
+        return this.getHealth() - this.damage;
     }
 
     /**
@@ -103,10 +99,13 @@ public abstract class Player {
 
     /**
      * Calculates how the player is damaged by a weapon used to attack the player.
-     * @param weapon Weapon the player is attacked with.
+     * @param damage Damage dealt to the player.
      * @return True if still alive, else false.
      */
-    public boolean attacked(Weapon weapon) {
-        return true;
+    public boolean damaged(int damage) {
+        damage +=damage;
+        if (getCurrentHealth() <= 0)
+            return false;
+        else return true;
     }
 }
