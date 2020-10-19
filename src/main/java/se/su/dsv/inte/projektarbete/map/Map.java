@@ -1,8 +1,5 @@
 package se.su.dsv.inte.projektarbete.map;
 
-import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
-import se.su.dsv.inte.projektarbete.map.Tiles.TileType;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,7 +7,7 @@ public class Map {
     private static final int HIGHER_LIMIT = 10;
     private static final int LOWER_LIMIT = 4;
 
-    private final ArrayList<ArrayList<Point>> map = new ArrayList<>();
+    private ArrayList<ArrayList<Point>> map = new ArrayList<>();
 
     /**
      * Creates a map with random x and y value by calling populateMap()
@@ -112,7 +109,7 @@ public class Map {
      */
     //TODO
     private TileType generateTile() {
-        return new Ground();
+        return TileType.GROUND;
     }
 
     public int getYSize() {
