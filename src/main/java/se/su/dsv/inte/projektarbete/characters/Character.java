@@ -1,8 +1,11 @@
 package se.su.dsv.inte.projektarbete.characters;
 
+import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.weapons.Weapon;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Random;
 
 public abstract class Character {
@@ -66,7 +69,7 @@ public abstract class Character {
      * @param baseDamage int, base value of damage done by Character
      */
     public Character(String name, int baseDamage) {
-        this(name, null, null);
+        this(name, null, new Weapon("Weapon", "desc", 5, 5, new HashSet<ElementType>(Collections.singletonList(ElementType.LAND)))); //TODO, NULL gav error - Zacke
         this.baseDamage = baseDamage;
     }
 

@@ -1,9 +1,5 @@
 package se.su.dsv.inte.projektarbete.magic;
 
-import se.su.dsv.inte.projektarbete.ElementType;
-
-import java.util.Set;
-
 /**
  * Class that represents a spell.
  */
