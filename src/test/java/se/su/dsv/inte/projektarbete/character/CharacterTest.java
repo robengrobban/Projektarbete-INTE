@@ -6,7 +6,7 @@ import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.armour.ArmourType;
 import se.su.dsv.inte.projektarbete.characters.*;
 import se.su.dsv.inte.projektarbete.characters.Character;
-import se.su.dsv.inte.projektarbete.weapons.Weapon;
+import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 
 import java.util.Arrays;
