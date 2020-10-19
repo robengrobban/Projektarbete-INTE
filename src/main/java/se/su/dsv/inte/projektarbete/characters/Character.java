@@ -6,9 +6,10 @@ import se.su.dsv.inte.projektarbete.weapons.Weapon;
 
 import java.util.Random;
 
-public abstract class Character {
+public class Character {
     static final int DAMAGE_RANGE = 5;
     static Random rnd = new Random();
+    private CharacterStateController controller;
     private String name;
     private int health;
     private int baseDamage;
@@ -20,15 +21,15 @@ public abstract class Character {
     /**
      * Constructor with full range of values
      * @param name String, name of Character
-     * @param threatLevel ThreatLevel, possible levels: hostile, neutral, friendly (check enum ThreatLevel.java if unclear)
+     * @param state State, the starting state of Character
      * @param loot Item, items carried by Character
      * @param armour Armour, armour equipped by Character
      * @param weapon Weapon, weapon equipped by character
      */
-    public Character(String name, ThreatLevel threatLevel, Item loot, Armour armour, Weapon weapon) {
+    public Character(String name, State state, Item loot, Armour armour, Weapon weapon) {
         health = 100;
+        controller = new CharacterStateController(state);
         this.name = name;
-        this.threatLevel = threatLevel;
         this.loot = loot;
         this.armour = armour;
         this.weapon = weapon;
@@ -38,34 +39,34 @@ public abstract class Character {
     /**
      * Constructor with no Weapon but Armour
      * @param name String, name of Character
-     * @param threatLevel ThreatLevel, possible levels: hostile, neutral, friendly (check enum ThreatLevel.java if unclear)
+     * @param state State, the starting state of Character
      * @param loot Item, items carried by Character
      * @param armour Armour, armour equipped by Character
      */
-    public Character(String name, ThreatLevel threatLevel, Item loot, Armour armour) {
-        this(name, threatLevel, loot, armour, null);
+    public Character(String name, State state, Item loot, Armour armour) {
+        this(name, state, loot, armour, null);
     }
 
     /**
      * Constructor with no Armour but Weapon
      * @param name String, name of Character
-     * @param threatLevel ThreatLevel, possible levels: hostile, neutral, friendly (check enum ThreatLevel.java if unclear)
+     * @@param state State, the starting state of Character
      * @param loot Item, items carried by Character
      * @param weapon Weapon, weapon equipped by character
      */
-    public Character(String name, ThreatLevel threatLevel, Item loot, Weapon weapon) {
-        this(name, threatLevel, loot, null, weapon);
+    public Character(String name, State state, Item loot, Weapon weapon) {
+        this(name, state, loot, null, weapon);
     }
 
     /**
      * Constructor without Armour and Weapon, damage is defined by user instead
      * @param name String, name of Character
-     * @param threatLevel ThreatLevel, possible levels: hostile, neutral, friendly (check enum ThreatLevel.java if unclear)
+     * @param state State, the starting state of Character
      * @param loot Item, items carried by Character
      * @param baseDamage int, base value of damage done by Character
      */
-    public Character(String name, ThreatLevel threatLevel, Item loot, int baseDamage) {
-        this(name, threatLevel, loot, null, null);
+    public Character(String name, State state, Item loot, int baseDamage) {
+        this(name, state, loot, null, null);
         this.baseDamage = baseDamage;
     }
 
@@ -83,22 +84,6 @@ public abstract class Character {
      */
     public int getHealth() {
         return health;
-    }
-
-    /**
-     * Get the ThreatLevel of this Character
-     * @return ThreatLevel, the current value of threatLevel
-     */
-    public ThreatLevel getThreatLevel() {
-        return threatLevel;
-    }
-
-    /**
-     * Set the ThreatLevel of this Character
-     * @param threatLevel ThreatLevel, the value to be stored in this Character's threatLevel
-     */
-    public void setThreatLevel(ThreatLevel threatLevel) {
-        this.threatLevel = threatLevel;
     }
 
     /**
