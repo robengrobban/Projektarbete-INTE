@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Class for testing IncreasedDamageModifier
+ * Class for testing SimpleDamageModifier
  */
 public class SimpleDamageModifierTest {
 
@@ -22,7 +22,7 @@ public class SimpleDamageModifierTest {
 
         assertEquals(name, sdm.getName());
         assertEquals(cost, sdm.getCost());
-        assertEquals(damageModifier, sdm.getBaseDamageModifier());
+        assertEquals(damageModifier, sdm.getDamageModifier());
     }
 
     /**
@@ -38,7 +38,7 @@ public class SimpleDamageModifierTest {
 
         assertEquals(name, sdm.getName());
         assertEquals(cost, sdm.getCost());
-        assertEquals(damageModifier, sdm.getBaseDamageModifier());
+        assertEquals(damageModifier, sdm.getDamageModifier());
     }
 
     /**
@@ -193,14 +193,14 @@ public class SimpleDamageModifierTest {
      * Test if the modifier can calculate its own worth
      */
     @Test
-    public void testModifierWorthCaculation() {
+    public void testModifierWorthCalculation() {
         String name = "Wall Street";
         int cost = 10;
         int damageModifier = 3;
 
         SimpleDamageModifier sdm = new SimpleDamageModifier(name, cost, damageModifier);
 
-        assertEquals(13, sdm.getWorth());
+        assertEquals(13, sdm.getValue());
     }
 
 
