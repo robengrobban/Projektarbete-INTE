@@ -10,4 +10,9 @@ public class NonPlayerCharacter extends Character {
         super(name, armour, weapon);
         controller = new CharacterStateController(state);
     }
+
+    public NonPlayerCharacter(String name, Armour armour, int baseDamage, State state) {
+        super(name, armour, baseDamage);
+        controller = new CharacterStateController(state);
+    }
 }

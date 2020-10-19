@@ -29,30 +29,12 @@ public abstract class Character {
     }
 
     /**
-     * Constructor with no Weapon but Armour
-     * @param name String, name of Character
-     * @param armour Armour, armour equipped by Character
-     */
-    public Character(String name, Armour armour) {
-        this(name, armour, null);
-    }
-
-    /**
-     * Constructor with no Armour but Weapon
-     * @param name String, name of Character
-     * @param weapon Weapon, weapon equipped by character
-     */
-    public Character(String name, Weapon weapon) {
-        this(name, null, weapon);
-    }
-
-    /**
      * Constructor without Armour and Weapon, damage is defined by user instead
      * @param name String, name of Character
      * @param baseDamage int, base value of damage done by Character
      */
-    public Character(String name, int baseDamage) {
-        this(name, null, null);
+    public Character(String name, Armour armour, int baseDamage) {
+        this(name, armour, null);
         this.baseDamage = baseDamage;
     }
 
@@ -78,5 +60,9 @@ public abstract class Character {
      */
     public int CalculateDamage() {
         return rnd.nextInt(baseDamage + DAMAGE_RANGE) + baseDamage;
+    }
+
+    public void Hurt(int damage) {
+        health -= damage;
     }
 }
