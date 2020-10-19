@@ -19,9 +19,10 @@ public abstract class ArmourModifier extends Modifier {
 
     // Methods
     /**
-     * Method to get the base defense modifier.
-     * @return int, the defense modifier.
+     * Method to calculate the base defense modifier.
+     * @param baseDefence int, the base defence that needs to be modified
+     * @return int, the modified value
      */
-    public abstract int getBaseDefenceModifier();
+    public abstract int calculateBaseDefenceModification( int baseDefence );
 
 }

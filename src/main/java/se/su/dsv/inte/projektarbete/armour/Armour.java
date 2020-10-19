@@ -28,7 +28,14 @@ public class Armour extends Item {
     public Armour(String name, String description, ArmourType type, int baseDefence, int durability, ArmourModifier modifier) {
         super(name, description);
 
-        // TODO: Verify input
+        // Verify base defence
+        if ( baseDefence <= 0 ) {
+            throw new IllegalArgumentException("Base Defence cannot be less than or equal to zero.");
+        }
+        // Verify durability
+        else if ( durability < 0 || durability > 100 ) {
+            throw new IllegalArgumentException("Durability needs to be in the range (0-100)");
+        }
 
         this.type = type;
         this.baseDefence = baseDefence;
@@ -74,6 +81,14 @@ public class Armour extends Item {
     // Methods
 
     /**
+     * Set the modifier
+     * @param modifier ArmourModifier, the modifier
+     */
+    public void setModifier(ArmourModifier modifier) {
+        this.modifier = modifier;
+    }
+
+    /**
      * Get the armour type
      * @return ArmourType, the current type
      */
@@ -113,7 +128,7 @@ public class Armour extends Item {
         int sum = this.baseDefence * this.type.getFactor();
 
         if ( this.modifier != null ) {
-            sum += this.modifier.getBaseDefenceModifier();
+            sum = this.modifier.calculateBaseDefenceModification( sum );
         }
 
         if ( this.durability <= 50 && this.durability != 0 ) {

@@ -4,6 +4,7 @@ import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.Item;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Class to represent a weapon at the highest level.
@@ -15,7 +16,7 @@ public class Weapon extends Item {
     private int range;
     private int durability;
 
-    private HashSet<ElementType> canAttack;
+    private Set<ElementType> canAttack;
     private WeaponModifier modifier;
 
     // Constructors
@@ -25,11 +26,11 @@ public class Weapon extends Item {
      * @param description String, the description
      * @param baseDamage int, the base damage dealt (>0)
      * @param range int, the range of weapon (>0)
-     * @param canAttack HashSet<ElementType>, alla the element types that this weapon can attack
+     * @param canAttack Set<ElementType>, alla the element types that this weapon can attack
      * @param durability int, the current durability (0-100)
      * @param modifier WeaponModifier, the modifiers for this weapon
      */
-    public Weapon(String name, String description, int baseDamage, int range, HashSet<ElementType> canAttack, int durability, WeaponModifier modifier) {
+    public Weapon(String name, String description, int baseDamage, int range, Set<ElementType> canAttack, int durability, WeaponModifier modifier) {
         super(name, description);
 
         // Verify base damage value
@@ -62,10 +63,10 @@ public class Weapon extends Item {
      * @param description String, the description
      * @param baseDamage int, the base damage dealt (>0)
      * @param range int, the range of weapon (>0)
-     * @param canAttack HashSet<ElementType>, alla the element types that this weapon can attack
+     * @param canAttack Set<ElementType>, alla the element types that this weapon can attack
      * @param durability int, the current durability (0-100)
      */
-    public Weapon(String name, String description, int baseDamage, int range, HashSet<ElementType> canAttack, int durability) {
+    public Weapon(String name, String description, int baseDamage, int range, Set<ElementType> canAttack, int durability) {
         this(name, description, baseDamage, range, canAttack, durability, null);
     }
 
@@ -75,10 +76,10 @@ public class Weapon extends Item {
      * @param description String, the description
      * @param baseDamage int, the base damage dealt (>0)
      * @param range int, the range of weapon (>0)
-     * @param canAttack HashSet<ElementType>, alla the element types that this weapon can attack
+     * @param canAttack Set<ElementType>, alla the element types that this weapon can attack
      * @param modifier WeaponModifier, the modifier for that weapon
      */
-    public Weapon(String name, String description, int baseDamage, int range, HashSet<ElementType> canAttack, WeaponModifier modifier) {
+    public Weapon(String name, String description, int baseDamage, int range, Set<ElementType> canAttack, WeaponModifier modifier) {
         this(name, description, baseDamage, range, canAttack, 100, modifier);
     }
 
@@ -88,13 +89,22 @@ public class Weapon extends Item {
      * @param description String, the description
      * @param baseDamage int, the base damage dealt (>0)
      * @param range int, the range of weapon (>0)
-     * @param canAttack HashSet<ElementType>, alla the element types that this weapon can attack
+     * @param canAttack Set<ElementType>, alla the element types that this weapon can attack
      */
-    public Weapon(String name, String description, int baseDamage, int range, HashSet<ElementType> canAttack) {
+    public Weapon(String name, String description, int baseDamage, int range, Set<ElementType> canAttack) {
         this(name, description, baseDamage, range, canAttack, 100, null);
     }
 
     // Methods
+
+    /**
+     * Set modifier
+     * @param modifier WeaponModifier, the modifier to set
+     */
+    public void setModifier(WeaponModifier modifier) {
+        this.modifier = modifier;
+    }
+
     /**
      * Get the base damage
      * @return int, the base damage
@@ -121,9 +131,9 @@ public class Weapon extends Item {
 
     /**
      * Get the element types this weapon can attack
-     * @return HashSet<ElementType, the elements this weapon can attack
+     * @return Set<ElementType, the elements this weapon can attack
      */
-    public HashSet<ElementType> getCanAttack() {
+    public Set<ElementType> getCanAttack() {
         return this.canAttack;
     }
 
@@ -149,7 +159,7 @@ public class Weapon extends Item {
      */
     public int getTotalDamage() {
         if ( this.modifier != null ) {
-            return this.baseDamage + this.modifier.getBaseDamageModifier();
+            return this.modifier.calculateBaseDamageModification( this.baseDamage );
         }
         else {
             return this.baseDamage;

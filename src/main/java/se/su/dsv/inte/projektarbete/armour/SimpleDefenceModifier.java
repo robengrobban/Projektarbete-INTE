@@ -29,6 +29,14 @@ public class SimpleDefenceModifier extends ArmourModifier {
     // Methods
 
     /**
+     * Get the defence modifier that will modify an armours defence
+     * @return int, defence modifier
+     */
+    public int getDefenceModifier() {
+        return this.defenceModifier;
+    }
+
+    /**
      * Get the value of this modifier
      * @return int, the value
      */
@@ -42,8 +50,8 @@ public class SimpleDefenceModifier extends ArmourModifier {
      * @return int, the defense modifier
      */
     @Override
-    public int getBaseDefenceModifier() {
-        return this.defenceModifier;
+    public int calculateBaseDefenceModification( int baseDefence ) {
+        return baseDefence + this.defenceModifier;
     }
 
     /**
@@ -59,7 +67,7 @@ public class SimpleDefenceModifier extends ArmourModifier {
             return super.equals(other) && this.defenceModifier == other.defenceModifier;
         }
         else {
-            return super.equals(o);
+            return false;
         }
     }
 
