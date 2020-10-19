@@ -13,7 +13,7 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ChestTest {
-    private static final Item[] ITEMS = {new Weapon("Weapon", "desc", 5, 5, new HashSet<ElementType>(Collections.singletonList(ElementType.LAND))), new Armour("Medium", "desc",ArmourType.MEDIUM, 0)};
+    private static final Item[] ITEMS = {new Weapon("Weapon", "desc", 5, 5, new HashSet<ElementType>(Collections.singletonList(ElementType.LAND))), new Armour("Medium", "desc",ArmourType.MEDIUM, 1)};
     private static final Item[] NO_ITEMS = {};
 
     private static final String VALID_DESCRIPTION = "a chest";

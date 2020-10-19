@@ -6,9 +6,13 @@ import se.su.dsv.inte.projektarbete.map.Tiles.Door;
 import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
 import se.su.dsv.inte.projektarbete.map.Tiles.Rock;
 import se.su.dsv.inte.projektarbete.map.Tiles.Toxic;
+import se.su.dsv.inte.projektarbete.player.Elf;
 
 public class TileTypeTest {
     private static final Map MAP = new Map();
+    private static final Elf ELF = new Elf("This String is irrelevant to the test");
+    private static final Toxic TOXIC = new Toxic();
+    private static final Ground GROUND = new Ground();
 
     @Test
     void mapPointsTowardsCorrectMap() {
@@ -28,8 +32,13 @@ public class TileTypeTest {
         assertFalse(new Rock().isPassable());
     }
 
-    /*@Test
+    @Test
     void playerNotAllowedInToxicTile() {
-        assertFalse(new Toxic().isPassable(new Player())); //Waiting for implementation
-    }*/
+        assertFalse(TOXIC.isAllowedCharacter(ELF));
+    }
+
+    @Test
+    void playerAllowedInGroundTile() {
+        assertTrue(GROUND.isAllowedCharacter(ELF));
+    }
 }

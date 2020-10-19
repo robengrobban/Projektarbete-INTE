@@ -1,8 +1,10 @@
 package se.su.dsv.inte.projektarbete.map.Tiles;
 
+import se.su.dsv.inte.projektarbete.player.Player;
+
 public class Toxic extends TileType {
     public Toxic() {
         super(true);
-        //TODO: add player to NOT_ALLOWED_CHARACTERS, waiting for implementation
+        NOT_ALLOWED_CHARACTERS.add(Player.class.getSimpleName());
     }
 }

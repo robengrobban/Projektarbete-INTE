@@ -1,8 +1,12 @@
 package se.su.dsv.inte.projektarbete.map.Tiles;
 
+import se.su.dsv.inte.projektarbete.characters.Character;
+
+import java.util.ArrayList;
+
 public abstract class TileType {
     protected boolean isPassable;
-    protected static final Character[] NOT_ALLOWED_CHARACTERS = {};
+    protected final ArrayList<String> NOT_ALLOWED_CHARACTERS = new ArrayList<>();
 
     protected TileType(boolean isPassable) {
         this.isPassable = isPassable;
@@ -13,8 +17,10 @@ public abstract class TileType {
     }
 
     public boolean isAllowedCharacter(Character character) {
-        for (Character c : NOT_ALLOWED_CHARACTERS) {
-            if (character.getClass().equals(c.getClass())) {
+        String characterSuperName = character.getClass().getSuperclass().getSimpleName();
+
+        for (String s : NOT_ALLOWED_CHARACTERS) {
+            if (s.equals(characterSuperName)) {
                 return false;
             }
         }
