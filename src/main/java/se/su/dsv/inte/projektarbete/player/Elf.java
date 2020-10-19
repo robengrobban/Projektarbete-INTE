@@ -1,7 +1,7 @@
 package se.su.dsv.inte.projektarbete.player;
 
 import se.su.dsv.inte.projektarbete.armour.Armour;
-import se.su.dsv.inte.projektarbete.weapons.Weapon;
+import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 public class Elf extends Player{
 

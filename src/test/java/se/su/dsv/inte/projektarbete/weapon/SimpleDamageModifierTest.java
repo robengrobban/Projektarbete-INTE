@@ -1,4 +1,4 @@
-package se.su.dsv.inte.projektarbete.weapons;
+package se.su.dsv.inte.projektarbete.weapon;
 
 import org.junit.jupiter.api.Test;
 

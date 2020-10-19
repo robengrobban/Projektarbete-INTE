@@ -1,7 +1,5 @@
 package se.su.dsv.inte.projektarbete.armour;
 
-import se.su.dsv.inte.projektarbete.weapons.SimpleDamageModifier;
-
 /**
  * Class that represents a simple defense modifier
  */

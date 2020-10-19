@@ -2,7 +2,7 @@ package se.su.dsv.inte.projektarbete.characters;
 
 import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.armour.Armour;
-import se.su.dsv.inte.projektarbete.weapons.Weapon;
+import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.Collections;
 import java.util.HashSet;

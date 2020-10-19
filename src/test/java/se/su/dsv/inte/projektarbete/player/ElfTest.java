@@ -2,7 +2,7 @@ package se.su.dsv.inte.projektarbete.player;
 
 import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.ElementType;
-import se.su.dsv.inte.projektarbete.weapons.Weapon;
+import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.Arrays;
 import java.util.HashSet;

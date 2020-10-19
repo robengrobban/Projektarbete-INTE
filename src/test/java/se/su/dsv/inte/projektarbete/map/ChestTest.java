@@ -5,7 +5,7 @@ import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.Item;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.armour.ArmourType;
-import se.su.dsv.inte.projektarbete.weapons.Weapon;
+import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -28,7 +28,7 @@ public class ChestTest {
     }
 
     /**
-     * Chest created contains items, checks if same weapons are returned
+     * Chest created contains items, checks if same weapon are returned
      */
     @Test
     void createChestWithItems() {
