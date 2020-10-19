@@ -2,11 +2,12 @@ package se.su.dsv.inte.projektarbete.map;
 
 import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.Item;
+import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PointTest {
-    private static final TileType GROUND = TileType.GROUND;
+    private static final Ground GROUND = new Ground();
 
     private static final Item[] ITEMS = {};
     private static final String CHEST_DESCRIPTION = "a chest";
