@@ -23,20 +23,29 @@ public class SimpleDamageModifier extends WeaponModifier {
 
     /**
      * Get the modifying damage. Should be added to the base damage
+     * @param baseDamage int, the base damage that needs to be modified
      * @return int, modifying damage
      */
     @Override
-    public int getBaseDamageModifier() {
-        return this.damageModifier;
+    public int calculateBaseDamageModification( int baseDamage ) {
+        return baseDamage + this.damageModifier;
     }
 
     /**
-     * Calculate the worth (in gold) for this modifier
-     * @return int, the worth (in gold)
+     * Calculate the value for this modifier
+     * @return int, the value
      */
     @Override
-    public int getWorth() {
+    public int getValue() {
         return super.getCost() + this.damageModifier;
+    }
+
+    /**
+     * Get the base damage that modifies the weapons base damage
+     * @return int, base damage modification
+     */
+    public int getDamageModifier() {
+        return this.damageModifier;
     }
 
     /**

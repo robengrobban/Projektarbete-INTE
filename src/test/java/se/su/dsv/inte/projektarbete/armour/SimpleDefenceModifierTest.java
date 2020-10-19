@@ -22,7 +22,7 @@ public class SimpleDefenceModifierTest {
 
         assertEquals(name, sdm.getName());
         assertEquals(cost, sdm.getCost());
-        assertEquals(defenseModifier, sdm.getBaseDefenceModifier());
+        assertEquals(defenseModifier, sdm.getDefenceModifier());
     }
 
     /**
@@ -51,7 +51,7 @@ public class SimpleDefenceModifierTest {
 
         SimpleDefenceModifier sdm = new SimpleDefenceModifier(name, cost, defenseModifier);
 
-        assertEquals(14, sdm.getWorth());
+        assertEquals(14, sdm.getValue());
     }
 
     /**

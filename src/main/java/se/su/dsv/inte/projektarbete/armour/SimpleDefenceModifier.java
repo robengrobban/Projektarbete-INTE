@@ -29,11 +29,19 @@ public class SimpleDefenceModifier extends ArmourModifier {
     // Methods
 
     /**
-     * Get the worth of this modifier
-     * @return int, the worth
+     * Get the defence modifier that will modify an armours defence
+     * @return int, defence modifier
+     */
+    public int getDefenceModifier() {
+        return this.defenceModifier;
+    }
+
+    /**
+     * Get the value of this modifier
+     * @return int, the value
      */
     @Override
-    public int getWorth() {
+    public int getValue() {
         return super.getCost() + this.defenceModifier;
     }
 
@@ -42,8 +50,8 @@ public class SimpleDefenceModifier extends ArmourModifier {
      * @return int, the defense modifier
      */
     @Override
-    public int getBaseDefenceModifier() {
-        return this.defenceModifier;
+    public int calculateBaseDefenceModification( int baseDefence ) {
+        return baseDefence + this.defenceModifier;
     }
 
     /**

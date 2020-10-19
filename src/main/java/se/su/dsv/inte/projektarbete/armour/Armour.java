@@ -1,14 +1,13 @@
 package se.su.dsv.inte.projektarbete.armour;
 
+import se.su.dsv.inte.projektarbete.Item;
+
 /**
  * Class that represents a piece of armour
  */
-public class Armour {
+public class Armour extends Item {
 
     // Instance Variables
-    private String name;
-    private String description;
-
     private ArmourType type;
     private int baseDefence;
     private int durability;
@@ -27,11 +26,17 @@ public class Armour {
      * @param modifier ArmourModifier, modifier for this armour
      */
     public Armour(String name, String description, ArmourType type, int baseDefence, int durability, ArmourModifier modifier) {
+        super(name, description);
 
-        // TODO: Verify input
+        // Verify base defence
+        if ( baseDefence <= 0 ) {
+            throw new IllegalArgumentException("Base Defence cannot be less than or equal to zero.");
+        }
+        // Verify durability
+        else if ( durability < 0 || durability > 100 ) {
+            throw new IllegalArgumentException("Durability needs to be in the range (0-100)");
+        }
 
-        this.name = name;
-        this.description = description;
         this.type = type;
         this.baseDefence = baseDefence;
         this.durability = durability;
@@ -76,19 +81,11 @@ public class Armour {
     // Methods
 
     /**
-     * Get the armour name
-     * @return String, the current name.
+     * Set the modifier
+     * @param modifier ArmourModifier, the modifier
      */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Get the armour description
-     * @return String, the current description
-     */
-    public String getDescription() {
-        return this.description;
+    public void setModifier(ArmourModifier modifier) {
+        this.modifier = modifier;
     }
 
     /**
@@ -131,7 +128,7 @@ public class Armour {
         int sum = this.baseDefence * this.type.getFactor();
 
         if ( this.modifier != null ) {
-            sum += this.modifier.getBaseDefenceModifier();
+            sum = this.modifier.calculateBaseDefenceModification( sum );
         }
 
         if ( this.durability <= 50 && this.durability != 0 ) {
@@ -157,11 +154,12 @@ public class Armour {
      * Calculate the worth of the armour
      * @return int, the value
      */
-    public int getWorth() {
+    @Override
+    public int getValue() {
         int sum = this.baseDefence * this.type.getFactor();
 
         if ( this.modifier != null ) {
-            sum += this.modifier.getWorth();
+            sum += this.modifier.getValue();
         }
 
         // Truncation expected
@@ -181,10 +179,7 @@ public class Armour {
             Armour other = (Armour) o;
 
             // Check if same name
-            boolean sameName = this.name.equals(other.name);
-
-            // Check if same description
-            boolean sameDescription = this.description.equals(other.description);
+            boolean sameItem = super.equals(other);
 
             // Check if same type
             boolean sameType = this.type.equals(other.type);
@@ -198,7 +193,7 @@ public class Armour {
             // Check if same modifer
             boolean sameModifier = (this.modifier == null && other.modifier == null) || (this.modifier.equals(other.modifier));
 
-            return sameName && sameDescription && sameType && sameBaseDefence && sameDurability && sameModifier;
+            return sameItem && sameType && sameBaseDefence && sameDurability && sameModifier;
         }
         else {
             return false;

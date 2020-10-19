@@ -48,10 +48,10 @@ public abstract class Modifier {
     }
 
     /**
-     * Calculate the worth for this modifier
-     * @return int, the worth
+     * Calculate the value for this modifier
+     * @return int, the value
      */
-    public abstract int getWorth();
+    public abstract int getValue();
 
     /**
      * Determine if two WeaponModifiers are the same.

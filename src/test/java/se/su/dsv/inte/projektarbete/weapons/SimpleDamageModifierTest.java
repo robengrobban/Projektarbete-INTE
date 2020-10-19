@@ -22,7 +22,7 @@ public class SimpleDamageModifierTest {
 
         assertEquals(name, sdm.getName());
         assertEquals(cost, sdm.getCost());
-        assertEquals(damageModifier, sdm.getBaseDamageModifier());
+        assertEquals(damageModifier, sdm.getDamageModifier());
     }
 
     /**
@@ -38,7 +38,7 @@ public class SimpleDamageModifierTest {
 
         assertEquals(name, sdm.getName());
         assertEquals(cost, sdm.getCost());
-        assertEquals(damageModifier, sdm.getBaseDamageModifier());
+        assertEquals(damageModifier, sdm.getDamageModifier());
     }
 
     /**
@@ -200,7 +200,7 @@ public class SimpleDamageModifierTest {
 
         SimpleDamageModifier sdm = new SimpleDamageModifier(name, cost, damageModifier);
 
-        assertEquals(13, sdm.getWorth());
+        assertEquals(13, sdm.getValue());
     }
 
 
