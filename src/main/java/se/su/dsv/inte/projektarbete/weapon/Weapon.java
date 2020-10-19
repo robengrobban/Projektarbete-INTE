@@ -1,9 +1,8 @@
-package se.su.dsv.inte.projektarbete.weapons;
+package se.su.dsv.inte.projektarbete.weapon;
 
 import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.Item;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -205,7 +204,7 @@ public class Weapon extends Item {
     /**
      * Test if two Weapons are the same or not.
      * @param o Object, the other weapon.
-     * @return boolean, true if they are the same weapon and false if they are different weapons.
+     * @return boolean, true if they are the same weapon and false if they are different weapon.
      */
     @Override
     public boolean equals(Object o) {

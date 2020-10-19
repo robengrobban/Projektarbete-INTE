@@ -1,8 +1,7 @@
-package se.su.dsv.inte.projektarbete.weapons;
+package se.su.dsv.inte.projektarbete.weapon;
 
 import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.ElementType;
-import se.su.dsv.inte.projektarbete.Item;
 
 import java.util.Arrays;
 import java.util.HashSet;
