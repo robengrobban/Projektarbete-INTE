@@ -67,7 +67,7 @@ public class SimpleDefenceModifier extends ArmourModifier {
             return super.equals(other) && this.defenceModifier == other.defenceModifier;
         }
         else {
-            return super.equals(o);
+            return false;
         }
     }
 
