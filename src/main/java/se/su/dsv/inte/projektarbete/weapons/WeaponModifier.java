@@ -20,8 +20,9 @@ public abstract class WeaponModifier extends Modifier {
     // Methods
     /**
      * Get the modifiers values, are applied to weapon base damage
-     * @return int, the base damage modification
+     * @param baseDamage int, the base damage that needs to be modified
+     * @return int, the modified value
      */
-    public abstract int getBaseDamageModifier();
+    public abstract int calculateBaseDamageModification( int baseDamage );
 
 }

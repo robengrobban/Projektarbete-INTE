@@ -95,6 +95,15 @@ public class Weapon extends Item {
     }
 
     // Methods
+
+    /**
+     * Set modifier
+     * @param modifier WeaponModifier, the modifier to set
+     */
+    public void setModifier(WeaponModifier modifier) {
+        this.modifier = modifier;
+    }
+
     /**
      * Get the base damage
      * @return int, the base damage
@@ -149,7 +158,7 @@ public class Weapon extends Item {
      */
     public int getTotalDamage() {
         if ( this.modifier != null ) {
-            return this.baseDamage + this.modifier.getBaseDamageModifier();
+            return this.modifier.calculateBaseDamageModification( this.baseDamage );
         }
         else {
             return this.baseDamage;

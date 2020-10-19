@@ -101,6 +101,138 @@ public class ArmourTest {
     }
 
     /**
+     * Test constructor null name
+     */
+    @Test
+    public void testConstructorNullName() {
+        String name = null;
+        String desc = "This helmet will cover your ears...";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 10;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Armour(name, desc, type, baseDefence);
+        });
+    }
+
+    /**
+     * Test constructor empty name
+     */
+    @Test
+    public void testConstructorEmptyName() {
+        String name = "";
+        String desc = "This helmet will cover your ears...";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 10;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Armour(name, desc, type, baseDefence);
+        });
+    }
+
+    /**
+     * Test constructor null description
+     */
+    @Test
+    public void testConstructorNullDescription() {
+        String name = "Helmet";
+        String desc = null;
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 10;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Armour(name, desc, type, baseDefence);
+        });
+    }
+
+    /**
+     * Test constructor empty name
+     */
+    @Test
+    public void testConstructorEmptyDescription() {
+        String name = "Helmet";
+        String desc = "";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 10;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Armour(name, desc, type, baseDefence);
+        });
+    }
+
+    /**
+     * Test constructor zero base defence
+     */
+    @Test
+    public void testConstructorZeroBaseDefence() {
+        String name = "Helmet";
+        String desc = "This helmet will cover your ears...";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 0;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Armour(name, desc, type, baseDefence);
+        });
+    }
+
+    /**
+     * Test constructor negative base defence
+     */
+    @Test
+    public void testConstructorNegativeBaseDefence() {
+        String name = "Helmet";
+        String desc = "This helmet will cover your ears...";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = -1;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Armour(name, desc, type, baseDefence);
+        });
+    }
+
+    /**
+     * Test constructor negative durability
+     */
+    @Test
+    public void testConstructorNegativeDurability() {
+        String name = "Helmet";
+        String desc = "This helmet will cover your ears...";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 10;
+
+        int durability = -1;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Armour(name, desc, type, baseDefence, durability);
+        });
+    }
+
+    /**
+     * Test constructor over one hundred durability
+     */
+    @Test
+    public void testConstructorOverOneHundredDurability() {
+        String name = "Helmet";
+        String desc = "This helmet will cover your ears...";
+
+        ArmourType type = ArmourType.LIGHT;
+        int baseDefence = 10;
+
+        int durability = 101;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Armour(name, desc, type, baseDefence, durability);
+        });
+    }
+
+    /**
      * Test the equals method with all correct values
      */
     @Test
@@ -611,6 +743,48 @@ public class ArmourTest {
         Armour a = new Armour(name, desc, type, baseDefence, durability);
 
         assertEquals(5, a.getValue());
+    }
+
+    /**
+     * Test set modifier if no modifier previous exists
+     */
+    @Test
+    public void setModifierNoPreviousModifierExists() {
+        String name = "So much armour!";
+        String desc = "No.... no there are not";
+
+        ArmourType type = ArmourType.HEAVY;
+        int baseDefence = 12;
+
+        SimpleDefenceModifier sdm1 = new SimpleDefenceModifier("ASD", 20, 10);
+        SimpleDefenceModifier sdm2 = new SimpleDefenceModifier("ASD", 20, 10);
+
+        Armour a = new Armour(name, desc, type, baseDefence);
+
+        a.setModifier(sdm1);
+
+        assertEquals(sdm2, a.getModifier());
+    }
+
+    /**
+     * Test set modifier if modifier previous exists
+     */
+    @Test
+    public void setModifierPreviousModifierExists() {
+        String name = "So much armour!";
+        String desc = "No.... no there are not";
+
+        ArmourType type = ArmourType.HEAVY;
+        int baseDefence = 12;
+
+        SimpleDefenceModifier sdm1 = new SimpleDefenceModifier("ASD", 20, 10);
+        SimpleDefenceModifier sdm2 = new SimpleDefenceModifier("ASD", 20, 10);
+
+        Armour a = new Armour(name, desc, type, baseDefence, new SimpleDefenceModifier("asddkkl",32,2));
+
+        a.setModifier(sdm1);
+
+        assertEquals(sdm2, a.getModifier());
     }
 
 }

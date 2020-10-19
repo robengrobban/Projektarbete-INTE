@@ -786,5 +786,49 @@ public class WeaponTest {
 
     }
 
+    /**
+     * Set modifier if no modifier exists
+     */
+    @Test
+    public void testSetModifierNoPreviousModifier() {
+        String name = "Sword of deterioration";
+        String desc = "This sword just deteriorates when hold";
+
+        int baseDamage = 3;
+        int range = 2;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack);
+
+        SimpleDamageModifier sdm1 = new SimpleDamageModifier("More damage", 12, 10);
+        SimpleDamageModifier sdm2 = new SimpleDamageModifier("More damage", 12, 10);
+
+        w.setModifier(sdm1);
+
+        assertEquals(w.getModifier(), sdm2);
+    }
+
+    /**
+     * Set modifier if modifier exists
+     */
+    @Test
+    public void testSetModifierPreviousModifierExists() {
+        String name = "Sword of deterioration";
+        String desc = "This sword just deteriorates when hold";
+
+        int baseDamage = 3;
+        int range = 2;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack, new SimpleDamageModifier("asd", 33, 22));
+
+        SimpleDamageModifier sdm1 = new SimpleDamageModifier("More damage", 12, 10);
+        SimpleDamageModifier sdm2 = new SimpleDamageModifier("More damage", 12, 10);
+
+        w.setModifier(sdm1);
+
+        assertEquals(w.getModifier(), sdm2);
+    }
+
 
 }
