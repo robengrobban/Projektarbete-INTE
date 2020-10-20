@@ -25,11 +25,6 @@ class PlayerTest {
             public int getCurrentHealth() {
                 return super.getCurrentHealth();
             }
-
-            @Override
-            public int getStamina() {
-                return super.getStamina();
-            }
             @Override
             public int getExperience() {
                 return super.getExperience();
@@ -88,7 +83,7 @@ class PlayerTest {
         int experience = 200;
         int level = 5;
 
-        Player player = new Player("test", totalHealth, maxMana, damage, stamina, staminaUsed,
+        Player player = new Player("test", totalHealth, maxMana, damage,
                 defence, attack, experience, level, null, null ) {
             @Override
             public String getName() {
@@ -101,11 +96,6 @@ class PlayerTest {
             @Override
             public int getCurrentHealth() {
                 return super.getCurrentHealth();
-            }
-
-            @Override
-            public int getStamina() {
-                return super.getStamina();
             }
             @Override
             public int getExperience() {
@@ -120,7 +110,6 @@ class PlayerTest {
         assertEquals(name, player.getName());
         assertEquals(level, player.getLevel());
         assertEquals(experience, player.getExperience());
-        assertEquals(CURRENT_STAMINA, player.getStamina());
         assertEquals(totalHealth, player.getTotalHealth());
         assertEquals(maxMana, player.getMaxMana());
         assertEquals(CURRENT_HEALTH, player.getCurrentHealth());
@@ -139,11 +128,15 @@ class PlayerTest {
         int experience = 200;
         int level = 5;
 
-        Player player = new Player("test", totalHealth, maxMana, damage, stamina, staminaUsed,
+        Player player = new Player("test", totalHealth, maxMana, damage,
                 defence, attack, experience, level, null, null ) {
             @Override
             public boolean damaged(int damage) {
                 return super.damaged(damage);
+            }
+            @Override
+            public int getCurrentHealth() {
+                return super.getCurrentHealth();
             }
         };
 
@@ -164,7 +157,7 @@ class PlayerTest {
         int experience = 200;
         int level = 5;
 
-        Player player = new Player("test", totalHealth, maxMana, damage, stamina, staminaUsed,
+        Player player = new Player("test", totalHealth, maxMana, damage,
                 defence, attack, experience, level, null, null ) {
             @Override
             public boolean damaged(int damage) {
@@ -190,7 +183,7 @@ class PlayerTest {
         int experience = 200;
         int level = 5;
 
-        Player player1 = new Player("test", totalHealth, maxMana, damage, stamina, staminaUsed,
+        Player player1 = new Player("test", totalHealth, maxMana, damage,
                 defence, attack, experience, level, null, null) {
             @Override
             public boolean damaged(int damage) {
@@ -198,7 +191,7 @@ class PlayerTest {
             }
         };
 
-        Player player2 = new Player("test", totalHealth, maxMana, damage, stamina, staminaUsed,
+        Player player2 = new Player("test", totalHealth, maxMana, damage,
                 defence, attack, experience, level, null, null) {
             @Override
             public boolean damaged(int damage) {
@@ -206,7 +199,7 @@ class PlayerTest {
             }
         };
 
-        Player player3 = new Player("test", totalHealth, maxMana, damage, stamina, staminaUsed,
+        Player player3 = new Player("test", totalHealth, maxMana, damage,
                 defence, attack, experience, level, null, null) {
             @Override
             public boolean damaged(int damage) {
@@ -214,8 +207,9 @@ class PlayerTest {
             }
         };
 
-        assertTrue(player1.damaged(60));
-        assertTrue(player2.damaged(61));
-        assertTrue(player3.damaged(1000000));
+        //False means dead
+        assertFalse(player1.damaged(60));
+        assertFalse(player2.damaged(61));
+        assertFalse(player3.damaged(1000000));
     }
 }

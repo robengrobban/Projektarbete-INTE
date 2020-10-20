@@ -9,14 +9,15 @@ public abstract class Player extends Character {
 
     private int damage;
 
-    private int stamina;
-    private int staminaUsed;
-
     private int defence;
+    private int magicalDefence;
     private int attack;
+    private int magicalAttack;
 
     private int experience;
     private int level;
+
+    private PlayerClass playerClass;
 
     private Item[] inventory;
 
@@ -37,19 +38,16 @@ public abstract class Player extends Character {
      * @param health Health for the player
      * @param maxMana int, maximum mana for the player
      * @param damage damage done to the player
-     * @param stamina stamina for the player
-     * @param staminaUsed stamina used by the player
      * @param defence defence for the player
      * @param attack attack power for the player
      * @param experience experience points the player has
      * @param level current level of the player
      */
-    public Player(String name, int health, int maxMana, int damage, int stamina, int staminaUsed, int defence,
+    public Player(String name, int health, int maxMana, int damage, int defence,
                   int attack, int experience, int level, Weapon weapon, Armour armour) {
         super(name, armour, weapon, health, maxMana);
         this.damage = damage;
-        this.stamina = stamina;
-        this.staminaUsed = staminaUsed;
+
         this.defence = defence;
         this.attack = attack;
         this.experience = experience;
@@ -70,14 +68,6 @@ public abstract class Player extends Character {
      */
     public int getCurrentHealth() {
         return this.getMaxHealth() - this.damage;
-    }
-
-    /**
-     * Gets the stamina the player currently has
-     * @return
-     */
-    public int getStamina() {
-        return stamina - staminaUsed;
     }
 
     /**
@@ -102,7 +92,16 @@ public abstract class Player extends Character {
      * @return True if still alive, else false.
      */
     public boolean damaged(int damage) {
-        damage +=damage;
+        this.damage += damage;
+        if (getArmour() != null) {
+            int defence = getArmour().getTotalArmour();
+            if (defence > damage/2) {
+                defence = damage/2; //armour can protect at half the incoming damage at most.
+            }
+            this.damage -= defence;
+            getArmour().deteriorate();
+        }
+
         if (getCurrentHealth() <= 0)
             return false;
         else return true;
