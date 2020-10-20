@@ -11,19 +11,27 @@ class MainQuestTest {
     void CharacterToKillForFirstStage() {
         MainQuest hundredCharacterToKill = new MainQuest(1);
         assertEquals(100, hundredCharacterToKill.getCharacterToKill());
-    }    @Test
+    }
+
+    @Test
     void CharacterToKillForSecondStage() {
         MainQuest hundredTenCharacterToKill = new MainQuest(2);
         assertEquals(110, hundredTenCharacterToKill.getCharacterToKill());
-    }    @Test
+    }
+
+    @Test
     void CharacterToKillForThirdStage() {
         MainQuest hundredTwentyCharacterToKill = new MainQuest(3);
         assertEquals(120, hundredTwentyCharacterToKill.getCharacterToKill());
-    }    @Test
+    }
+
+    @Test
     void CharacterToKillForForthStage() {
         MainQuest hundredThirtyCharacterToKill = new MainQuest(4);
         assertEquals(130, hundredThirtyCharacterToKill.getCharacterToKill());
-    }    @Test
+    }
+
+    @Test
     void CharacterToKillForFifthStage() {
         MainQuest hundredFortyCharacterToKill = new MainQuest(5);
         assertEquals(140, hundredFortyCharacterToKill.getCharacterToKill());
