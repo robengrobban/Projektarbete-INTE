@@ -7,8 +7,6 @@ import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 public abstract class Player extends Character {
 
-    private int damage;
-
     private int defence;
     private int magicalDefence;
     private int attack;
@@ -37,7 +35,6 @@ public abstract class Player extends Character {
      * Constructor for re-creating a player (i.e. from a save file)
      * @param health Health for the player
      * @param maxMana int, maximum mana for the player
-     * @param damage damage done to the player
      * @param defence defence for the player
      * @param attack attack power for the player
      * @param experience experience points the player has
@@ -46,12 +43,12 @@ public abstract class Player extends Character {
     public Player(String name, int health, int maxMana, int damage, int defence,
                   int attack, int experience, int level, Weapon weapon, Armour armour) {
         super(name, armour, weapon, health, maxMana);
-        this.damage = damage;
 
         this.defence = defence;
         this.attack = attack;
         this.experience = experience;
         this.level = level;
+        changeCurrentHealth(-damage);
     }
 
     /**
@@ -60,14 +57,6 @@ public abstract class Player extends Character {
      */
     public int getTotalHealth() {
         return getMaxHealth();
-    }
-
-    /**
-     * Gets the remaining health of the player that it has at the moment.
-     * @return Current health points.
-     */
-    public int getCurrentHealth() {
-        return this.getMaxHealth() - this.damage;
     }
 
     /**
@@ -86,24 +75,10 @@ public abstract class Player extends Character {
         return level;
     }
 
-    /**
-     * Calculates how the player is damaged by a weapon used to attack the player.
-     * @param damage Damage dealt to the player.
-     * @return True if still alive, else false.
-     */
-    public boolean damaged(int damage) {
-        this.damage += damage;
-        if (getArmour() != null) {
-            int defence = getArmour().getTotalArmour();
-            if (defence > damage/2) {
-                defence = damage/2; //armour can protect at half the incoming damage at most.
-            }
-            this.damage -= defence;
-            getArmour().deteriorate();
+    public void attack(Character attacked) {
+        if (getWeapon().usable()) { //TODO: Should use "canattack, need to be implemented elementtype in enemy
+            attacked.damaged(getWeapon().getTotalDamage() + attack);
+            getWeapon().deteriorate();
         }
-
-        if (getCurrentHealth() <= 0)
-            return false;
-        else return true;
     }
 }
