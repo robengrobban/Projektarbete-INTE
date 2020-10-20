@@ -5,6 +5,7 @@ public class Gold {
     private int Quantity;
 
     public Gold(int quantity) {
+
         Quantity = quantity;
     }
 
