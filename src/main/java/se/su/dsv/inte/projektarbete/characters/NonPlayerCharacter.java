@@ -11,8 +11,8 @@ public class NonPlayerCharacter extends Character {
         controller = new CharacterStateController(stateType);
     }
 
-    public NonPlayerCharacter(String name, Armour armour, Weapon weapon, int health, StateType stateType) {
-        super(name, armour, weapon, health);
+    public NonPlayerCharacter(String name, Armour armour, Weapon weapon, int health, int maxMana, StateType stateType) {
+        super(name, armour, weapon, health, maxMana);
         controller = new CharacterStateController(stateType);
     }
 }

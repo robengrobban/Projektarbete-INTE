@@ -21,8 +21,9 @@ class CharacterTest {
         Armour armour = new Armour("helmet", "shiny", ArmourType.HEAVY, 2);
         Weapon weapon = new Weapon("sword", "super shiny", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
         int customHealth = 120;
+        int maxMana = 150;
         Character c1 = new NonPlayerCharacter(name, armour, weapon, null);
-        Character c2 = new NonPlayerCharacter(name, armour, weapon, customHealth, null);
+        Character c2 = new NonPlayerCharacter(name, armour, weapon, customHealth, maxMana, null);
         Character c3 = new NonPlayerCharacter(name, armour, null, null);
 
         assertEquals(name, c1.getName());

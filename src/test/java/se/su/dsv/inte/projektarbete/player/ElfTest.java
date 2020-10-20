@@ -16,6 +16,7 @@ class ElfTest {
         String name = "test";
         int totalHealth = 100;
         int damage = 40;
+        int maxMana = 102;
         final int CURRENT_HEALTH = 60;
         int stamina = 50;
         int staminaUsed = 30;
@@ -25,7 +26,7 @@ class ElfTest {
         int experience = 200;
         int level = 5;
 
-        Elf player = new Elf("test", totalHealth, damage, stamina, staminaUsed,
+        Elf player = new Elf("test", totalHealth, maxMana, damage, stamina, staminaUsed,
                 defence, attack, experience, level, null, null );
 
         String swordName = "Sword";

@@ -78,6 +78,7 @@ class PlayerTest {
         String name = "test";
         int totalHealth = 100;
         int damage = 40;
+        int maxMana = 50;
         final int CURRENT_HEALTH = 60;
         int stamina = 50;
         int staminaUsed = 30;
@@ -87,7 +88,7 @@ class PlayerTest {
         int experience = 200;
         int level = 5;
 
-        Player player = new Player("test", totalHealth, damage, stamina, staminaUsed,
+        Player player = new Player("test", totalHealth, maxMana, damage, stamina, staminaUsed,
                 defence, attack, experience, level, null, null ) {
             @Override
             public String getName() {
@@ -121,6 +122,7 @@ class PlayerTest {
         assertEquals(experience, player.getExperience());
         assertEquals(CURRENT_STAMINA, player.getStamina());
         assertEquals(totalHealth, player.getTotalHealth());
+        assertEquals(maxMana, player.getMaxMana());
         assertEquals(CURRENT_HEALTH, player.getCurrentHealth());
     }
 
@@ -129,6 +131,7 @@ class PlayerTest {
         String name = "test";
         int totalHealth = 100;
         int damage = 40;
+        int maxMana = 30;
         int stamina = 50;
         int staminaUsed = 30;
         int defence = 20;
@@ -136,7 +139,7 @@ class PlayerTest {
         int experience = 200;
         int level = 5;
 
-        Player player = new Player("test", totalHealth, damage, stamina, staminaUsed,
+        Player player = new Player("test", totalHealth, maxMana, damage, stamina, staminaUsed,
                 defence, attack, experience, level, null, null ) {
             @Override
             public boolean damaged(int damage) {
@@ -153,6 +156,7 @@ class PlayerTest {
         String name = "test";
         int totalHealth = 100;
         int damage = 40;
+        int maxMana = 40;
         int stamina = 50;
         int staminaUsed = 30;
         int defence = 20;
@@ -160,7 +164,7 @@ class PlayerTest {
         int experience = 200;
         int level = 5;
 
-        Player player = new Player("test", totalHealth, damage, stamina, staminaUsed,
+        Player player = new Player("test", totalHealth, maxMana, damage, stamina, staminaUsed,
                 defence, attack, experience, level, null, null ) {
             @Override
             public boolean damaged(int damage) {
@@ -177,6 +181,7 @@ class PlayerTest {
     void playerDeadAfterDamagedMorOrSameAsHPLeft() {
         String name = "test";
         int totalHealth = 100;
+        int maxMana = 50;
         int damage = 40;
         int stamina = 50;
         int staminaUsed = 30;
@@ -185,7 +190,7 @@ class PlayerTest {
         int experience = 200;
         int level = 5;
 
-        Player player1 = new Player("test", totalHealth, damage, stamina, staminaUsed,
+        Player player1 = new Player("test", totalHealth, maxMana, damage, stamina, staminaUsed,
                 defence, attack, experience, level, null, null) {
             @Override
             public boolean damaged(int damage) {
@@ -193,7 +198,7 @@ class PlayerTest {
             }
         };
 
-        Player player2 = new Player("test", totalHealth, damage, stamina, staminaUsed,
+        Player player2 = new Player("test", totalHealth, maxMana, damage, stamina, staminaUsed,
                 defence, attack, experience, level, null, null) {
             @Override
             public boolean damaged(int damage) {
@@ -201,7 +206,7 @@ class PlayerTest {
             }
         };
 
-        Player player3 = new Player("test", totalHealth, damage, stamina, staminaUsed,
+        Player player3 = new Player("test", totalHealth, maxMana, damage, stamina, staminaUsed,
                 defence, attack, experience, level, null, null) {
             @Override
             public boolean damaged(int damage) {

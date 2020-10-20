@@ -11,6 +11,8 @@ public abstract class Character {
     private String name;
     private int health;
     private int baseDamage;
+    private int maxMana;
+    private int currentMana;
     private Armour armour;
     private Weapon weapon;
 
@@ -38,10 +40,34 @@ public abstract class Character {
      * @param name String, name of Character
      * @param armour Armour, armour equipped by Character
      * @param weapon Weapon, weapon equipped by character
+     * @param health int, life of Character
+     * @param maxMana int, maximum mana possible (>0)
      */
-    public Character(String name, Armour armour, Weapon weapon, int health) {
+    public Character(String name, Armour armour, Weapon weapon, int health, int maxMana) {
         this(name, armour, weapon);
         this.health = health;
+        // Verify max mana
+        if ( maxMana < 0 ) {
+            throw new IllegalArgumentException("Maximum mana cannot be negative");
+        }
+        this.maxMana = maxMana;
+        this.currentMana = maxMana;
+    }
+
+    /**
+     * Get the maximum mana
+     * @return int, maximum mana
+     */
+    public int getMaxMana() {
+        return this.maxMana;
+    }
+
+    /**
+     * Get the current mana
+     * @return int, the current mana
+     */
+    public int getCurrentMana() {
+        return this.currentMana;
     }
 
     /**
@@ -81,4 +107,8 @@ public abstract class Character {
         System.out.println("Output damage: " + damage);
         return damage;
     }
+
+
+
+
 }
