@@ -1,6 +1,7 @@
 package se.su.dsv.inte.projektarbete.magic;
 
 import org.junit.jupiter.api.Test;
+import se.su.dsv.inte.projektarbete.characters.Character;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +21,12 @@ public class SpellTest {
         int range = 10;
         int manaCost = 120;
 
-        Spell spell = new Spell(name, description, range, manaCost) {};
+        Spell spell = new Spell(name, description, range, manaCost) {
+            @Override
+            public boolean use(Character source, Character target) {
+                return true;
+            }
+        };
 
         assertEquals(name, spell.getName());
         assertEquals(description, spell.getDescription());
@@ -39,7 +45,12 @@ public class SpellTest {
         int manaCost = 100;
 
         assertThrows( IllegalArgumentException.class, () -> {
-            new Spell(name, description, range, manaCost) {};
+            new Spell(name, description, range, manaCost) {
+                @Override
+                public boolean use(Character source, Character target) {
+                    return true;
+                }
+            };
         } );
     }
 
@@ -54,7 +65,12 @@ public class SpellTest {
         int manaCost = 100;
 
         assertThrows( IllegalArgumentException.class, () -> {
-            new Spell(name, description, range, manaCost) {};
+            new Spell(name, description, range, manaCost) {
+                @Override
+                public boolean use(Character source, Character target) {
+                    return true;
+                }
+            };
         } );
     }
 
@@ -69,7 +85,12 @@ public class SpellTest {
         int manaCost = 100;
 
         assertThrows( IllegalArgumentException.class, () -> {
-            new Spell(name, description, range, manaCost) {};
+            new Spell(name, description, range, manaCost) {
+                @Override
+                public boolean use(Character source, Character target) {
+                    return true;
+                }
+            };
         } );
     }
 
@@ -84,7 +105,12 @@ public class SpellTest {
         int manaCost = 100;
 
         assertThrows( IllegalArgumentException.class, () -> {
-            new Spell(name, description, range, manaCost) {};
+            new Spell(name, description, range, manaCost) {
+                @Override
+                public boolean use(Character source, Character target) {
+                    return true;
+                }
+            };
         } );
     }
 
@@ -99,7 +125,12 @@ public class SpellTest {
         int manaCost = 100;
 
         assertThrows( IllegalArgumentException.class, () -> {
-            new Spell(name, description, range, manaCost) {};
+            new Spell(name, description, range, manaCost) {
+                @Override
+                public boolean use(Character source, Character target) {
+                    return true;
+                }
+            };
         } );
     }
 
@@ -114,7 +145,12 @@ public class SpellTest {
         int manaCost = 100;
 
         assertThrows( IllegalArgumentException.class, () -> {
-            new Spell(name, description, range, manaCost) {};
+            new Spell(name, description, range, manaCost) {
+                @Override
+                public boolean use(Character source, Character target) {
+                    return true;
+                }
+            };
         } );
     }
 
@@ -129,7 +165,12 @@ public class SpellTest {
         int manaCost = 0;
 
         assertThrows( IllegalArgumentException.class, () -> {
-            new Spell(name, description, range, manaCost) {};
+            new Spell(name, description, range, manaCost) {
+                @Override
+                public boolean use(Character source, Character target) {
+                    return true;
+                }
+            };
         } );
     }
 
@@ -144,7 +185,12 @@ public class SpellTest {
         int manaCost = -1;
 
         assertThrows( IllegalArgumentException.class, () -> {
-            new Spell(name, description, range, manaCost) {};
+            new Spell(name, description, range, manaCost) {
+                @Override
+                public boolean use(Character source, Character target) {
+                    return true;
+                }
+            };
         } );
     }
 
@@ -153,8 +199,18 @@ public class SpellTest {
      */
     @Test
     public void testEqualsMethodCorrectValues() {
-        Spell spell1 = new Spell("name", "desc", 2, 10) {};
-        Spell spell2 = new Spell("name", "desc", 2, 10) {};
+        Spell spell1 = new Spell("name", "desc", 2, 10) {
+            @Override
+            public boolean use(Character source, Character target) {
+                return true;
+            }
+        };
+        Spell spell2 = new Spell("name", "desc", 2, 10) {
+            @Override
+            public boolean use(Character source, Character target) {
+                return true;
+            }
+        };
 
         assertTrue(spell1.equals(spell2));
     }
@@ -164,8 +220,18 @@ public class SpellTest {
      */
     @Test
     public void testEqualsMethodDifferentName() {
-        Spell spell1 = new Spell("name1", "desc", 2, 10) {};
-        Spell spell2 = new Spell("name2", "desc", 2, 10) {};
+        Spell spell1 = new Spell("name1", "desc", 2, 10) {
+            @Override
+            public boolean use(Character source, Character target) {
+                return true;
+            }
+        };
+        Spell spell2 = new Spell("name2", "desc", 2, 10) {
+            @Override
+            public boolean use(Character source, Character target) {
+                return true;
+            }
+        };
 
         assertFalse(spell1.equals(spell2));
     }
@@ -175,8 +241,18 @@ public class SpellTest {
      */
     @Test
     public void testEqualsMethodDifferentDescription() {
-        Spell spell1 = new Spell("name", "desc1", 2, 10) {};
-        Spell spell2 = new Spell("name", "desc2", 2, 10) {};
+        Spell spell1 = new Spell("name", "desc1", 2, 10) {
+            @Override
+            public boolean use(Character source, Character target) {
+                return true;
+            }
+        };
+        Spell spell2 = new Spell("name", "desc2", 2, 10) {
+            @Override
+            public boolean use(Character source, Character target) {
+                return true;
+            }
+        };
 
         assertFalse(spell1.equals(spell2));
     }
@@ -186,8 +262,18 @@ public class SpellTest {
      */
     @Test
     public void testEqualsMethodDifferentRange() {
-        Spell spell1 = new Spell("name", "desc", 2, 10) {};
-        Spell spell2 = new Spell("name", "desc", 3, 10) {};
+        Spell spell1 = new Spell("name", "desc", 2, 10) {
+            @Override
+            public boolean use(Character source, Character target) {
+                return true;
+            }
+        };
+        Spell spell2 = new Spell("name", "desc", 3, 10) {
+            @Override
+            public boolean use(Character source, Character target) {
+                return true;
+            }
+        };
 
         assertFalse(spell1.equals(spell2));
     }
@@ -197,8 +283,18 @@ public class SpellTest {
      */
     @Test
     public void testEqualsMethodDifferentManaCost() {
-        Spell spell1 = new Spell("name", "desc", 2, 10) {};
-        Spell spell2 = new Spell("name", "desc", 2, 11) {};
+        Spell spell1 = new Spell("name", "desc", 2, 10) {
+            @Override
+            public boolean use(Character source, Character target) {
+                return true;
+            }
+        };
+        Spell spell2 = new Spell("name", "desc", 2, 11) {
+            @Override
+            public boolean use(Character source, Character target) {
+                return true;
+            }
+        };
 
         assertFalse(spell1.equals(spell2));
     }
@@ -208,7 +304,12 @@ public class SpellTest {
      */
     @Test
     public void testEqualsMethodDifferentObject() {
-        Spell spell = new Spell("name", "desc", 2, 10) {};
+        Spell spell = new Spell("name", "desc", 2, 10) {
+            @Override
+            public boolean use(Character source, Character target) {
+                return true;
+            }
+        };
 
         assertFalse(spell.equals(new Object()));
     }

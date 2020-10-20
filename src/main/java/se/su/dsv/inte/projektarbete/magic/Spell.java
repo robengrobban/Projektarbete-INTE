@@ -1,8 +1,6 @@
 package se.su.dsv.inte.projektarbete.magic;
 
-import se.su.dsv.inte.projektarbete.ElementType;
-
-import java.util.Set;
+import se.su.dsv.inte.projektarbete.characters.Character;
 
 /**
  * Class that represents a spell.
@@ -18,6 +16,14 @@ public abstract class Spell {
     private int manaCost;
 
     // Constructors
+
+    /**
+     * Constructor maximal
+     * @param name String, spell name
+     * @param description String, spell description
+     * @param range int, spell range
+     * @param manaCost int, mana cost of spell usage
+     */
     public Spell(String name, String description, int range, int manaCost) {
 
         // Verify name
@@ -44,6 +50,14 @@ public abstract class Spell {
     }
 
     // Methods
+
+    /**
+     * Use this spell
+     * @param source Character, the source
+     * @param target Character, the target
+     * @return boolean, true if the spell was successfully used, and false if it was not
+     */
+    public abstract boolean use(Character source, Character target);
 
     /**
      * Get spell name
@@ -77,6 +91,33 @@ public abstract class Spell {
         return this.manaCost;
     }
 
+    /**
+     * Check if two spells are equal or not to each other
+     * @param o Object, the object to test towards
+     * @return boolean, true if the spells are equal and false if they are not.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if ( o instanceof Spell ) {
+            Spell other = (Spell) o;
 
+            // Check same name
+            boolean sameName = this.name.equals(other.name);
+
+            // Check same description
+            boolean sameDescription = this.description.equals(other.description);
+
+            // Check same range
+            boolean sameRange = this.range == other.range;
+
+            // Check same mana cost
+            boolean sameManaCost = this.manaCost == other.manaCost;
+
+            return sameName && sameDescription && sameRange && sameManaCost;
+        }
+        else {
+            return false;
+        }
+    }
 
 }
