@@ -24,7 +24,7 @@ public abstract class Player extends Character {
      * Constructor for creating a new player with a new name.
      */
     public Player(String name) {
-        super(name, 10);
+        super(name, null, null,10);
         if (name == null || name.trim().equals("")) {
             throw new IllegalArgumentException("Name must be set.");
         }

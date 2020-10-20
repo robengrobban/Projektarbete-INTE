@@ -9,6 +9,7 @@ public class HostileState implements State {
 
     @Override
     public void Attack() {
+        System.out.println("Hostile attack");
         //TO-DO: implement attack mechanic
     }
 

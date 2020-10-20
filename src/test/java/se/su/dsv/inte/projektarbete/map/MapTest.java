@@ -3,15 +3,10 @@ package se.su.dsv.inte.projektarbete.map;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-//TODO: Only monster X may be / walk on Y tile.
-
 public class MapTest {
     private static final int HIGHER_LIMIT = 10;
     private static final int LOWER_LIMIT = 4;
 
-    /**
-     * Test the constructor to ensure randomized value is within specified range.
-     */
     @Test
     void randomMapCreated() {
         Map map = new Map();

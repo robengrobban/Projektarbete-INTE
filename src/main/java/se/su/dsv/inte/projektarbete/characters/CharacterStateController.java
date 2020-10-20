@@ -2,18 +2,13 @@ package se.su.dsv.inte.projektarbete.characters;
 
 public class CharacterStateController {
     private State currentState;
-    private State neturalState;
+    private State neutralState;
     private State hostileState;
 
-    public CharacterStateController(State currentState) {
-        this.currentState = currentState;
-        neturalState = new NeutralState(this);
+    public CharacterStateController(StateType stateType) {
+        neutralState = new NeutralState(this);
         hostileState = new HostileState(this);
-
-        //if input state was null, set currentState to default Neutral
-        if(currentState == null) {
-            this.currentState = new NeutralState(this);
-        }
+        setCurrentState(stateType);
     }
 
     /**
@@ -33,25 +28,18 @@ public class CharacterStateController {
 
     /**
      * Sets the value of currentState
-     * @param currentState State, the state to be set
+     * @param stateType StateType, the state to be set
      */
-    public void setCurrentState(State currentState) {
-        this.currentState = currentState;
-    }
+    public void setCurrentState(StateType stateType) {
+        if(stateType == null) {
+            currentState = neutralState;
+        }
+        else {
+            switch(stateType) {
+                case HOSTILE: currentState = hostileState;
+                case NEUTRAL: currentState = neutralState;
+            }
+        }
 
-    /**
-     * Returns a HostileState in the form of State
-     * @return State, instance of HostileState
-     */
-    public State getHostileState() {
-        return hostileState;
-    }
-
-    /**
-     * Returns a NeutralState in the form of State
-     * @return State, instance of HostileState
-     */
-    public State getNeturalState() {
-        return neturalState;
     }
 }
