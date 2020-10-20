@@ -26,6 +26,8 @@ public abstract class Character {
     public Character(String name, Armour armour, Weapon weapon) {
         maxHealth = 100;
         currentHealth = maxHealth;
+        maxMana = 100;
+        currentMana = maxMana;
         this.name = name;
         this.armour = armour;
         this.weapon = weapon;
