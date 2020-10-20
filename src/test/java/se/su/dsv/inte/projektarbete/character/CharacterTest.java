@@ -32,8 +32,8 @@ class CharacterTest {
         assertEquals(armour, c2.getArmour());
         assertEquals(weapon, c1.getWeapon());
         assertEquals(weapon, c2.getWeapon());
-        assertEquals(100, c1.getHealth());
-        assertEquals(customHealth, c2.getHealth());
+        assertEquals(100, c1.getMaxHealth());
+        assertEquals(customHealth, c2.getMaxHealth());
         assertEquals(weapon.getTotalDamage(), c1.getBaseDamage());
         assertEquals(weapon.getTotalDamage(), c2.getBaseDamage());
         assertEquals(5, c3.getBaseDamage());
@@ -51,5 +51,35 @@ class CharacterTest {
         int damage = c1.CalculateDamage();
 
         assertTrue(damage < maxValue && damage >= minValue);
+    }
+
+    @Test
+    public void changeCurrentManaCorrectly() {
+        Character character = new Character("Bob", new Armour("Helmet", "Shiny", ArmourType.HEAVY, 2), new Weapon("Sword", "Rusty", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND))), 100, 100) {};
+
+        assertTrue(character.changeCurrentMana(-50));
+        assertEquals(50, character.getCurrentMana());
+
+    }
+
+    @Test
+    public void changeCurrentManaTooMuch() {
+        Character character = new Character("Bob", new Armour("Helmet", "Shiny", ArmourType.HEAVY, 2), new Weapon("Sword", "Rusty", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND))), 100, 100) {};
+
+        assertTrue(character.changeCurrentMana(100));
+        assertEquals(100, character.getCurrentMana());
+
+    }
+
+    @Test
+    public void changeCurrentManaTooLittle() {
+        Character character = new Character("Bob", new Armour("Helmet", "Shiny", ArmourType.HEAVY, 2), new Weapon("Sword", "Rusty", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND))), 100, 100) {};
+
+        assertTrue(character.changeCurrentMana(-50));
+        assertEquals(50, character.getCurrentMana());
+
+        assertFalse(character.changeCurrentMana(-51));
+        assertEquals(50, character.getCurrentMana());
+
     }
 }

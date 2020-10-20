@@ -9,7 +9,8 @@ public abstract class Character {
     static final int DAMAGE_RANGE = 5;
     static final int UNARMED_DAMAGE = 5;
     private String name;
-    private int health;
+    private int maxHealth;
+    private int currentHealth;
     private int baseDamage;
     private int maxMana;
     private int currentMana;
@@ -23,7 +24,8 @@ public abstract class Character {
      * @param weapon Weapon, weapon equipped by character
      */
     public Character(String name, Armour armour, Weapon weapon) {
-        health = 100;
+        maxHealth = 100;
+        currentHealth = maxHealth;
         this.name = name;
         this.armour = armour;
         this.weapon = weapon;
@@ -45,7 +47,8 @@ public abstract class Character {
      */
     public Character(String name, Armour armour, Weapon weapon, int health, int maxMana) {
         this(name, armour, weapon);
-        this.health = health;
+        this.maxHealth = health;
+        this.currentHealth = health;
         // Verify max mana
         if ( maxMana < 0 ) {
             throw new IllegalArgumentException("Maximum mana cannot be negative");
@@ -71,6 +74,63 @@ public abstract class Character {
     }
 
     /**
+     * Get the current health
+     * @return int, the current health
+     */
+    public int getCurrentHealth() {
+        return this.currentHealth;
+    }
+
+    /**
+     * Change the current mana of the character
+     * @param diffMana int, the mana to be added to current
+     * @return boolean, true if the mana was successfully changed, false if it was not
+     */
+    public boolean changeCurrentMana(int diffMana) {
+        int oldCurrent = currentMana;
+
+        currentMana += diffMana;
+
+        // Control so that current mana is not greater than max mana
+        if ( currentMana > maxMana ) {
+            currentMana = maxMana;
+        }
+        // Control if the mana is less than zero
+        else if ( currentMana < 0 ) {
+            // Revert change
+            currentMana = oldCurrent;
+
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Change the current health of the character
+     * @param diffHealth int, the health to be added to current
+     */
+    public void changeCurrentHealth(int diffHealth) {
+        System.out.println(diffHealth);
+
+        currentHealth += diffHealth;
+
+        System.out.println(currentHealth);
+
+        // Control so that the current health is not greater than max health
+        if ( currentHealth > maxHealth ) {
+            currentHealth = maxHealth;
+        }
+        // Control if the health is less than zero
+        // TODO: DIE
+        else if ( currentHealth < 0 ) {
+            // I died :(
+
+        }
+
+        System.out.println(currentHealth);
+    }
+
+    /**
      * Get the name of this Character
      * @return String, the value of name
      */
@@ -82,8 +142,8 @@ public abstract class Character {
      * Get the health value of this Character
      * @return int, the current value of health
      */
-    public int getHealth() {
-        return health;
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
     public Armour getArmour() {

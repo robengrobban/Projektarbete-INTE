@@ -61,7 +61,7 @@ public abstract class Player extends Character {
      * @return Total health
      */
     public int getTotalHealth() {
-        return getHealth();
+        return getMaxHealth();
     }
 
     /**
@@ -69,7 +69,7 @@ public abstract class Player extends Character {
      * @return Current health points.
      */
     public int getCurrentHealth() {
-        return this.getHealth() - this.damage;
+        return this.getMaxHealth() - this.damage;
     }
 
     /**
