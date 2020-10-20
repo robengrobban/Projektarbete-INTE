@@ -32,12 +32,15 @@ public class CharacterStateController {
      */
     public void setCurrentState(StateType stateType) {
         if(stateType == null) {
+            System.out.println("input null, set to neutral");
             currentState = neutralState;
         }
         else {
             switch(stateType) {
                 case HOSTILE: currentState = hostileState;
+                System.out.println("input HOSTILE");
                 case NEUTRAL: currentState = neutralState;
+                    System.out.println("input NEUTRAL");
             }
         }
 
