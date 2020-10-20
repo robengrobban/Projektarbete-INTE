@@ -6,13 +6,15 @@ import se.su.dsv.inte.projektarbete.characters.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterStateControllerTest {
-    private static final State NEUTRAL_STATE = new NeutralState(new CharacterStateController(null));
-    private static final State HOSTILE_STATE = new HostileState(new CharacterStateController(null));
+    private static final State NEUTRAL_STATE = new NeutralState();
+    private static final State HOSTILE_STATE = new HostileState();
     private static final CharacterStateController NEUTRAL_CONTROLLER = new CharacterStateController(StateType.NEUTRAL);
     private static final CharacterStateController HOSTILE_CONTROLLER = new CharacterStateController(StateType.HOSTILE);
 
     @Test
     public void constructorSetsCorrectValues() {
+        System.out.println("N: " + NEUTRAL_CONTROLLER.getCurrentState().toString());
+        System.out.println("H: " + HOSTILE_CONTROLLER.getCurrentState().toString());
         assertEquals(NEUTRAL_STATE.toString(), NEUTRAL_CONTROLLER.getCurrentState().toString());
         assertEquals(HOSTILE_STATE.toString(), HOSTILE_CONTROLLER.getCurrentState().toString());
     }
@@ -29,6 +31,8 @@ class CharacterStateControllerTest {
         NEUTRAL_CONTROLLER.setCurrentState(StateType.HOSTILE);
         assertEquals(HOSTILE_STATE.toString(), NEUTRAL_CONTROLLER.getCurrentState().toString());
         NEUTRAL_CONTROLLER.setCurrentState(StateType.NEUTRAL);
+        assertEquals(NEUTRAL_STATE.toString(), NEUTRAL_CONTROLLER.getCurrentState().toString());
+        NEUTRAL_CONTROLLER.setCurrentState(null);
         assertEquals(NEUTRAL_STATE.toString(), NEUTRAL_CONTROLLER.getCurrentState().toString());
     }
 
