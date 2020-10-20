@@ -24,7 +24,7 @@ public abstract class Player extends Character {
      * Constructor for creating a new player with a new name.
      */
     public Player(String name) {
-        super(name, null, null,10);
+        super(name, null, null,10, 20);
         if (name == null || name.trim().equals("")) {
             throw new IllegalArgumentException("Name must be set.");
         }
@@ -35,6 +35,7 @@ public abstract class Player extends Character {
     /**
      * Constructor for re-creating a player (i.e. from a save file)
      * @param health Health for the player
+     * @param maxMana int, maximum mana for the player
      * @param damage damage done to the player
      * @param stamina stamina for the player
      * @param staminaUsed stamina used by the player
@@ -43,9 +44,9 @@ public abstract class Player extends Character {
      * @param experience experience points the player has
      * @param level current level of the player
      */
-    public Player(String name, int health, int damage, int stamina, int staminaUsed, int defence,
+    public Player(String name, int health, int maxMana, int damage, int stamina, int staminaUsed, int defence,
                   int attack, int experience, int level, Weapon weapon, Armour armour) {
-        super(name, armour, weapon, health);
+        super(name, armour, weapon, health, maxMana);
         this.damage = damage;
         this.stamina = stamina;
         this.staminaUsed = staminaUsed;

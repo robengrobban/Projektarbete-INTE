@@ -9,9 +9,9 @@ public class Elf extends Player{
         super(name);
     }
 
-    public Elf(String name, int health, int damage, int stamina, int staminaUsed,
+    public Elf(String name, int health, int maxMana, int damage, int stamina, int staminaUsed,
                int defence, int attack, int experience, int level, Armour armour, Weapon weapon) {
-        super(name, health, damage, stamina, staminaUsed, defence, attack, experience, level, null, null);
+        super(name, health, maxMana, damage, stamina, staminaUsed, defence, attack, experience, level, null, null);
     }
 
     public boolean attacked(Weapon weapon) {
