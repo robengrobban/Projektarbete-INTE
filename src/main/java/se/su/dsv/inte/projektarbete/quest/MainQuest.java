@@ -3,7 +3,7 @@ package se.su.dsv.inte.projektarbete.quest;
 public class MainQuest extends Quest {
 
     private int characterToKill;
-    //5 stages with 10% more Character to kill in the next Stage;
+    //5 stages with 10 more Character to kill in the next Stage;
     private int stage;
 
     public MainQuest(int stage) {
