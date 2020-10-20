@@ -50,7 +50,7 @@ public class HealSpell extends Spell {
 
         // Try to remove mana
         if ( source.changeCurrentMana( -getManaCost() ) ) {
-            System.out.println(this.healing);
+
             // Heal target
             target.changeCurrentHealth( this.healing );
 

@@ -112,11 +112,7 @@ public abstract class Character {
      * @param diffHealth int, the health to be added to current
      */
     public void changeCurrentHealth(int diffHealth) {
-        System.out.println(diffHealth);
-
         currentHealth += diffHealth;
-
-        System.out.println(currentHealth);
 
         // Control so that the current health is not greater than max health
         if ( currentHealth > maxHealth ) {
@@ -128,8 +124,6 @@ public abstract class Character {
             // I died :(
 
         }
-
-        System.out.println(currentHealth);
     }
 
     /**
