@@ -52,6 +52,27 @@ public abstract class Player extends Character {
     }
 
     /**
+     * Constructor for re-creating a player (i.e. from a save file) with a PlayerClass.
+     * @param health Health for the player
+     * @param maxMana int, maximum mana for the player
+     * @param defence defence for the player
+     * @param attack attack power for the player
+     * @param experience experience points the player has
+     * @param level current level of the player
+     */
+    public Player(String name, int health, int maxMana, int damage, int defence,
+                  int attack, int experience, int level, Weapon weapon, Armour armour, PlayerClass playerClass) {
+        super(name, armour, weapon, health, maxMana);
+
+        this.defence = defence;
+        this.attack = attack;
+        this.experience = experience;
+        this.level = level;
+        this.playerClass = playerClass;
+        changeCurrentHealth(-damage);
+    }
+
+    /**
      * Gets the total health of the player.
      * @return Total health
      */
@@ -75,9 +96,37 @@ public abstract class Player extends Character {
         return level;
     }
 
+    private int getTotalAttack() {
+        if (playerClass != null)
+            return attack + playerClass.getAttackModifier();
+        else return attack;
+    }
+
+    private int getTotalMagicAttack() {
+        if (playerClass != null)
+            return magicalAttack + playerClass.getMagicAttackModifier();
+        else return  magicalAttack;
+    }
+
+    private int getTotalDefence() {
+        if (playerClass != null)
+            return defence + playerClass.getDefenceModifier();
+        else return defence;
+    }
+
+    private int getTotalMagicDefence() {
+        if (playerClass != null)
+            return magicalDefence + playerClass.getMagicDefenceModifier();
+        else return  magicalDefence;
+    }
+
+    /**
+     * Attacks a character with a weapon if it has one, else with base attack.
+     * @param attacked
+     */
     public void attack(Character attacked) {
-        if (getWeapon().usable()) { //TODO: Should use "canattack, need to be implemented elementtype in enemy
-            attacked.damaged(getWeapon().getTotalDamage() + attack);
+        if (getWeapon() != null && getWeapon().usable() && getWeapon().canAttack(attacked.getElementType())) {
+            attacked.damaged(getWeapon().getTotalDamage() + getTotalAttack());
             getWeapon().deteriorate();
         }
     }

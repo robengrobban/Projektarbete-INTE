@@ -159,6 +159,46 @@ public abstract class Character {
     }
 
     /**
+     * Get the name of this Character
+     * @return String, the value of name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Get the health value of this Character
+     * @return int, the current max value of health
+     */
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    /**
+     * Gets the armour for the character
+     * @return Current armour.
+     */
+    public Armour getArmour() {
+        return armour;
+    }
+
+    /**
+     * Gets the weapon for the character
+     * @return Current weapon.
+     */
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    /**
+     * Gets the base damage for the character
+     * @return Current base damage.
+     */
+    public int getBaseDamage() {
+        return baseDamage;
+    }
+
+    /**
      * Change the current mana of the character
      * @param diffMana int, the mana to be added to current
      * @return boolean, true if the mana was successfully changed, false if it was not
@@ -193,8 +233,8 @@ public abstract class Character {
         if ( currentHealth > maxHealth ) {
             currentHealth = maxHealth;
         }
-        // Control if the health is less than zero
-        else if ( currentHealth < 0 ) {
+        // Control if the health is less than or equal to zero
+        else if ( currentHealth <= 0 ) {
             // I died :(
             currentHealth = 0; // #dead
         }
@@ -223,34 +263,6 @@ public abstract class Character {
     }
 
     /**
-     * Get the name of this Character
-     * @return String, the value of name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Get the health value of this Character
-     * @return int, the current value of health
-     */
-    public int getMaxHealth() {
-        return maxHealth;
-    }
-
-    public Armour getArmour() {
-        return armour;
-    }
-
-    public Weapon getWeapon() {
-        return weapon;
-    }
-
-    public int getBaseDamage() {
-        return baseDamage;
-    }
-
-    /**
      * Generates an integer value between the range of baseDamage and baseDamage + DAMAGE_RANGE
      * @return random damage value
      */
@@ -259,8 +271,4 @@ public abstract class Character {
         System.out.println("Output damage: " + damage);
         return damage;
     }
-
-
-
-
 }
