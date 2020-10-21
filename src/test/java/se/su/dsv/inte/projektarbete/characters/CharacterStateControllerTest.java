@@ -1,15 +1,14 @@
-package se.su.dsv.inte.projektarbete.character;
+package se.su.dsv.inte.projektarbete.characters;
 
 import org.junit.jupiter.api.Test;
-import se.su.dsv.inte.projektarbete.characters.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterStateControllerTest {
-    private static final State NEUTRAL_STATE = new NeutralState();
-    private static final State HOSTILE_STATE = new HostileState();
     private static final CharacterStateController NEUTRAL_CONTROLLER = new CharacterStateController(StateType.NEUTRAL);
     private static final CharacterStateController HOSTILE_CONTROLLER = new CharacterStateController(StateType.HOSTILE);
+    private static final State NEUTRAL_STATE = new NeutralState(NEUTRAL_CONTROLLER);
+    private static final State HOSTILE_STATE = new HostileState(NEUTRAL_CONTROLLER);
 
     @Test
     public void constructorSetsCorrectValues() {
@@ -35,5 +34,11 @@ class CharacterStateControllerTest {
         NEUTRAL_CONTROLLER.setCurrentState(null);
         assertEquals(NEUTRAL_STATE.toString(), NEUTRAL_CONTROLLER.getCurrentState().toString());
     }
+
+    @Test
+    public void attackIsOverriden() {
+
+    }
+
 
 }
