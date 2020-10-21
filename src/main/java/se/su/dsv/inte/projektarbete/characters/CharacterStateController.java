@@ -4,10 +4,14 @@ public class CharacterStateController {
     private State currentState;
     private State neutralState;
     private State hostileState;
+    private State deadState;
+    private State chasingState;
 
     public CharacterStateController(StateType stateType) {
         neutralState = new NeutralState(this);
         hostileState = new HostileState(this);
+        deadState = new DeadState(this);
+        chasingState = new ChasingState(this);
         setCurrentState(stateType);
     }
 
@@ -40,6 +44,9 @@ public class CharacterStateController {
                 break;
                 case NEUTRAL: currentState = neutralState;
                 break;
+                case DEAD: currentState = deadState;
+                break;
+                case CHASING: currentState = chasingState;
             }
         }
 

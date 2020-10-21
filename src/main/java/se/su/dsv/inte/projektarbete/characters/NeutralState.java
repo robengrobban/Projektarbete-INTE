@@ -10,10 +10,9 @@ public class NeutralState implements State {
      * Switches state to Hostile and attacks 1 time
      */
     @Override
-    public void Attack(Character attacker, Character defender) {
-        System.out.println("Switching state from Neutral to Hostile");
+    public void Attack(Character source, Character target) {
         controller.setCurrentState(StateType.HOSTILE);
-        controller.Attack(attacker, defender);
+        controller.Attack(source, target);
     }
 
     @Override

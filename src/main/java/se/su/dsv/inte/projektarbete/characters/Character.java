@@ -20,6 +20,7 @@ public abstract class Character {
     private Weapon weapon;
     private ElementType elementType;
     private Point point;
+    private CharacterStateController controller;
 
     /**
      * Constructor with basic values for name, armour and weapon.
@@ -27,7 +28,7 @@ public abstract class Character {
      * @param armour Armour, armour equipped by Character
      * @param weapon Weapon, weapon equipped by character
      */
-    public Character(String name, Armour armour, Weapon weapon) {
+    public Character(String name, Armour armour, Weapon weapon, CharacterStateController controller) {
         maxHealth = 100;
         currentHealth = maxHealth;
         maxMana = 100;
@@ -35,6 +36,7 @@ public abstract class Character {
         this.name = name;
         this.armour = armour;
         this.weapon = weapon;
+        this.controller = controller;
         this.elementType = ElementType.LAND;
         if(this.weapon == null) {
             baseDamage = UNARMED_DAMAGE;
@@ -51,7 +53,7 @@ public abstract class Character {
      * @param armour Armour, armour equipped by Character
      * @param weapon Weapon, weapon equipped by character
      */
-    public Character(String name, ElementType elementType, Armour armour, Weapon weapon) {
+    public Character(String name, ElementType elementType, Armour armour, Weapon weapon, CharacterStateController controller) {
         maxHealth = 100;
         currentHealth = maxHealth;
         maxMana = 100;
@@ -76,8 +78,8 @@ public abstract class Character {
      * @param health int, life of Character
      * @param maxMana int, maximum mana possible (>0)
      */
-    public Character(String name, Armour armour, Weapon weapon, int health, int maxMana) {
-        this(name, armour, weapon);
+    public Character(String name, Armour armour, Weapon weapon, int health, int maxMana, CharacterStateController controller) {
+        this(name, armour, weapon, controller);
         this.maxHealth = health;
         this.currentHealth = health;
         this.elementType = ElementType.LAND;
@@ -98,8 +100,8 @@ public abstract class Character {
      * @param health int, life of Character
      * @param maxMana int, maximum mana possible (>0)
      */
-    public Character(String name, ElementType elementType, Armour armour, Weapon weapon, int health, int maxMana) {
-        this(name, armour, weapon);
+    public Character(String name, ElementType elementType, Armour armour, Weapon weapon, int health, int maxMana, CharacterStateController controller) {
+        this(name, armour, weapon, controller);
         this.maxHealth = health;
         this.currentHealth = health;
         this.elementType = elementType;
@@ -263,7 +265,7 @@ public abstract class Character {
      * @param damage Damage dealt to the player.
      * @return True if still alive, else false.
      */
-    public boolean damaged(int damage) {
+    public void damaged(int damage) {
 
         if (getArmour() != null) {
             int defence = getArmour().getTotalArmour();
@@ -275,9 +277,10 @@ public abstract class Character {
         }
         changeCurrentHealth(-damage);
 
-        if (getCurrentHealth() <= 0)
-            return false;
-        else return true;
+        if (getCurrentHealth() <= 0) {
+            controller.setCurrentState(StateType.DEAD);
+        }
+
     }
 
     /**
@@ -289,8 +292,4 @@ public abstract class Character {
         System.out.println("Output damage: " + damage);
         return damage;
     }
-
-
-
-
 }

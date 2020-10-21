@@ -8,8 +8,9 @@ public class HostileState implements State {
     }
 
     @Override
-    public void Attack(Character attacker, Character defender) {
-        defender.hurt(attacker.CalculateDamage());
+    public void Attack(Character source, Character target) {
+        //TO-DO if within range attack, else switch to CHASING
+        target.damaged(source.CalculateDamage());
     }
 
     @Override
