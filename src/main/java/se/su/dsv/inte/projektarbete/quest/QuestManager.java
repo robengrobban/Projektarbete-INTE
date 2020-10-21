@@ -18,11 +18,9 @@ public class QuestManager {
 
     private void reportIntractableObject(InteractableObject interactableObject) {
 
-
         for (Quest quest : questList) {
             quest.reportIntractableObject(interactableObject);
         }
-
 
     }
 

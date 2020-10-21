@@ -36,5 +36,4 @@ public abstract class Quest {
     abstract void advanceToNextStage();
 
 
-
 }

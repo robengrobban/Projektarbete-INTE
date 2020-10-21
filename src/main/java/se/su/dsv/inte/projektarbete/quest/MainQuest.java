@@ -8,17 +8,16 @@ import se.su.dsv.inte.projektarbete.weapon.WeaponModifier;
 
 public class MainQuest extends Quest {
 
+    private final int enemiesKilledToNextStage;
+    private final WeaponModifier reward;
     private int currentStage;
     private int enemiesKilled;
-    private final int enemiesKilledToNextStage;
     private boolean foundChest;
-    private final WeaponModifier reward;
     private boolean rewardReceived;
 
     /**
-     *
      * @param maxStages how many stages the Quest have.
-     * @param reward in case of finishing the quest.
+     * @param reward    in case of finishing the quest.
      */
     public MainQuest(String name, String description, int maxStages, WeaponModifier reward) {
         super(name, description, maxStages);
@@ -28,7 +27,6 @@ public class MainQuest extends Quest {
 
 
     }
-
 
 
     @Override
@@ -41,7 +39,6 @@ public class MainQuest extends Quest {
         }
 
 
-
     }
 
     @Override
@@ -52,7 +49,7 @@ public class MainQuest extends Quest {
 
     @Override
     void receiveReward(Player player) {
-        if (!rewardReceived &&  currentStage == 2 && foundChest) {
+        if (!rewardReceived && currentStage == 2 && foundChest) {
             Weapon weapon = player.getWeapon();
             if (weapon != null && weapon.getModifier() == null) {
                 weapon.setModifier(reward);
