@@ -127,6 +127,28 @@ public abstract class Character {
     }
 
     /**
+     * Calculates how the character is damaged by a weapon used to attack the player.
+     * @param damage Damage dealt to the player.
+     * @return True if still alive, else false.
+     */
+    public boolean damaged(int damage) {
+
+        if (getArmour() != null) {
+            int defence = getArmour().getTotalArmour();
+            if (defence > damage/2) {
+                defence = damage/2; //armour can protect at half the incoming damage at most.
+            }
+            damage -= defence;
+            getArmour().deteriorate();
+        }
+        changeCurrentHealth(-damage);
+
+        if (getCurrentHealth() <= 0)
+            return false;
+        else return true;
+    }
+
+    /**
      * Get the name of this Character
      * @return String, the value of name
      */
