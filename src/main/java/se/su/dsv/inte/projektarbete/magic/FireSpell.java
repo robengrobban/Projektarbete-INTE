@@ -57,6 +57,23 @@ public class FireSpell extends Spell {
      */
     @Override
     public boolean use(Character source, Character target) {
+        // Control that I can attack this target
+        if ( canAttack.contains(target.getElementType()) ) {
+
+            // Am I in range
+            // TODO : Check range
+            if ( true ) {
+
+                // Do I have enough mana
+                if ( source.changeCurrentMana(-this.getManaCost()) ) {
+
+                    // Do damage
+                    target.damaged( this.damage );
+
+                    return true;
+                }
+            }
+        }
         return false;
     }
 

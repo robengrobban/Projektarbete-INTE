@@ -107,6 +107,15 @@ public abstract class Character {
         this.currentMana = maxMana;
     }
 
+
+    /**
+     * Check if the Character is alive or not.
+     * @return boolean, true if the Character is alive and false if it is not.
+     */
+    public boolean isAlive() {
+        return currentHealth > 0;
+    }
+
     /**
      * Get the element type of this character
      * @return ElementType, the element type
@@ -183,10 +192,9 @@ public abstract class Character {
             currentHealth = maxHealth;
         }
         // Control if the health is less than zero
-        // TODO: DIE
         else if ( currentHealth < 0 ) {
             // I died :(
-
+            currentHealth = 0; // #dead
         }
     }
 
