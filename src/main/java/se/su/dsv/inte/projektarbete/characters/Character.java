@@ -2,6 +2,7 @@ package se.su.dsv.inte.projektarbete.characters;
 
 import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.armour.Armour;
+import se.su.dsv.inte.projektarbete.map.Point;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,6 +19,7 @@ public abstract class Character {
     private Armour armour;
     private Weapon weapon;
     private ElementType elementType;
+    private Point point;
 
     /**
      * Constructor with basic values for name, armour and weapon.
@@ -109,6 +111,22 @@ public abstract class Character {
         this.currentMana = maxMana;
     }
 
+
+    /**
+     * Set the point for this character
+     * @param point Point, the point for this character
+     */
+    public void setPoint(Point point) {
+        this.point = point;
+    }
+
+    /**
+     * Get the point of the Character
+     * @return Point, the point of the character
+     */
+    public Point getPoint() {
+        return this.point;
+    }
 
     /**
      * Check if the Character is alive or not.
