@@ -7,16 +7,15 @@ import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 public abstract class Player extends Character {
 
-    private int damage;
-
-    private int stamina;
-    private int staminaUsed;
-
     private int defence;
+    private int magicalDefence;
     private int attack;
+    private int magicalAttack;
 
     private int experience;
     private int level;
+
+    private PlayerClass playerClass;
 
     private Item[] inventory;
 
@@ -24,7 +23,7 @@ public abstract class Player extends Character {
      * Constructor for creating a new player with a new name.
      */
     public Player(String name) {
-        super(name, null, null,10);
+        super(name, null, null,10, 20);
         if (name == null || name.trim().equals("")) {
             throw new IllegalArgumentException("Name must be set.");
         }
@@ -35,24 +34,21 @@ public abstract class Player extends Character {
     /**
      * Constructor for re-creating a player (i.e. from a save file)
      * @param health Health for the player
-     * @param damage damage done to the player
-     * @param stamina stamina for the player
-     * @param staminaUsed stamina used by the player
+     * @param maxMana int, maximum mana for the player
      * @param defence defence for the player
      * @param attack attack power for the player
      * @param experience experience points the player has
      * @param level current level of the player
      */
-    public Player(String name, int health, int damage, int stamina, int staminaUsed, int defence,
+    public Player(String name, int health, int maxMana, int damage, int defence,
                   int attack, int experience, int level, Weapon weapon, Armour armour) {
-        super(name, armour, weapon, health);
-        this.damage = damage;
-        this.stamina = stamina;
-        this.staminaUsed = staminaUsed;
+        super(name, armour, weapon, health, maxMana);
+
         this.defence = defence;
         this.attack = attack;
         this.experience = experience;
         this.level = level;
+        changeCurrentHealth(-damage);
     }
 
     /**
@@ -60,23 +56,7 @@ public abstract class Player extends Character {
      * @return Total health
      */
     public int getTotalHealth() {
-        return getHealth();
-    }
-
-    /**
-     * Gets the remaining health of the player that it has at the moment.
-     * @return Current health points.
-     */
-    public int getCurrentHealth() {
-        return this.getHealth() - this.damage;
-    }
-
-    /**
-     * Gets the stamina the player currently has
-     * @return
-     */
-    public int getStamina() {
-        return stamina - staminaUsed;
+        return getMaxHealth();
     }
 
     /**
@@ -95,15 +75,10 @@ public abstract class Player extends Character {
         return level;
     }
 
-    /**
-     * Calculates how the player is damaged by a weapon used to attack the player.
-     * @param damage Damage dealt to the player.
-     * @return True if still alive, else false.
-     */
-    public boolean damaged(int damage) {
-        damage +=damage;
-        if (getCurrentHealth() <= 0)
-            return false;
-        else return true;
+    public void attack(Character attacked) {
+        if (getWeapon().usable()) { //TODO: Should use "canattack, need to be implemented elementtype in enemy
+            attacked.damaged(getWeapon().getTotalDamage() + attack);
+            getWeapon().deteriorate();
+        }
     }
 }

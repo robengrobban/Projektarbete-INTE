@@ -1,10 +1,9 @@
 package se.su.dsv.inte.projektarbete.quest;
 
-public class MainQuest extends Quest {
+public class MainQuest  {
 
-    private int characterToKill;
-    //5 stages with 10% more Character to kill in the next Stage;
-    private int stage;
+    private final int characterToKill;
+    private final int stage;
 
     public MainQuest(int stage) {
         if (stage < 1 || stage > 5) {
