@@ -4,7 +4,7 @@ import se.su.dsv.inte.projektarbete.map.Tiles.TileType;
 
 public class Point {
     private final TileType type;
-    //TODO: private INSERT MONSTER / PLAYER TYPE HERE //Can only hold 1 at a time
+    private Character character;
     private InteractableObject interactableObject;
 
     /**
@@ -45,5 +45,17 @@ public class Point {
      */
     public void removeIntractableObject() {
         interactableObject = null;
+    }
+
+    public Character getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
+
+    public void removeCharacter() {
+        character = null;
     }
 }
