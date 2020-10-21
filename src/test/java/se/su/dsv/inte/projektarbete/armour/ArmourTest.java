@@ -787,4 +787,28 @@ public class ArmourTest {
         assertEquals(sdm2, a.getModifier());
     }
 
+    /**
+     * Test if you can remove armour modifier from armour
+     */
+    @Test
+    public void testRemoveArmourModifier() {
+        String name = "Chest plate of something";
+        String desc = "This will not help you...";
+
+        ArmourType type = ArmourType.HEAVY;
+        int baseDefence = 10;
+
+        ArmourModifier modifier = new SimpleDefenceModifier("asd", 12,14);
+        ArmourModifier modifierDublicate = new SimpleDefenceModifier("asd", 12,14);
+
+        Armour a = new Armour(name, desc, type, baseDefence, modifier);
+
+        assertEquals(modifierDublicate, a.getModifier());
+
+        a.removeModifier();
+
+        assertEquals(null, a.getModifier());
+
+    }
+
 }
