@@ -192,10 +192,9 @@ public abstract class Character {
             currentHealth = maxHealth;
         }
         // Control if the health is less than zero
-        // TODO: DIE
         else if ( currentHealth < 0 ) {
             // I died :(
-
+            currentHealth = 0; // #dead
         }
     }
 

@@ -70,8 +70,7 @@ public class FireSpell extends Spell {
                     // Do damage
                     target.damaged( this.damage );
 
-
-
+                    return true;
                 }
             }
         }

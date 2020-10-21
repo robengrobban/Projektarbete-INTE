@@ -2,6 +2,9 @@ package se.su.dsv.inte.projektarbete.magic;
 
 import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.ElementType;
+import se.su.dsv.inte.projektarbete.armour.Armour;
+import se.su.dsv.inte.projektarbete.armour.ArmourType;
+import se.su.dsv.inte.projektarbete.characters.Character;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -238,6 +241,98 @@ public class FireSpellTest {
         assertThrows( IllegalArgumentException.class, () -> {
             new FireSpell(name, description, range, manaCost, damage, canAttack);
         });
+    }
+
+    /**
+     * Test use correctly
+     */
+    @Test
+    public void testUseCorrectly() {
+        String name = "Fire damage";
+        String description = "SO MUCK FIRE!";
+        int range = 2;
+        int manaCost = 10;
+        int damage = 20;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        FireSpell fireSpell = new FireSpell( name, description, range, manaCost, damage, canAttack );
+
+        Character source = new Character("Bob", ElementType.LAND, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
+        Character target = new Character("Bob", ElementType.LAND, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
+
+        assertTrue(fireSpell.use(source, target));
+
+        assertEquals(90, source.getCurrentMana());
+        assertEquals(90, target.getCurrentHealth());
+    }
+
+    /**
+     * Test use target too much armour half damage
+     */
+    @Test
+    public void testUseTooMuchArmourHalfDamage() {
+        String name = "Fire damage";
+        String description = "SO MUCK FIRE!";
+        int range = 2;
+        int manaCost = 10;
+        int damage = 10;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        FireSpell fireSpell = new FireSpell( name, description, range, manaCost, damage, canAttack );
+
+        Character source = new Character("Bob", ElementType.LAND, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
+        Character target = new Character("Bob", ElementType.LAND, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
+
+        assertTrue(fireSpell.use(source, target));
+
+        assertEquals(90, source.getCurrentMana());
+        assertEquals(95, target.getCurrentHealth());
+    }
+
+    /**
+     * Test use target different element type
+     */
+    @Test
+    public void testUseTargetDifferentElementType() {
+        String name = "Fire damage";
+        String description = "SO MUCK FIRE!";
+        int range = 2;
+        int manaCost = 10;
+        int damage = 20;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        FireSpell fireSpell = new FireSpell( name, description, range, manaCost, damage, canAttack );
+
+        Character source = new Character("Bob", ElementType.LAND, null, null, 100, 100){};
+        Character target = new Character("Bob", ElementType.AIR, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
+
+        assertFalse(fireSpell.use(source, target));
+
+        assertEquals(100, source.getCurrentMana());
+        assertEquals(100, target.getCurrentHealth());
+    }
+
+    /**
+     * Test use source not enough mana
+     */
+    @Test
+    public void testUseTargetNotEnoughMana() {
+        String name = "Fire damage";
+        String description = "SO MUCK FIRE!";
+        int range = 2;
+        int manaCost = 10;
+        int damage = 20;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        FireSpell fireSpell = new FireSpell( name, description, range, manaCost, damage, canAttack );
+
+        Character source = new Character("Bob", ElementType.LAND, null, null, 100, 9){};
+        Character target = new Character("Bob", ElementType.AIR, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
+
+        assertFalse(fireSpell.use(source, target));
+
+        assertEquals(9, source.getCurrentMana());
+        assertEquals(100, target.getCurrentHealth());
     }
 
 }
