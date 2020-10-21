@@ -6,8 +6,11 @@ import se.su.dsv.inte.projektarbete.player.Player;
 import java.util.List;
 
 public class QuestManager {
-    private List<Quest> questList;
+    private final List<Quest> questList;
 
+    public QuestManager(List<Quest> questList) {
+        this.questList = questList;
+    }
 
     private void reportKillsToQuests() {
         questList.forEach(Quest::reportKill);
@@ -32,7 +35,9 @@ public class QuestManager {
     }
 
     private void receiveReward(Quest quest, Player player) {
-
+        if (questList.contains(quest)) {
+            quest.receiveReward(player);
+        }
     }
 
 }
