@@ -6,16 +6,16 @@ public class CharacterStateController {
     private State hostileState;
 
     public CharacterStateController(StateType stateType) {
-        neutralState = new NeutralState();
-        hostileState = new HostileState();
+        neutralState = new NeutralState(this);
+        hostileState = new HostileState(this);
         setCurrentState(stateType);
     }
 
     /**
      * Runs the Attack-method of the state stored in currentState
      */
-    public void Attack() {
-        currentState.Attack();
+    public void Attack(Character attacker, Character defender) {
+        currentState.Attack(attacker, defender);
     }
 
     /**

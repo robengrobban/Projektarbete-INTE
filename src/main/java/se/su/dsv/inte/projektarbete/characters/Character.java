@@ -108,7 +108,9 @@ public abstract class Character {
         return damage;
     }
 
-
+    public void hurt(int damage) {
+        health -= damage;
+    }
 
 
 }
