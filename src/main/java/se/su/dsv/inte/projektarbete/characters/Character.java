@@ -20,7 +20,7 @@ public abstract class Character {
     private ElementType elementType;
 
     /**
-     * Constructor with full range of values
+     * Constructor with basic values for name, armour and weapon.
      * @param name String, name of Character
      * @param armour Armour, armour equipped by Character
      * @param weapon Weapon, weapon equipped by character
@@ -43,8 +43,9 @@ public abstract class Character {
     }
 
     /**
-     * Constructor with full range of values
+     * Constructor with full range of values except life set to default.
      * @param name String, name of Character
+     * @param elementType ElementType, element of the character
      * @param armour Armour, armour equipped by Character
      * @param weapon Weapon, weapon equipped by character
      */
@@ -66,7 +67,7 @@ public abstract class Character {
     }
 
     /**
-     * Constructor with full range of values + custom health
+     * Constructor with full range of values except for elementType, set to default land.
      * @param name String, name of Character
      * @param armour Armour, armour equipped by Character
      * @param weapon Weapon, weapon equipped by character
@@ -87,8 +88,9 @@ public abstract class Character {
     }
 
     /**
-     * Constructor with full range of values + custom health
+     * Constructor with full range of values
      * @param name String, name of Character
+     * @param elementType ElementType, element of the character
      * @param armour Armour, armour equipped by Character
      * @param weapon Weapon, weapon equipped by character
      * @param health int, life of Character
