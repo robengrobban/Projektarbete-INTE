@@ -82,4 +82,34 @@ class CharacterTest {
         assertEquals(50, character.getCurrentMana());
 
     }
+
+    @Test
+    public void constructorSetElementTypeMin() {
+        String name = "bob";
+        ElementType elementType = ElementType.LAND;
+
+        Character c = new Character(name, elementType, null, null) {};
+
+        assertEquals(name, c.getName());
+        assertEquals(ElementType.valueOf(elementType.name()), c.getElementType());
+        assertEquals(null, c.getWeapon());
+        assertEquals(null, c.getArmour());
+    }
+
+    @Test
+    public void constructorSetElementTypeMax() {
+        String name = "bob";
+        ElementType elementType = ElementType.LAND;
+        int health = 100;
+        int mana = 120;
+
+        Character c = new Character(name, elementType, null, null, health, mana) {};
+
+        assertEquals(name, c.getName());
+        assertEquals(ElementType.valueOf(elementType.name()), c.getElementType());
+        assertEquals(null, c.getWeapon());
+        assertEquals(null, c.getArmour());
+        assertEquals(100, c.getMaxHealth());
+        assertEquals(120, c.getMaxMana());
+    }
 }

@@ -1,5 +1,6 @@
 package se.su.dsv.inte.projektarbete.characters;
 
+import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
@@ -16,6 +17,7 @@ public abstract class Character {
     private int currentMana;
     private Armour armour;
     private Weapon weapon;
+    private ElementType elementType;
 
     /**
      * Constructor with full range of values
@@ -26,9 +28,35 @@ public abstract class Character {
     public Character(String name, Armour armour, Weapon weapon) {
         maxHealth = 100;
         currentHealth = maxHealth;
+        maxMana = 100;
+        currentMana = maxMana;
         this.name = name;
         this.armour = armour;
         this.weapon = weapon;
+        this.elementType = ElementType.LAND;
+        if(this.weapon == null) {
+            baseDamage = UNARMED_DAMAGE;
+        }
+        else {
+            this.baseDamage = weapon.getTotalDamage();
+        }
+    }
+
+    /**
+     * Constructor with full range of values
+     * @param name String, name of Character
+     * @param armour Armour, armour equipped by Character
+     * @param weapon Weapon, weapon equipped by character
+     */
+    public Character(String name, ElementType elementType, Armour armour, Weapon weapon) {
+        maxHealth = 100;
+        currentHealth = maxHealth;
+        maxMana = 100;
+        currentMana = maxMana;
+        this.name = name;
+        this.armour = armour;
+        this.weapon = weapon;
+        this.elementType = elementType;
         if(this.weapon == null) {
             baseDamage = UNARMED_DAMAGE;
         }
@@ -49,12 +77,50 @@ public abstract class Character {
         this(name, armour, weapon);
         this.maxHealth = health;
         this.currentHealth = health;
+        this.elementType = ElementType.LAND;
         // Verify max mana
         if ( maxMana < 0 ) {
             throw new IllegalArgumentException("Maximum mana cannot be negative");
         }
         this.maxMana = maxMana;
         this.currentMana = maxMana;
+    }
+
+    /**
+     * Constructor with full range of values + custom health
+     * @param name String, name of Character
+     * @param armour Armour, armour equipped by Character
+     * @param weapon Weapon, weapon equipped by character
+     * @param health int, life of Character
+     * @param maxMana int, maximum mana possible (>0)
+     */
+    public Character(String name, ElementType elementType, Armour armour, Weapon weapon, int health, int maxMana) {
+        this(name, armour, weapon);
+        this.maxHealth = health;
+        this.currentHealth = health;
+        this.elementType = elementType;
+        // Verify max mana
+        if ( maxMana < 0 ) {
+            throw new IllegalArgumentException("Maximum mana cannot be negative");
+        }
+        this.maxMana = maxMana;
+        this.currentMana = maxMana;
+    }
+
+    /**
+     * Get the element type of this character
+     * @return ElementType, the element type
+     */
+    public ElementType getElementType() {
+        return this.elementType;
+    }
+
+    /**
+     * Set the element type of this character
+     * @param elementType ElementType, the new element type
+     */
+    public void setElementType(ElementType elementType) {
+        this.elementType = elementType;
     }
 
     /**
@@ -110,11 +176,7 @@ public abstract class Character {
      * @param diffHealth int, the health to be added to current
      */
     public void changeCurrentHealth(int diffHealth) {
-        System.out.println(diffHealth);
-
         currentHealth += diffHealth;
-
-        System.out.println(currentHealth);
 
         // Control so that the current health is not greater than max health
         if ( currentHealth > maxHealth ) {
@@ -126,8 +188,6 @@ public abstract class Character {
             // I died :(
 
         }
-
-        System.out.println(currentHealth);
     }
 
     /**
