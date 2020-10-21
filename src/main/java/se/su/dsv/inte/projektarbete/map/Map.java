@@ -1,6 +1,8 @@
 package se.su.dsv.inte.projektarbete.map;
 
+import se.su.dsv.inte.projektarbete.Item;
 import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
+import se.su.dsv.inte.projektarbete.map.Tiles.Door;
 import se.su.dsv.inte.projektarbete.map.Tiles.TileType;
 
 import java.util.ArrayList;
@@ -10,7 +12,16 @@ public class Map {
     private static final int HIGHER_LIMIT = 10;
     private static final int LOWER_LIMIT = 4;
 
-    private final ArrayList<ArrayList<Point>> map = new ArrayList<>();
+    //Public so they can be referred to in tests
+    public static final int MIN_DOOR_AMOUNT = 1;
+    public static final int MAX_DOOR_AMOUNT = 4;
+    public static final int MIN_INTERACTABLEOBJECT_AMOUNT = 0;
+    public static final int MAX_INTERACTABLEOBJECT_AMOUNT = 2;
+
+    private int doorAmount = 0;
+    private int objectAmount = 0;
+
+    protected final ArrayList<ArrayList<Point>> map = new ArrayList<>(); //Protected for testing.
 
     /**
      * Creates a map with random x and y value by calling populateMap()
@@ -90,7 +101,7 @@ public class Map {
         for (int i = 0; i < y; i++) {
             ArrayList<Point> list = new ArrayList<>();
             for (int j = 0; j < x; j++) {
-                list.add(new Point(generateTile()));
+                list.add(new Point(generateTile(j, i, x, y), objectGen(j, i, x, y)));
             }
             map.add(i, list);
         }
@@ -110,9 +121,55 @@ public class Map {
      * Generates a tile type to be placed on a point.
      * @return TileType, the type of tile that gets selected.
      */
-    //TODO
-    private TileType generateTile() {
-        return new Ground();
+    private TileType generateTile(int currentX, int currentY, int maxX, int maxY) {
+        boolean door = false;
+
+        //20% chance of door
+        if (randomInt(0, 5) == 4) {
+            door = true;
+        }
+
+        if ( (isEdgeTile(currentX, currentY, maxX, maxY) && door) && doorAmount != MAX_DOOR_AMOUNT|| isLastEdgeTile(currentX, currentY, maxX, maxY) && doorAmount < MIN_DOOR_AMOUNT) {
+            doorAmount++;
+            return new Door();
+        }
+
+        else {
+            return new Ground();
+        }
+    }
+
+    /**
+     * @param currentX int, of point.
+     * @param currentY int, of point.
+     * @param maxX int, max value.
+     * @param maxY int, max value.
+     * @return InteractableObject, the object to be placed if decided.
+     */
+    private InteractableObject objectGen(int currentX, int currentY, int maxX, int maxY) {
+        boolean chest = false;
+        if (randomInt(0, 10) == 9) {
+            chest = true;
+        }
+
+        if ( (notEdgeTile(currentX, currentY, maxX, maxY) && chest) && objectAmount != MAX_INTERACTABLEOBJECT_AMOUNT) {
+            objectAmount++;
+            Item[] items = new Item[0];
+            return new Chest(items, "desc");
+        }
+        return null;
+    }
+
+    private boolean isEdgeTile(int currentX, int currentY, int maxX, int maxY) {
+        return currentX == 0 || currentY == 0 || currentX + 1 == maxX || currentY + 1 == maxY;
+    }
+
+    private boolean notEdgeTile(int currentX, int currentY, int maxX, int maxY) {
+        return !isEdgeTile(currentX, currentY, maxX, maxY);
+    }
+
+    private boolean isLastEdgeTile(int currentX, int currentY, int maxX, int maxY) {
+        return currentX == maxX - 1 && currentY == maxY - 1;
     }
 
     public int getYSize() {
@@ -121,5 +178,47 @@ public class Map {
 
     public int getXSize() {
         return map.get(1).size();
+    }
+
+    public int getDoorAmount() {
+        return doorAmount;
+    }
+
+    public int getInteractableObjectAmount() {
+        return objectAmount;
+    }
+
+    //Character interactions:
+
+    public boolean isWithinRange(Character source, Character target, int range) {
+        int[] sourceCoordinates = findCharacterCoordinates(source);
+        int[] targetCoordinates = findCharacterCoordinates(target);
+
+        if (sourceCoordinates[0] == targetCoordinates[0]) {
+            return Math.abs(sourceCoordinates[1] - targetCoordinates[1]) <= range;
+        }
+        else if (sourceCoordinates[1] == targetCoordinates[1]) {
+            return Math.abs(sourceCoordinates[0] - targetCoordinates[0]) <= range;
+        }
+        else {
+            return pyth(sourceCoordinates[0], sourceCoordinates[1], targetCoordinates[0], targetCoordinates[1]) <= range;
+        }
+    }
+
+    private int pyth(int x1, int y1, int x2, int y2) {
+        double a = Math.pow(Math.abs(y1 - y2), 2.0);
+        double b = Math.pow(Math.abs(x1 - x2), 2.0);
+        return (int) Math.sqrt(a + b);
+    }
+
+    private int[] findCharacterCoordinates(Character character) {
+        for (ArrayList<Point> list : map) {
+            for (Point point : list) {
+                if (point.getCharacter().equals(character)) {
+                    return new int[] { map.indexOf(list), list.indexOf(point) };
+                }
+            }
+        }
+        throw new IllegalStateException("Couldn't find character");
     }
 }

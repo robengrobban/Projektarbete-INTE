@@ -105,6 +105,13 @@ public class Weapon extends Item {
     }
 
     /**
+     * Remove modifier
+     */
+    public void removeModifier() {
+        this.modifier = null;
+    }
+
+    /**
      * Get the base damage
      * @return int, the base damage
      */

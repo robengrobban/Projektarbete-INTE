@@ -7,16 +7,15 @@ import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 public abstract class Player extends Character {
 
-    private int damage;
-
-    private int stamina;
-    private int staminaUsed;
-
     private int defence;
+    private int magicalDefence;
     private int attack;
+    private int magicalAttack;
 
     private int experience;
     private int level;
+
+    private PlayerClass playerClass;
 
     private Item[] inventory;
 
@@ -36,24 +35,41 @@ public abstract class Player extends Character {
      * Constructor for re-creating a player (i.e. from a save file)
      * @param health Health for the player
      * @param maxMana int, maximum mana for the player
-     * @param damage damage done to the player
-     * @param stamina stamina for the player
-     * @param staminaUsed stamina used by the player
      * @param defence defence for the player
      * @param attack attack power for the player
      * @param experience experience points the player has
      * @param level current level of the player
      */
-    public Player(String name, int health, int maxMana, int damage, int stamina, int staminaUsed, int defence,
+    public Player(String name, int health, int maxMana, int damage, int defence,
                   int attack, int experience, int level, Weapon weapon, Armour armour) {
         super(name, armour, weapon, health, maxMana);
-        this.damage = damage;
-        this.stamina = stamina;
-        this.staminaUsed = staminaUsed;
+
         this.defence = defence;
         this.attack = attack;
         this.experience = experience;
         this.level = level;
+        changeCurrentHealth(-damage);
+    }
+
+    /**
+     * Constructor for re-creating a player (i.e. from a save file) with a PlayerClass.
+     * @param health Health for the player
+     * @param maxMana int, maximum mana for the player
+     * @param defence defence for the player
+     * @param attack attack power for the player
+     * @param experience experience points the player has
+     * @param level current level of the player
+     */
+    public Player(String name, int health, int maxMana, int damage, int defence,
+                  int attack, int experience, int level, Weapon weapon, Armour armour, PlayerClass playerClass) {
+        super(name, armour, weapon, health, maxMana);
+
+        this.defence = defence;
+        this.attack = attack;
+        this.experience = experience;
+        this.level = level;
+        this.playerClass = playerClass;
+        changeCurrentHealth(-damage);
     }
 
     /**
@@ -62,22 +78,6 @@ public abstract class Player extends Character {
      */
     public int getTotalHealth() {
         return getMaxHealth();
-    }
-
-    /**
-     * Gets the remaining health of the player that it has at the moment.
-     * @return Current health points.
-     */
-    public int getCurrentHealth() {
-        return this.getMaxHealth() - this.damage;
-    }
-
-    /**
-     * Gets the stamina the player currently has
-     * @return
-     */
-    public int getStamina() {
-        return stamina - staminaUsed;
     }
 
     /**
@@ -96,15 +96,38 @@ public abstract class Player extends Character {
         return level;
     }
 
+    private int getTotalAttack() {
+        if (playerClass != null)
+            return attack + playerClass.getAttackModifier();
+        else return attack;
+    }
+
+    private int getTotalMagicAttack() {
+        if (playerClass != null)
+            return magicalAttack + playerClass.getMagicAttackModifier();
+        else return  magicalAttack;
+    }
+
+    private int getTotalDefence() {
+        if (playerClass != null)
+            return defence + playerClass.getDefenceModifier();
+        else return defence;
+    }
+
+    private int getTotalMagicDefence() {
+        if (playerClass != null)
+            return magicalDefence + playerClass.getMagicDefenceModifier();
+        else return  magicalDefence;
+    }
+
     /**
-     * Calculates how the player is damaged by a weapon used to attack the player.
-     * @param damage Damage dealt to the player.
-     * @return True if still alive, else false.
+     * Attacks a character with a weapon if it has one, else with base attack.
+     * @param attacked
      */
-    public boolean damaged(int damage) {
-        damage +=damage;
-        if (getCurrentHealth() <= 0)
-            return false;
-        else return true;
+    public void attack(Character attacked) {
+        if (getWeapon() != null && getWeapon().usable() && getWeapon().canAttack(attacked.getElementType())) {
+            attacked.damaged(getWeapon().getTotalDamage() + getTotalAttack());
+            getWeapon().deteriorate();
+        }
     }
 }
