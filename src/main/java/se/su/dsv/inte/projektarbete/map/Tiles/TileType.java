@@ -16,6 +16,10 @@ public abstract class TileType {
         return isPassable;
     }
 
+    /**
+     * @param character, The Character getting checked.
+     * @return if the type of Character is allowed or not.
+     */
     public boolean isAllowedCharacter(Character character) {
         String characterSuperName = character.getClass().getSuperclass().getSimpleName();
 
