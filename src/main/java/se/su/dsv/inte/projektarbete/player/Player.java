@@ -3,6 +3,7 @@ package se.su.dsv.inte.projektarbete.player;
 import se.su.dsv.inte.projektarbete.Item;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.characters.Character;
+import se.su.dsv.inte.projektarbete.magic.Spell;
 import se.su.dsv.inte.projektarbete.quest.Quest;
 import se.su.dsv.inte.projektarbete.quest.QuestManager;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
@@ -23,6 +24,7 @@ public abstract class Player extends Character {
     private QuestManager questManager;
     private PlayerClass playerClass;
     private Item[] inventory;
+    private ArrayList<Spell> spells;
 
     /**
      * Constructor for creating a new player with a new name.
@@ -35,6 +37,7 @@ public abstract class Player extends Character {
         level = 1;
         experience = 0;
         questManager = new QuestManager(new ArrayList<Quest>());
+        spells = new ArrayList<Spell>();
     }
 
     /**
@@ -47,7 +50,7 @@ public abstract class Player extends Character {
      * @param level current level of the player
      */
     public Player(String name, int health, int maxMana, int damage, int defence,
-                  int attack, int experience, int level, Weapon weapon, Armour armour) {
+                  int attack, int experience, int level, Weapon weapon, Armour armour, ArrayList<Spell> spells) {
         super(name, armour, weapon, health, maxMana);
 
         this.defence = defence;
@@ -56,6 +59,10 @@ public abstract class Player extends Character {
         this.level = level;
         changeCurrentHealth(-damage);
         questManager = new QuestManager(new ArrayList<Quest>());
+        if (spells == null)
+            spells = new ArrayList<Spell>();
+        else
+            this.spells = spells;
     }
 
     /**
@@ -68,7 +75,7 @@ public abstract class Player extends Character {
      * @param level current level of the player
      */
     public Player(String name, int health, int maxMana, int damage, int defence,
-                  int attack, int experience, int level, Weapon weapon, Armour armour, PlayerClass playerClass) {
+                  int attack, int experience, int level, Weapon weapon, Armour armour, PlayerClass playerClass, ArrayList<Spell> spells) {
         super(name, armour, weapon, health, maxMana);
 
         this.defence = defence;
@@ -78,6 +85,10 @@ public abstract class Player extends Character {
         this.playerClass = playerClass;
         changeCurrentHealth(-damage);
         questManager = new QuestManager(new ArrayList<Quest>());
+        if (spells == null)
+            spells = new ArrayList<Spell>();
+        else
+            this.spells = spells;
     }
 
     /**
@@ -137,6 +148,27 @@ public abstract class Player extends Character {
             boolean alive = attacked.damaged(getWeapon().getTotalDamage() + getTotalAttack());
             getWeapon().deteriorate();
         }
+    }
+
+    /**
+     * Adds a spell if spell list is not full (10 spells)
+     * @param spell
+     * @return
+     */
+    public boolean addSpell(Spell spell) {
+        if (spells.contains(spell))
+            throw new IllegalArgumentException();
+
+        final int MAX_SPELL_COUNT = 10;
+        if (spells.size() < MAX_SPELL_COUNT) {
+            spells.add(spell);
+            return true;
+        }
+        return false;
+    }
+
+    public void replaceSpell(Spell newSpell, int replacedIndex) {
+        spells.set(replacedIndex, newSpell);
     }
 
     /**
