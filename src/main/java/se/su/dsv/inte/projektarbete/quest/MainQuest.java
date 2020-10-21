@@ -1,33 +1,38 @@
 package se.su.dsv.inte.projektarbete.quest;
 
-public class MainQuest  {
+import se.su.dsv.inte.projektarbete.map.InteractableObject;
+import se.su.dsv.inte.projektarbete.player.Player;
+import se.su.dsv.inte.projektarbete.weapon.WeaponModifier;
 
-    private final int characterToKill;
-    private final int stage;
+public class MainQuest extends Quest {
 
-    public MainQuest(int stage) {
-        if (stage < 1 || stage > 5) {
-            throw new IllegalArgumentException("The stage must be between 1-5!");
-        } else {
+    private int currentStage;
+    private int enemiesKilled;
+    private int enemiesKilledToNextStage;
+    private boolean foundChest;
+    private WeaponModifier reward;
+    private boolean rewardReceived;
 
-            this.stage = stage;
-            this.characterToKill = 90 + 10 * stage;
-        }
-    }
 
-    public int getCharacterToKill() {
-        return characterToKill;
-    }
 
-    public int getStage() {
-        return stage;
+    @Override
+    void reportKill() {
+        enemiesKilled++;
+
     }
 
     @Override
-    public String toString() {
-        return "MainQuest{" +
-                "characterToKill=" + characterToKill +
-                ", stage=" + stage +
-                '}';
+    void reportIntractableObject(InteractableObject interactableObject) {
+
+    }
+
+    @Override
+    void receiveReward(Player player) {
+
+    }
+
+    @Override
+    void advanceToNextStage() {
+
     }
 }
