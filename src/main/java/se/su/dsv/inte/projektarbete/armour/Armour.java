@@ -89,6 +89,13 @@ public class Armour extends Item {
     }
 
     /**
+     * Remove modifier
+     */
+    public void removeModifier() {
+        this.modifier = null;
+    }
+
+    /**
      * Get the armour type
      * @return ArmourType, the current type
      */

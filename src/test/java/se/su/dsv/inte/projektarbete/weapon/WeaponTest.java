@@ -830,4 +830,337 @@ public class WeaponTest {
     }
 
 
+    /**
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * FROM THIS LINE ONLY TESTCASES FROM EQUIVALENCE CLASS PARTITIONING *
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     */
+
+    /**
+     * Testcase #1
+     */
+    @Test
+    public void testCaseOne() {
+        String name = "A";
+        String description = "B";
+        int baseDamage = 10;
+        int range = 2;
+        int durability = 0;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND));
+        WeaponModifier modifier = null;
+
+        Weapon weapon = new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+
+        assertEquals(name, weapon.getName());
+        assertEquals(description, weapon.getDescription());
+        assertEquals(baseDamage, weapon.getBaseDamage());
+        assertEquals(range, weapon.getRange());
+        assertEquals(durability, weapon.getDurability());
+        assertEquals(elementType.clone(), weapon.getCanAttack());
+        assertEquals(modifier, weapon.getModifier());
+
+        SimpleDamageModifier sdm1 = new SimpleDamageModifier("asd", 10, 12);
+        SimpleDamageModifier sdm2 = new SimpleDamageModifier("asd", 10, 12);
+
+        weapon.setModifier(sdm1);
+        assertEquals(sdm2, weapon.getModifier());
+
+        SimpleDamageModifier sdm3 = new SimpleDamageModifier("asasdd", 5, 10);
+        SimpleDamageModifier sdm4 = new SimpleDamageModifier("asasdd", 5, 10);
+
+        weapon.setModifier(sdm3);
+        assertEquals(sdm4, weapon.getModifier());
+
+        assertEquals(0, weapon.getTotalDamage());
+
+        weapon.removeModifier();
+        assertEquals(null, weapon.getModifier());
+
+        weapon.removeModifier();
+        assertEquals(null, weapon.getModifier());
+
+        assertEquals(0, weapon.getTotalDamage());
+
+        weapon.deteriorate();
+        assertEquals(0, weapon.getDurability());
+
+        assertFalse(weapon.usable());
+
+        assertEquals(0, weapon.getValue());
+
+    }
+
+    /**
+     * Testcase #2
+     */
+    @Test
+    public void testCaseTwo() {
+        String name = "Aa";
+        String description = "Bb";
+        int baseDamage = 12;
+        int range = 3;
+        int durability = 50;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+        WeaponModifier modifier = new SimpleDamageModifier("asd", 10, 12);
+
+        Weapon weapon = new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+
+        assertEquals(name, weapon.getName());
+        assertEquals(description, weapon.getDescription());
+        assertEquals(baseDamage, weapon.getBaseDamage());
+        assertEquals(range, weapon.getRange());
+        assertEquals(durability, weapon.getDurability());
+        assertEquals(elementType.clone(), weapon.getCanAttack());
+        assertEquals(modifier, weapon.getModifier());
+
+        assertEquals(24, weapon.getTotalDamage());
+
+        assertEquals(19, weapon.getValue());
+
+        weapon.deteriorate();
+        assertEquals(49, weapon.getDurability());
+
+        assertTrue(weapon.usable());
+
+    }
+
+    /**
+     * Testcase #3
+     */
+    @Test
+    public void testCaseThree() {
+        String name = "Abc";
+        String description = "Def";
+        int baseDamage = 15;
+        int range = 3;
+        int durability = 100;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.LAND));
+        WeaponModifier modifier = null;
+
+        Weapon weapon = new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+
+        assertEquals(1, weapon.getCanAttack().size());
+
+        assertEquals(15, weapon.getTotalDamage());
+
+        assertEquals(19, weapon.getValue());
+    }
+
+    /**
+     * Testcase #4
+     */
+    @Test
+    public void testCaseFour() {
+        String name = null;
+        String description = "Def";
+        int baseDamage = 15;
+        int range = 4;
+        int durability = 100;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND));
+        WeaponModifier modifier = null;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+        });
+    }
+
+    /**
+     * Testcase #5
+     */
+    @Test
+    public void testCaseFive() {
+        String name = "";
+        String description = "Def";
+        int baseDamage = 15;
+        int range = 4;
+        int durability = 100;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND));
+        WeaponModifier modifier = null;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+        });
+    }
+
+    /**
+     * Testcase #6
+     */
+    @Test
+    public void testCaseSix() {
+        String name = "Abc";
+        String description = null;
+        int baseDamage = 15;
+        int range = 4;
+        int durability = 100;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND));
+        WeaponModifier modifier = null;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+        });
+    }
+
+    /**
+     * Testcase #7
+     */
+    @Test
+    public void testCaseSeven() {
+        String name = "Abc";
+        String description = "";
+        int baseDamage = 15;
+        int range = 4;
+        int durability = 100;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND));
+        WeaponModifier modifier = null;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+        });
+    }
+
+    /**
+     * Testcase #8
+     */
+    @Test
+    public void testCaseEight() {
+        String name = "Abc";
+        String description = "Def";
+        int baseDamage = -1;
+        int range = 4;
+        int durability = 100;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND));
+        WeaponModifier modifier = null;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+        });
+    }
+
+    /**
+     * Testcase #9
+     */
+    @Test
+    public void testCaseNine() {
+        String name = "Abc";
+        String description = "Def";
+        int baseDamage = 0;
+        int range = 4;
+        int durability = 100;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND));
+        WeaponModifier modifier = null;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+        });
+    }
+
+    /**
+     * Testcase #10
+     */
+    @Test
+    public void testCaseTen() {
+        String name = "Abc";
+        String description = "Def";
+        int baseDamage = 15;
+        int range = -1;
+        int durability = 100;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND));
+        WeaponModifier modifier = null;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+        });
+    }
+
+    /**
+     * Testcase #11
+     */
+    @Test
+    public void testCaseEleven() {
+        String name = "Abc";
+        String description = "Def";
+        int baseDamage = 15;
+        int range = 0;
+        int durability = 100;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND));
+        WeaponModifier modifier = null;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+        });
+    }
+
+    /**
+     * Testcase #12
+     */
+    @Test
+    public void testCaseTwelve() {
+        String name = "Abc";
+        String description = "Def";
+        int baseDamage = 15;
+        int range = 4;
+        int durability = -1;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND));
+        WeaponModifier modifier = null;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+        });
+    }
+
+    /**
+     * Testcase #13
+     */
+    @Test
+    public void testCaseThirteen() {
+        String name = "Abc";
+        String description = "Def";
+        int baseDamage = 15;
+        int range = 4;
+        int durability = 101;
+        HashSet<ElementType> elementType = new HashSet<>(Arrays.asList(ElementType.LAND));
+        WeaponModifier modifier = null;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+        });
+    }
+
+    /**
+     * Testcase #14
+     */
+    @Test
+    public void testCaseFourteen() {
+        String name = "Abc";
+        String description = "Def";
+        int baseDamage = 15;
+        int range = 4;
+        int durability = 100;
+        HashSet<ElementType> elementType = null;
+        WeaponModifier modifier = null;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+        });
+    }
+
+    /**
+     * Testcase #15
+     */
+    @Test
+    public void testCaseFifteen() {
+        String name = "Abc";
+        String description = "Def";
+        int baseDamage = 15;
+        int range = 4;
+        int durability = 100;
+        HashSet<ElementType> elementType = new HashSet<>();
+        WeaponModifier modifier = null;
+
+        assertThrows( IllegalArgumentException.class, () -> {
+            new Weapon(name, description, baseDamage, range, elementType, durability, modifier);
+        });
+    }
+
+
 }
