@@ -28,5 +28,8 @@ public class NonPlayerCharacter extends Character {
         if(getCurrentHealth() <= 0) {
             controller.setCurrentState(StateType.DEAD);
         }
+        else {
+            controller.setCurrentState(StateType.HOSTILE);
+        }
     }
 }
