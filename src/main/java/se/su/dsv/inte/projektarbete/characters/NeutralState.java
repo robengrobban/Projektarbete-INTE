@@ -8,21 +8,15 @@ public class NeutralState implements State {
     }
 
     @Override
-    public void Attack(Character source, Character target) {
-        /*
-        if(isWithinRange < 5) {
+    public void attack(Character source, Character target) {
+        if(source.isWithinRange(target, source.getWeapon().getRange())) {
             controller.setCurrentState(StateType.HOSTILE);
-            controller.Attack(source, target);
+            controller.attack(source, target);
         }
-        else if(isWithinRange > 5 && isWithinRange < 10) {
+        else if(!source.isWithinRange(target, source.getWeapon().getRange()) && source.isWithinRange(target, source.getWeapon().getRange() + Character.VISIBILITY_RANGE)) {
             controller.setCurrentState(StateType.CHASING);
         }
-        else {
-            System.out.println("Target is too far away. Source remains in neutral.");
-        }
-        */
     }
-
     @Override
     public String toString() {
         return "Neutral";

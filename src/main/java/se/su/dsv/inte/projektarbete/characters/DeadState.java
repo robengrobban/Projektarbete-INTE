@@ -8,7 +8,7 @@ public class DeadState implements State {
     //TO-DO loot
 
     @Override
-    public void Attack(Character source, Character target) {
+    public void attack(Character source, Character target) {
         throw new IllegalArgumentException("Source is dead!");
     }
 

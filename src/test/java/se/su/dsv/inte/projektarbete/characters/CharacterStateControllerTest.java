@@ -1,6 +1,12 @@
 package se.su.dsv.inte.projektarbete.characters;
 
 import org.junit.jupiter.api.Test;
+import se.su.dsv.inte.projektarbete.ElementType;
+import se.su.dsv.inte.projektarbete.map.Map;
+import se.su.dsv.inte.projektarbete.weapon.Weapon;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,11 +46,4 @@ class CharacterStateControllerTest {
         NEUTRAL_CONTROLLER.setCurrentState(StateType.CHASING);
         assertEquals(CHASING_STATE.toString(), NEUTRAL_CONTROLLER.getCurrentState().toString());
     }
-
-    @Test
-    public void attackIsOverriden() {
-
-    }
-
-
 }

@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class Character {
     static final int DAMAGE_RANGE = 5;
     static final int UNARMED_DAMAGE = 5;
+    static final int VISIBILITY_RANGE = 3;
     private String name;
     private int maxHealth;
     private int currentHealth;
@@ -20,7 +21,6 @@ public abstract class Character {
     private Weapon weapon;
     private ElementType elementType;
     private Point point;
-    private CharacterStateController controller;
 
     /**
      * Constructor with basic values for name, armour and weapon.
@@ -28,7 +28,7 @@ public abstract class Character {
      * @param armour Armour, armour equipped by Character
      * @param weapon Weapon, weapon equipped by character
      */
-    public Character(String name, Armour armour, Weapon weapon, CharacterStateController controller) {
+    public Character(String name, Armour armour, Weapon weapon) {
         maxHealth = 100;
         currentHealth = maxHealth;
         maxMana = 100;
@@ -36,7 +36,6 @@ public abstract class Character {
         this.name = name;
         this.armour = armour;
         this.weapon = weapon;
-        this.controller = controller;
         this.elementType = ElementType.LAND;
         if(this.weapon == null) {
             baseDamage = UNARMED_DAMAGE;
@@ -53,21 +52,9 @@ public abstract class Character {
      * @param armour Armour, armour equipped by Character
      * @param weapon Weapon, weapon equipped by character
      */
-    public Character(String name, ElementType elementType, Armour armour, Weapon weapon, CharacterStateController controller) {
-        maxHealth = 100;
-        currentHealth = maxHealth;
-        maxMana = 100;
-        currentMana = maxMana;
-        this.name = name;
-        this.armour = armour;
-        this.weapon = weapon;
+    public Character(String name, ElementType elementType, Armour armour, Weapon weapon) {
+        this(name, armour, weapon);
         this.elementType = elementType;
-        if(this.weapon == null) {
-            baseDamage = UNARMED_DAMAGE;
-        }
-        else {
-            this.baseDamage = weapon.getTotalDamage();
-        }
     }
 
     /**
@@ -78,11 +65,10 @@ public abstract class Character {
      * @param health int, life of Character
      * @param maxMana int, maximum mana possible (>0)
      */
-    public Character(String name, Armour armour, Weapon weapon, int health, int maxMana, CharacterStateController controller) {
-        this(name, armour, weapon, controller);
+    public Character(String name, Armour armour, Weapon weapon, int health, int maxMana) {
+        this(name, armour, weapon);
         this.maxHealth = health;
         this.currentHealth = health;
-        this.elementType = ElementType.LAND;
         // Verify max mana
         if ( maxMana < 0 ) {
             throw new IllegalArgumentException("Maximum mana cannot be negative");
@@ -100,17 +86,9 @@ public abstract class Character {
      * @param health int, life of Character
      * @param maxMana int, maximum mana possible (>0)
      */
-    public Character(String name, ElementType elementType, Armour armour, Weapon weapon, int health, int maxMana, CharacterStateController controller) {
-        this(name, armour, weapon, controller);
-        this.maxHealth = health;
-        this.currentHealth = health;
+    public Character(String name, ElementType elementType, Armour armour, Weapon weapon, int health, int maxMana) {
+        this(name, armour, weapon, health, maxMana);
         this.elementType = elementType;
-        // Verify max mana
-        if ( maxMana < 0 ) {
-            throw new IllegalArgumentException("Maximum mana cannot be negative");
-        }
-        this.maxMana = maxMana;
-        this.currentMana = maxMana;
     }
 
 
@@ -265,7 +243,7 @@ public abstract class Character {
      * @param damage Damage dealt to the player.
      * @return True if still alive, else false.
      */
-    public void damaged(int damage) {
+    public boolean damaged(int damage) {
 
         if (getArmour() != null) {
             int defence = getArmour().getTotalArmour();
@@ -276,11 +254,25 @@ public abstract class Character {
             getArmour().deteriorate();
         }
         changeCurrentHealth(-damage);
-
-        if (getCurrentHealth() <= 0) {
-            controller.setCurrentState(StateType.DEAD);
+        if(currentHealth <= 0) {
+            return false;
         }
+        else {
+            return true;
+        }
+    }
 
+    //Let's use this method instead for handling damage, override it in Player
+    public void hurt(int damage) {
+        if (getArmour() != null) {
+            int defence = getArmour().getTotalArmour();
+            if (defence > damage/2) {
+                defence = damage/2; //armour can protect at half the incoming damage at most.
+            }
+            damage -= defence;
+            getArmour().deteriorate();
+        }
+        changeCurrentHealth(-damage);
     }
 
     /**
@@ -291,5 +283,26 @@ public abstract class Character {
         int damage = ThreadLocalRandom.current().nextInt(baseDamage, baseDamage + DAMAGE_RANGE);
         System.out.println("Output damage: " + damage);
         return damage;
+    }
+
+    public boolean isWithinRange(Character target, int range) {
+        int[] sourceCoordinates = this.point.getCoordinates();
+        int[] targetCoordinates = target.point.getCoordinates();
+
+        if (this.point.getCoordinates()[0] == targetCoordinates[0]) {
+            return Math.abs(sourceCoordinates[1] - targetCoordinates[1]) <= range;
+        }
+        else if (sourceCoordinates[1] == targetCoordinates[1]) {
+            return Math.abs(sourceCoordinates[0] - targetCoordinates[0]) <= range;
+        }
+        else {
+            return pythagoras(sourceCoordinates[0], sourceCoordinates[1], targetCoordinates[0], targetCoordinates[1]) <= range;
+        }
+    }
+
+    private int pythagoras(int x1, int y1, int x2, int y2) {
+        double a = Math.pow(Math.abs(y1 - y2), 2.0);
+        double b = Math.pow(Math.abs(x1 - x2), 2.0);
+        return (int) Math.sqrt(a + b);
     }
 }

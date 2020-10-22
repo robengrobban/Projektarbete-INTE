@@ -9,6 +9,7 @@ public class NonPlayerCharacter extends Character {
 
     public NonPlayerCharacter(String name, Armour armour, Weapon weapon, StateType stateType) {
         super(name, armour, weapon);
+        controller = new CharacterStateController(stateType);
     }
 
     public NonPlayerCharacter(String name, Armour armour, Weapon weapon, int health, int maxMana, StateType stateType) {
@@ -16,9 +17,13 @@ public class NonPlayerCharacter extends Character {
         controller = new CharacterStateController(stateType);
     }
 
+    public CharacterStateController getController() {
+        return controller;
+    }
+
     @Override
-    public void damaged(int damage) {
-        super.damaged(damage);
+    public void hurt(int damage) {
+        super.hurt(damage);
 
         if(getCurrentHealth() <= 0) {
             controller.setCurrentState(StateType.DEAD);

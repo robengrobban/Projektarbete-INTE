@@ -18,8 +18,8 @@ public class CharacterStateController {
     /**
      * Runs the Attack-method of the state stored in currentState
      */
-    public void Attack(Character attacker, Character defender) {
-        currentState.Attack(attacker, defender);
+    public void attack(Character attacker, Character defender) {
+        currentState.attack(attacker, defender);
     }
 
     /**

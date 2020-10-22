@@ -7,20 +7,17 @@ public class ChasingState implements State {
     }
 
     @Override
-    public void Attack(Character source, Character target) {
-        //TO-DO
-        /*
-        if(isWithinRange < 5) {
+    public void attack(Character source, Character target) {
+        if(source.isWithinRange(target, source.getWeapon().getRange())) {
             controller.setCurrentState(StateType.HOSTILE);
-            controller.Attack(source, target);
+            controller.attack(source, target);
         }
-        else if(isWithinRange > 10) {
+        else if(!source.isWithinRange(target, source.getWeapon().getRange() + Character.VISIBILITY_RANGE)) {
             controller.setCurrentState(StateType.NEUTRAL);
         }
         else {
             //move character
         }
-        */
     }
 
     @Override
