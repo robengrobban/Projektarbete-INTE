@@ -130,8 +130,8 @@ class PlayerTest {
         Player player = new Player("test", totalHealth, 30, damage,
                 defence, 20, 57, 2, null, null, null, null ) {
             @Override
-            public boolean damaged(int damage) {
-                return super.damaged(damage);
+            public boolean damaged(Weapon weapon) {
+                return super.damaged(weapon);
             }
             @Override
             public int getCurrentHealth() {
@@ -193,7 +193,7 @@ class PlayerTest {
         Player player = new Player("test", totalHealth, maxMana, damage,
                 defence, attack, experience, level, null, null, null, null ) {
             @Override
-            public boolean damaged(int sword) {
+            public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
             }
         };

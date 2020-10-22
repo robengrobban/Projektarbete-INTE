@@ -29,6 +29,6 @@ public class Elf extends Player{
     }
 
     public boolean attacked(Weapon weapon) {
-        return damaged(weapon.getTotalDamage());
+        return damaged(weapon);
     }
 }

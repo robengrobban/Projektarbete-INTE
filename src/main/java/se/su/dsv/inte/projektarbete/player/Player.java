@@ -129,17 +129,19 @@ public abstract class Player extends Character {
      */
     public void attack(Character attacked) {
         if (getWeapon() != null && getWeapon().usable() && getWeapon().canAttack(attacked.getElementType())) {
-            boolean alive = attacked.damaged(getWeapon().getTotalDamage() + getTotalAttack());
+            attacked.hurt(getWeapon().getTotalDamage() + getTotalAttack());
             getWeapon().deteriorate();
         }
     }
 
     public boolean damaged(Weapon weapon) {
-        return super.damaged(weapon.getTotalDamage() - getTotalDefence());
+        super.hurt(weapon.getTotalDamage() - getTotalDefence());
+        return super.isAlive();
     }
 
     public boolean damaged(FireSpell spell) {
-        return super.damaged(spell.getDamage() - getTotalMagicDefence());
+        super.hurt(spell.getDamage() - getTotalMagicDefence());
+        return super.isAlive();
     }
 
     /**
