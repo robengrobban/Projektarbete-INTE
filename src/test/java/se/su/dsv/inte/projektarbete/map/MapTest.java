@@ -139,5 +139,15 @@ public class MapTest {
         });
     }
 
+    @Test
+    void pointsCorrectCoordinates() {
+        TestMap map = new TestMap();
 
+        for (ArrayList<Point> list : map.getMap()) {
+            for (Point point : list) {
+                assertEquals(list.indexOf(point), point.getCoordinates()[0]);
+                assertEquals(map.getMap().indexOf(list), point.getCoordinates()[1]);
+            }
+        }
+    }
 }

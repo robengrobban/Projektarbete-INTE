@@ -6,6 +6,7 @@ import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.armour.ArmourType;
 import se.su.dsv.inte.projektarbete.characters.*;
 import se.su.dsv.inte.projektarbete.characters.Character;
+import se.su.dsv.inte.projektarbete.map.Map;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 
@@ -15,28 +16,31 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterTest {
+    private static final String NAME = "Bob";
+    private static final Armour ARMOUR = new Armour("helmet", "shiny", ArmourType.HEAVY, 2);
+    private static final Weapon WEAPON = new Weapon("sword", "super shiny", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+    private static final int CUSTOM_HEALTH = 120;
+    private static final int MAX_MANA = 150;
+    private static final Character CHARACTER_1 = new NonPlayerCharacter(NAME, ARMOUR, WEAPON, null);
+    private static final Character CHARACTER_2 = new NonPlayerCharacter(NAME, ARMOUR, WEAPON, CUSTOM_HEALTH, MAX_MANA, null);
+    private static final Character CHARACTER_3 = new NonPlayerCharacter(NAME, ARMOUR, null, null);
+
+    private static final Map MAP = new Map(10, 10);
+    private static final int RANGE = 5;
+
     @Test
     public void constructorsSetCorrectValues() {
-        String name = "Bob";
-        Armour armour = new Armour("helmet", "shiny", ArmourType.HEAVY, 2);
-        Weapon weapon = new Weapon("sword", "super shiny", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
-        int customHealth = 120;
-        int maxMana = 150;
-        Character c1 = new NonPlayerCharacter(name, armour, weapon, null);
-        Character c2 = new NonPlayerCharacter(name, armour, weapon, customHealth, maxMana, null);
-        Character c3 = new NonPlayerCharacter(name, armour, null, null);
-
-        assertEquals(name, c1.getName());
-        assertEquals(name, c2.getName());
-        assertEquals(armour, c1.getArmour());
-        assertEquals(armour, c2.getArmour());
-        assertEquals(weapon, c1.getWeapon());
-        assertEquals(weapon, c2.getWeapon());
-        assertEquals(100, c1.getMaxHealth());
-        assertEquals(customHealth, c2.getMaxHealth());
-        assertEquals(weapon.getTotalDamage(), c1.getBaseDamage());
-        assertEquals(weapon.getTotalDamage(), c2.getBaseDamage());
-        assertEquals(5, c3.getBaseDamage());
+        assertEquals(NAME, CHARACTER_1.getName());
+        assertEquals(NAME, CHARACTER_2.getName());
+        assertEquals(ARMOUR, CHARACTER_1.getArmour());
+        assertEquals(ARMOUR, CHARACTER_2.getArmour());
+        assertEquals(WEAPON, CHARACTER_1.getWeapon());
+        assertEquals(WEAPON, CHARACTER_2.getWeapon());
+        assertEquals(100, CHARACTER_1.getMaxHealth());
+        assertEquals(CUSTOM_HEALTH, CHARACTER_2.getMaxHealth());
+        assertEquals(WEAPON.getTotalDamage(), CHARACTER_1.getBaseDamage());
+        assertEquals(WEAPON.getTotalDamage(), CHARACTER_2.getBaseDamage());
+        assertEquals(5, CHARACTER_3.getBaseDamage());
     }
 
     @Test
@@ -92,8 +96,8 @@ class CharacterTest {
 
         assertEquals(name, c.getName());
         assertEquals(ElementType.valueOf(elementType.name()), c.getElementType());
-        assertEquals(null, c.getWeapon());
-        assertEquals(null, c.getArmour());
+        assertNull(c.getWeapon());
+        assertNull(c.getArmour());
     }
 
     @Test
@@ -107,9 +111,37 @@ class CharacterTest {
 
         assertEquals(name, c.getName());
         assertEquals(ElementType.valueOf(elementType.name()), c.getElementType());
-        assertEquals(null, c.getWeapon());
-        assertEquals(null, c.getArmour());
+        assertNull(c.getWeapon());
+        assertNull(c.getArmour());
         assertEquals(100, c.getMaxHealth());
         assertEquals(120, c.getMaxMana());
+    }
+
+    @Test
+    void characterIsInRange() {
+        MAP.placeCharacter(CHARACTER_1, 0, 0);
+        MAP.placeCharacter(CHARACTER_2, 1, 1);
+        assertTrue(CHARACTER_1.isWithinRange(CHARACTER_2, RANGE));
+    }
+
+    @Test
+    void characterNotInRange() {
+        MAP.placeCharacter(CHARACTER_1, 0, 0);
+        MAP.placeCharacter(CHARACTER_2, 7, 7);
+        assertFalse(CHARACTER_1.isWithinRange(CHARACTER_2, RANGE));
+    }
+
+    @Test
+    void preciselyInRange() {
+        MAP.placeCharacter(CHARACTER_1, 0, 0);
+        MAP.placeCharacter(CHARACTER_2, 5, 0);
+        assertTrue(CHARACTER_1.isWithinRange(CHARACTER_2, RANGE));
+    }
+
+    @Test
+    void exceptionThrownWhenPointNotFound() {
+        assertThrows(IllegalStateException.class, () -> {
+            MAP.placeCharacter(CHARACTER_1, 11, 11);
+        });
     }
 }

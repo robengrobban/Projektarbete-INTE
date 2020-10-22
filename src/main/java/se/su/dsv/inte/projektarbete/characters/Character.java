@@ -289,4 +289,25 @@ public abstract class Character {
         System.out.println("Output damage: " + damage);
         return damage;
     }
+
+    public boolean isWithinRange(Character target, int range) {
+        int[] sourceCoordinates = this.point.getCoordinates();
+        int[] targetCoordinates = target.point.getCoordinates();
+
+        if (this.point.getCoordinates()[0] == targetCoordinates[0]) {
+            return Math.abs(sourceCoordinates[1] - targetCoordinates[1]) <= range;
+        }
+        else if (sourceCoordinates[1] == targetCoordinates[1]) {
+            return Math.abs(sourceCoordinates[0] - targetCoordinates[0]) <= range;
+        }
+        else {
+            return pythagoras(sourceCoordinates[0], sourceCoordinates[1], targetCoordinates[0], targetCoordinates[1]) <= range;
+        }
+    }
+
+    private int pythagoras(int x1, int y1, int x2, int y2) {
+        double a = Math.pow(Math.abs(y1 - y2), 2.0);
+        double b = Math.pow(Math.abs(x1 - x2), 2.0);
+        return (int) Math.sqrt(a + b);
+    }
 }
