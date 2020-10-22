@@ -4,6 +4,7 @@ import se.su.dsv.inte.projektarbete.Item;
 import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
 import se.su.dsv.inte.projektarbete.map.Tiles.Door;
 import se.su.dsv.inte.projektarbete.map.Tiles.TileType;
+import se.su.dsv.inte.projektarbete.characters.Character;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -101,7 +102,7 @@ public class Map {
         for (int i = 0; i < y; i++) {
             ArrayList<Point> list = new ArrayList<>();
             for (int j = 0; j < x; j++) {
-                list.add(new Point(generateTile(j, i, x, y), objectGen(j, i, x, y)));
+                list.add(new Point(generateTile(j, i, x, y), objectGen(j, i, x, y), j, i));
             }
             map.add(i, list);
         }
@@ -188,37 +189,29 @@ public class Map {
         return objectAmount;
     }
 
-    //Character interactions:
-
-    public boolean isWithinRange(Character source, Character target, int range) {
-        int[] sourceCoordinates = findCharacterCoordinates(source);
-        int[] targetCoordinates = findCharacterCoordinates(target);
-
-        if (sourceCoordinates[0] == targetCoordinates[0]) {
-            return Math.abs(sourceCoordinates[1] - targetCoordinates[1]) <= range;
-        }
-        else if (sourceCoordinates[1] == targetCoordinates[1]) {
-            return Math.abs(sourceCoordinates[0] - targetCoordinates[0]) <= range;
-        }
-        else {
-            return pyth(sourceCoordinates[0], sourceCoordinates[1], targetCoordinates[0], targetCoordinates[1]) <= range;
-        }
+    /**
+     * @param character Character to place.
+     * @param x coordinate
+     * @param y coordinate
+     */
+    public void placeCharacter(Character character, int x, int y) {
+        int[] coordinates = { x, y };
+        character.setPoint(findPoint(coordinates));
     }
 
-    private int pyth(int x1, int y1, int x2, int y2) {
-        double a = Math.pow(Math.abs(y1 - y2), 2.0);
-        double b = Math.pow(Math.abs(x1 - x2), 2.0);
-        return (int) Math.sqrt(a + b);
-    }
-
-    private int[] findCharacterCoordinates(Character character) {
+    /**
+     * @param coordinates coordinates for desired point.
+     * @return Point, the found point.
+     * @throws IllegalStateException, if specified point does not exist.
+     */
+    private Point findPoint(int[] coordinates) {
         for (ArrayList<Point> list : map) {
             for (Point point : list) {
-                if (point.getCharacter().equals(character)) {
-                    return new int[] { map.indexOf(list), list.indexOf(point) };
+                if (point.getCoordinates()[0] == coordinates[0] && point.getCoordinates()[1] == coordinates[1]) {
+                    return point;
                 }
             }
         }
-        throw new IllegalStateException("Couldn't find character");
+        throw new IllegalStateException("No point found");
     }
 }
