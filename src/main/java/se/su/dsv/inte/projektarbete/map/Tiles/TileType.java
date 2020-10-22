@@ -27,7 +27,7 @@ public abstract class TileType {
             if (s.equals(characterSuperName)) {
                 return false;
             }
-        } //Don't know why did is not counted in coverage.
+        }
 
         return true;
     }

@@ -2,10 +2,9 @@ package se.su.dsv.inte.projektarbete.map;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import se.su.dsv.inte.projektarbete.map.Tiles.Door;
-import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
-import se.su.dsv.inte.projektarbete.map.Tiles.Rock;
-import se.su.dsv.inte.projektarbete.map.Tiles.Toxic;
+
+import se.su.dsv.inte.projektarbete.characters.Character;
+import se.su.dsv.inte.projektarbete.map.Tiles.*;
 import se.su.dsv.inte.projektarbete.player.Elf;
 
 public class TileTypeTest {
@@ -45,5 +44,17 @@ public class TileTypeTest {
     @Test
     void playerAllowedInGroundTile() {
         assertTrue(GROUND.isAllowedCharacter(ELF));
+    }
+
+    /**
+     * Get that last STATEMENT to run
+     */
+    @Test
+    public void testTheLastStatement() {
+
+        boolean isAllowed = TOXIC.isAllowedCharacter(new Character("Lol", null, null) {});
+
+        assertTrue( isAllowed );
+
     }
 }
