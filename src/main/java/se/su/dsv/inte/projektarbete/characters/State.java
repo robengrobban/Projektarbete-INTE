@@ -1,5 +1,7 @@
 package se.su.dsv.inte.projektarbete.characters;
 
 public interface State {
-    public void Attack();
+    public void attack(Character source, Character target);
+
+    public void defend(Character defender, Character attacker);
 }

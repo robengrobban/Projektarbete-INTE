@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class Character {
     static final int DAMAGE_RANGE = 5;
     static final int UNARMED_DAMAGE = 5;
+    static final int VISIBILITY_RANGE = 3;
     private String name;
     private int maxHealth;
     private int currentHealth;
@@ -52,20 +53,8 @@ public abstract class Character {
      * @param weapon Weapon, weapon equipped by character
      */
     public Character(String name, ElementType elementType, Armour armour, Weapon weapon) {
-        maxHealth = 100;
-        currentHealth = maxHealth;
-        maxMana = 100;
-        currentMana = maxMana;
-        this.name = name;
-        this.armour = armour;
-        this.weapon = weapon;
+        this(name, armour, weapon);
         this.elementType = elementType;
-        if(this.weapon == null) {
-            baseDamage = UNARMED_DAMAGE;
-        }
-        else {
-            this.baseDamage = weapon.getTotalDamage();
-        }
     }
 
     /**
@@ -80,7 +69,6 @@ public abstract class Character {
         this(name, armour, weapon);
         this.maxHealth = health;
         this.currentHealth = health;
-        this.elementType = ElementType.LAND;
         // Verify max mana
         if ( maxMana < 0 ) {
             throw new IllegalArgumentException("Maximum mana cannot be negative");
@@ -99,16 +87,8 @@ public abstract class Character {
      * @param maxMana int, maximum mana possible (>0)
      */
     public Character(String name, ElementType elementType, Armour armour, Weapon weapon, int health, int maxMana) {
-        this(name, armour, weapon);
-        this.maxHealth = health;
-        this.currentHealth = health;
+        this(name, armour, weapon, health, maxMana);
         this.elementType = elementType;
-        // Verify max mana
-        if ( maxMana < 0 ) {
-            throw new IllegalArgumentException("Maximum mana cannot be negative");
-        }
-        this.maxMana = maxMana;
-        this.currentMana = maxMana;
     }
 
 
@@ -208,6 +188,11 @@ public abstract class Character {
         return weapon;
     }
 
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+        this.baseDamage = weapon.getTotalDamage();
+    }
+
     /**
      * Gets the base damage for the character
      * @return Current base damage.
@@ -277,10 +262,25 @@ public abstract class Character {
             getArmour().deteriorate();
         }
         changeCurrentHealth(-damage);
-
-        if (getCurrentHealth() <= 0)
+        if(currentHealth <= 0) {
             return false;
-        else return true;
+        }
+        else {
+            return true;
+        }
+    }
+
+    //Let's use this method instead for handling damage, override it in Player
+    public void hurt(int damage) {
+        if (getArmour() != null) {
+            int defence = getArmour().getTotalArmour();
+            if (defence > damage/2) {
+                defence = damage/2; //armour can protect at half the incoming damage at most.
+            }
+            damage -= defence;
+            getArmour().deteriorate();
+        }
+        changeCurrentHealth(-damage);
     }
 
     /**
@@ -297,7 +297,7 @@ public abstract class Character {
         int[] sourceCoordinates = this.point.getCoordinates();
         int[] targetCoordinates = target.point.getCoordinates();
 
-        if (this.point.getCoordinates()[0] == targetCoordinates[0]) {
+        if (sourceCoordinates[0] == targetCoordinates[0]) {
             return Math.abs(sourceCoordinates[1] - targetCoordinates[1]) <= range;
         }
         else if (sourceCoordinates[1] == targetCoordinates[1]) {
