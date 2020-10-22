@@ -50,6 +50,9 @@ public class Point {
         interactableObject = null;
     }
 
+    /**
+     * @return coordinates
+     */
     public int[] getCoordinates() {
         return coordinates;
     }

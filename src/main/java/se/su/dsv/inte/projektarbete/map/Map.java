@@ -189,11 +189,21 @@ public class Map {
         return objectAmount;
     }
 
+    /**
+     * @param character Character to place.
+     * @param x coordinate
+     * @param y coordinate
+     */
     public void placeCharacter(Character character, int x, int y) {
         int[] coordinates = { x, y };
         character.setPoint(findPoint(coordinates));
     }
 
+    /**
+     * @param coordinates coordinates for desired point.
+     * @return Point, the found point.
+     * @throws IllegalStateException, if specified point does not exist.
+     */
     private Point findPoint(int[] coordinates) {
         for (ArrayList<Point> list : map) {
             for (Point point : list) {
