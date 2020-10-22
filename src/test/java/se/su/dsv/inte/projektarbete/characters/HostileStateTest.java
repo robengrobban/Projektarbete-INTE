@@ -44,4 +44,14 @@ class HostileStateTest {
         c1.getController().attack(c1, c2);
         assertEquals(NEUTRAL_STATE.toString(), c1.getController().getCurrentState().toString());
     }
+
+    @Test
+    void defendRemovesHealth() {
+
+    }
+
+    @Test
+    void defendSwitchesToDead() {
+
+    }
 }

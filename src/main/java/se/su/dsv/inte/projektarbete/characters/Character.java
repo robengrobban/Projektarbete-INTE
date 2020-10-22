@@ -188,6 +188,11 @@ public abstract class Character {
         return weapon;
     }
 
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+        this.baseDamage = weapon.getTotalDamage();
+    }
+
     /**
      * Gets the base damage for the character
      * @return Current base damage.
@@ -289,7 +294,7 @@ public abstract class Character {
         int[] sourceCoordinates = this.point.getCoordinates();
         int[] targetCoordinates = target.point.getCoordinates();
 
-        if (this.point.getCoordinates()[0] == targetCoordinates[0]) {
+        if (sourceCoordinates[0] == targetCoordinates[0]) {
             return Math.abs(sourceCoordinates[1] - targetCoordinates[1]) <= range;
         }
         else if (sourceCoordinates[1] == targetCoordinates[1]) {

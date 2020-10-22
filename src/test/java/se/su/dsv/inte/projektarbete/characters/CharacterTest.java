@@ -7,6 +7,7 @@ import se.su.dsv.inte.projektarbete.armour.ArmourType;
 import se.su.dsv.inte.projektarbete.characters.*;
 import se.su.dsv.inte.projektarbete.characters.Character;
 import se.su.dsv.inte.projektarbete.map.Map;
+import se.su.dsv.inte.projektarbete.player.Player;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 

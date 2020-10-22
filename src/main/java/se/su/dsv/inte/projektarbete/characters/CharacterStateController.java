@@ -22,6 +22,10 @@ public class CharacterStateController {
         currentState.attack(attacker, defender);
     }
 
+    public void defend(Character defender, Character attacker) {
+        currentState.defend(defender, attacker);
+    }
+
     /**
      * Returns the current state of CharacterStateController
      * @return State, the current value of currentState
