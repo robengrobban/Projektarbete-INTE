@@ -12,6 +12,7 @@ import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -135,6 +136,13 @@ class CharacterTest {
     void preciselyInRange() {
         MAP.placeCharacter(CHARACTER_1, 0, 0);
         MAP.placeCharacter(CHARACTER_2, 5, 0);
+        assertTrue(CHARACTER_1.isWithinRange(CHARACTER_2, RANGE));
+    }
+
+    @Test
+    void isWithInRangeSameXCoordinate() {
+        MAP.placeCharacter(CHARACTER_1, 0, 0);
+        MAP.placeCharacter(CHARACTER_2, 0, 5);
         assertTrue(CHARACTER_1.isWithinRange(CHARACTER_2, RANGE));
     }
 
