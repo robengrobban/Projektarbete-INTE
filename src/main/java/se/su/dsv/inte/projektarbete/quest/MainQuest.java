@@ -14,6 +14,7 @@ public class MainQuest extends Quest {
     private int enemiesKilled;
     private boolean foundChest;
     private boolean rewardReceived;
+
     /**
      * @param maxStages how many stages the Quest have.
      * @param reward    in case of finishing the quest.
@@ -22,9 +23,20 @@ public class MainQuest extends Quest {
         super(name, description, maxStages);
         this.currentStage = 1;
         this.enemiesKilledToNextStage = 10;
-        this.reward = reward;
+        if (reward == null) {
+            throw new IllegalArgumentException("The reward can not be null");
+        } else {
+            this.reward = reward;
+        }
 
+    }
 
+    public boolean isRewardReceived() {
+        return rewardReceived;
+    }
+
+    public boolean isFoundChest() {
+        return foundChest;
     }
 
     public int getEnemiesKilled() {
@@ -49,13 +61,18 @@ public class MainQuest extends Quest {
 
     @Override
     void reportIntractableObject(InteractableObject interactableObject) {
-        if (interactableObject instanceof Chest)
-            foundChest = true;
+        if (interactableObject == null) {
+            throw new IllegalArgumentException("IntractableObject can not be null");
+        } else {
+
+            if (interactableObject instanceof Chest)
+                foundChest = true;
+        }
     }
 
     @Override
     void receiveReward(Player player) {
-        if (!rewardReceived && currentStage == 2 && foundChest) {
+        if (!rewardReceived && currentStage == 2 && foundChest && player != null) {
             Weapon weapon = player.getWeapon();
             if (weapon != null && weapon.getModifier() == null) {
                 weapon.setModifier(reward);

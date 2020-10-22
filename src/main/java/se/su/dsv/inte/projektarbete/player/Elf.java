@@ -21,7 +21,7 @@ public class Elf extends Player{
 
     public Elf(String name, int health, int maxMana, int damage,
                int defence, int attack, int experience, int level, Armour armour, Weapon weapon) {
-        super(name, health, maxMana, damage, defence, attack, experience, level, null, null, null,null);
+        super(name, health, maxMana, damage, defence, attack, experience, level, weapon, null, null,null);
         PERCENT_ATTACK_MODIFIER = -5;
         PERCENT_MAGIC_ATTACK_MODIFIER = 15;
         PERCENT_DEFENCE_MODIFIER = -5;
