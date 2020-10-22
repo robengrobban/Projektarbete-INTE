@@ -265,6 +265,9 @@ public abstract class Character {
      */
     public boolean damaged(int damage) {
 
+        if (damage < 0) {
+            damage = 0;
+        }
         if (getArmour() != null) {
             int defence = getArmour().getTotalArmour();
             if (defence > damage/2) {

@@ -9,9 +9,9 @@ public class Human extends Player{
         super(name);
     }
 
-    public Human(String name, int health, int maxMana, int damage, int stamina, int staminaUsed,
+    public Human(String name, int health, int maxMana, int damage,
                int defence, int attack, int experience, int level, Armour armour, Weapon weapon) {
-        super(name, health, maxMana, damage, defence, attack, experience, level, null, null, null);
+        super(name, health, maxMana, damage, defence, attack, experience, level, null, null, null, null);
     }
 
     public boolean attacked(Weapon weapon) {

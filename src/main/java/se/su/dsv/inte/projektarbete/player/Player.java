@@ -3,6 +3,7 @@ package se.su.dsv.inte.projektarbete.player;
 import se.su.dsv.inte.projektarbete.Item;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.characters.Character;
+import se.su.dsv.inte.projektarbete.magic.FireSpell;
 import se.su.dsv.inte.projektarbete.magic.Spell;
 import se.su.dsv.inte.projektarbete.quest.Quest;
 import se.su.dsv.inte.projektarbete.quest.QuestManager;
@@ -37,36 +38,12 @@ public abstract class Player extends Character {
         level = 1;
         experience = 0;
         questManager = new QuestManager(new ArrayList<Quest>());
+        playerClass = null;
         spells = new ArrayList<Spell>();
     }
 
     /**
      * Constructor for re-creating a player (i.e. from a save file)
-     * @param health Health for the player
-     * @param maxMana int, maximum mana for the player
-     * @param defence defence for the player
-     * @param attack attack power for the player
-     * @param experience experience points the player has
-     * @param level current level of the player
-     */
-    public Player(String name, int health, int maxMana, int damage, int defence,
-                  int attack, int experience, int level, Weapon weapon, Armour armour, ArrayList<Spell> spells) {
-        super(name, armour, weapon, health, maxMana);
-
-        this.defence = defence;
-        this.attack = attack;
-        this.experience = experience;
-        this.level = level;
-        changeCurrentHealth(-damage);
-        questManager = new QuestManager(new ArrayList<Quest>());
-        if (spells == null)
-            spells = new ArrayList<Spell>();
-        else
-            this.spells = spells;
-    }
-
-    /**
-     * Constructor for re-creating a player (i.e. from a save file) with a PlayerClass.
      * @param health Health for the player
      * @param maxMana int, maximum mana for the player
      * @param defence defence for the player
@@ -82,8 +59,8 @@ public abstract class Player extends Character {
         this.attack = attack;
         this.experience = experience;
         this.level = level;
-        this.playerClass = playerClass;
         changeCurrentHealth(-damage);
+        this.playerClass = playerClass;
         questManager = new QuestManager(new ArrayList<Quest>());
         if (spells == null)
             spells = new ArrayList<Spell>();
@@ -139,6 +116,13 @@ public abstract class Player extends Character {
         else return  magicalDefence;
     }
 
+    public Spell getSpell(int index) {
+        if (index < 0 || index > 10 || index > spells.size() - 1) {
+            throw new IllegalArgumentException("index out of range");
+        }
+        return spells.get(index);
+    }
+
     /**
      * Attacks a character with a weapon if it has one, else with base attack.
      * @param attacked
@@ -148,6 +132,14 @@ public abstract class Player extends Character {
             boolean alive = attacked.damaged(getWeapon().getTotalDamage() + getTotalAttack());
             getWeapon().deteriorate();
         }
+    }
+
+    public boolean damaged(Weapon weapon) {
+        return super.damaged(weapon.getTotalDamage() - getTotalDefence());
+    }
+
+    public boolean damaged(FireSpell spell) {
+        return super.damaged(spell.getDamage() - getTotalMagicDefence());
     }
 
     /**
