@@ -24,7 +24,6 @@ public abstract class Player extends Character {
 
     private QuestManager questManager;
     private PlayerClass playerClass;
-    private Item[] inventory;
     private ArrayList<Spell> spells;
 
     /**
@@ -40,6 +39,10 @@ public abstract class Player extends Character {
         questManager = new QuestManager(new ArrayList<Quest>());
         playerClass = null;
         spells = new ArrayList<Spell>();
+        defence = 2;
+        attack = 2;
+        magicalAttack= 2;
+        magicalDefence = 2;
     }
 
     /**
@@ -52,11 +55,14 @@ public abstract class Player extends Character {
      * @param level current level of the player
      */
     public Player(String name, int health, int maxMana, int damage, int defence,
-                  int attack, int experience, int level, Weapon weapon, Armour armour, PlayerClass playerClass, ArrayList<Spell> spells) {
+                  int attack, int magicalDefence, int magicalAttack, int experience, int level, Weapon weapon,
+                  Armour armour, PlayerClass playerClass, ArrayList<Spell> spells) {
         super(name, armour, weapon, health, maxMana);
 
         this.defence = defence;
         this.attack = attack;
+        this.magicalDefence = magicalDefence;
+        this.magicalAttack = magicalAttack;
         this.experience = experience;
         this.level = level;
         changeCurrentHealth(-damage);

@@ -134,7 +134,7 @@ class MainQuestTest {
         Weapon weapon= new Weapon("name","description",3,2,canAttack);
         weapon.setModifier(new SimpleDamageModifier("name",1,2));
 
-        Human human = new Human("human",2,3,4,9,2,1,4,new Armour("name","description", ArmourType.HEAVY,2),weapon);
+        Human human = new Human("human",2,3,4,9,2,3, 4,1,4,new Armour("name","description", ArmourType.HEAVY,2),weapon);
         for (int i = 0; i < 11; i++) {
             mainQuest.reportKill();
         }
@@ -153,7 +153,7 @@ class MainQuestTest {
 
         Weapon weapon= new Weapon("name","description",3,2,canAttack);
 
-        Human human = new Human("human",2,3,4,9,2,1,4,new Armour("name","description", ArmourType.HEAVY,2),weapon);
+        Human human = new Human("human",2,3,4,9,2, 4, 5,1,4,new Armour("name","description", ArmourType.HEAVY,2),weapon);
         for (int i = 0; i < 11; i++) {
             mainQuest.reportKill();
         }
