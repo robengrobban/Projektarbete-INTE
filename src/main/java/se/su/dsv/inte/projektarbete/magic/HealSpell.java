@@ -47,16 +47,17 @@ public class HealSpell extends Spell {
     @Override
     public boolean use(Character source, Character target) {
         // TODO : Check range between source and target
+        if ( source.isWithinRange(target, this.getRange()) ) {
+            // Try to remove mana
+            if (source.changeCurrentMana(-getManaCost())) {
 
-        // Try to remove mana
-        if ( source.changeCurrentMana( -getManaCost() ) ) {
+                // Heal target
+                target.changeCurrentHealth(this.healing);
 
-            // Heal target
-            target.changeCurrentHealth( this.healing );
+                // Healing successful
+                return true;
 
-            // Healing successful
-            return true;
-
+            }
         }
         // Was not able to use
         return false;

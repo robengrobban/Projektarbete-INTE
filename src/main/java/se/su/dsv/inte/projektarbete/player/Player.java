@@ -3,7 +3,14 @@ package se.su.dsv.inte.projektarbete.player;
 import se.su.dsv.inte.projektarbete.Item;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.characters.Character;
+import se.su.dsv.inte.projektarbete.magic.FireSpell;
+import se.su.dsv.inte.projektarbete.magic.Spell;
+import se.su.dsv.inte.projektarbete.quest.Quest;
+import se.su.dsv.inte.projektarbete.quest.QuestManager;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Player extends Character {
 
@@ -13,11 +20,12 @@ public abstract class Player extends Character {
     private int magicalAttack;
 
     private int experience;
-    private int level;
+    private int level; //Max 20
 
+    private QuestManager questManager;
     private PlayerClass playerClass;
-
     private Item[] inventory;
+    private ArrayList<Spell> spells;
 
     /**
      * Constructor for creating a new player with a new name.
@@ -29,6 +37,9 @@ public abstract class Player extends Character {
         }
         level = 1;
         experience = 0;
+        questManager = new QuestManager(new ArrayList<Quest>());
+        playerClass = null;
+        spells = new ArrayList<Spell>();
     }
 
     /**
@@ -41,7 +52,7 @@ public abstract class Player extends Character {
      * @param level current level of the player
      */
     public Player(String name, int health, int maxMana, int damage, int defence,
-                  int attack, int experience, int level, Weapon weapon, Armour armour) {
+                  int attack, int experience, int level, Weapon weapon, Armour armour, PlayerClass playerClass, ArrayList<Spell> spells) {
         super(name, armour, weapon, health, maxMana);
 
         this.defence = defence;
@@ -49,27 +60,12 @@ public abstract class Player extends Character {
         this.experience = experience;
         this.level = level;
         changeCurrentHealth(-damage);
-    }
-
-    /**
-     * Constructor for re-creating a player (i.e. from a save file) with a PlayerClass.
-     * @param health Health for the player
-     * @param maxMana int, maximum mana for the player
-     * @param defence defence for the player
-     * @param attack attack power for the player
-     * @param experience experience points the player has
-     * @param level current level of the player
-     */
-    public Player(String name, int health, int maxMana, int damage, int defence,
-                  int attack, int experience, int level, Weapon weapon, Armour armour, PlayerClass playerClass) {
-        super(name, armour, weapon, health, maxMana);
-
-        this.defence = defence;
-        this.attack = attack;
-        this.experience = experience;
-        this.level = level;
         this.playerClass = playerClass;
-        changeCurrentHealth(-damage);
+        questManager = new QuestManager(new ArrayList<Quest>());
+        if (spells == null)
+            spells = new ArrayList<Spell>();
+        else
+            this.spells = spells;
     }
 
     /**
@@ -96,28 +92,35 @@ public abstract class Player extends Character {
         return level;
     }
 
-    private int getTotalAttack() {
+    public int getTotalAttack() {
         if (playerClass != null)
             return attack + playerClass.getAttackModifier();
         else return attack;
     }
 
-    private int getTotalMagicAttack() {
+    public int getTotalMagicAttack() {
         if (playerClass != null)
             return magicalAttack + playerClass.getMagicAttackModifier();
         else return  magicalAttack;
     }
 
-    private int getTotalDefence() {
+    public int getTotalDefence() {
         if (playerClass != null)
             return defence + playerClass.getDefenceModifier();
         else return defence;
     }
 
-    private int getTotalMagicDefence() {
+    public int getTotalMagicDefence() {
         if (playerClass != null)
             return magicalDefence + playerClass.getMagicDefenceModifier();
         else return  magicalDefence;
+    }
+
+    public Spell getSpell(int index) {
+        if (index < 0 || index > 10 || index > spells.size() - 1) {
+            throw new IllegalArgumentException("index out of range");
+        }
+        return spells.get(index);
     }
 
     /**
@@ -126,8 +129,68 @@ public abstract class Player extends Character {
      */
     public void attack(Character attacked) {
         if (getWeapon() != null && getWeapon().usable() && getWeapon().canAttack(attacked.getElementType())) {
-            attacked.damaged(getWeapon().getTotalDamage() + getTotalAttack());
+            attacked.hurt(getWeapon().getTotalDamage() + getTotalAttack());
             getWeapon().deteriorate();
+        }
+    }
+
+    public boolean damaged(Weapon weapon) {
+        super.hurt(weapon.getTotalDamage() - getTotalDefence());
+        return super.isAlive();
+    }
+
+    public boolean damaged(FireSpell spell) {
+        super.hurt(spell.getDamage() - getTotalMagicDefence());
+        return super.isAlive();
+    }
+
+    /**
+     * Adds a spell if spell list is not full (10 spells)
+     * @param spell
+     * @return
+     */
+    public boolean addSpell(Spell spell) {
+        if (spells.contains(spell))
+            throw new IllegalArgumentException();
+
+        final int MAX_SPELL_COUNT = 10;
+        if (spells.size() < MAX_SPELL_COUNT) {
+            spells.add(spell);
+            return true;
+        }
+        return false;
+    }
+
+    public void replaceSpell(Spell newSpell, int replacedIndex) {
+        spells.set(replacedIndex, newSpell);
+    }
+
+    /**
+     * Adds experience to the player. If it's enough to level up the player one or more levels, levelUp method is called.
+     * @param experience Experience points to be added to the player.
+     */
+    public void addExperience(int experience) {
+        final int LEVEL_UP_THRESHOLD = 50;
+        this.experience += experience;
+
+        if (this.experience / LEVEL_UP_THRESHOLD > this.level - 1) {
+            int levelsToLevelUp = (this.experience - (this.level - 1) * LEVEL_UP_THRESHOLD) / LEVEL_UP_THRESHOLD;
+            for(int i = 0; i < levelsToLevelUp; i++) {
+                levelUp();
+            }
+        }
+    }
+
+    /**
+     * Levels up the player if at max level 19, increasing level and stats.
+     */
+    public void levelUp() {
+        final int LEVEL_CAP = 20;
+        if (level < LEVEL_CAP) {
+            level++;
+            attack +=2;
+            defence +=2;
+            changeCurrentHealth(2);
         }
     }
 }

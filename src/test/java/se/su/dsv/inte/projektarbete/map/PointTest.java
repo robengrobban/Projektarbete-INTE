@@ -28,7 +28,7 @@ public class PointTest {
      */
     @Test
     void constructorSetsInteractableObject() {
-        Point point = new Point(GROUND, CHEST);
+        Point point = new Point(GROUND, CHEST, 0, 0);
         assertEquals(CHEST, point.getInteractableObject());
     }
 
@@ -46,7 +46,7 @@ public class PointTest {
      */
     @Test
     void pointWithRemovedInteractableObjectThrowsException() {
-        Point point = new Point(GROUND, CHEST);
+        Point point = new Point(GROUND, CHEST, 0, 0);
         point.removeIntractableObject();
         assertNull(point.getInteractableObject());
     }

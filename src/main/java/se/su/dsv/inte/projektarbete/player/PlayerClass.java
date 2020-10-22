@@ -45,4 +45,6 @@ public abstract class PlayerClass {
     public int getMagicDefenceModifier() {
         return magicDefenceModifier;
     }
+
+    public abstract boolean canUseMagic();
 }

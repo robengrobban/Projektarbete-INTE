@@ -4,18 +4,26 @@ public class CharacterStateController {
     private State currentState;
     private State neutralState;
     private State hostileState;
+    private State deadState;
+    private State chasingState;
 
     public CharacterStateController(StateType stateType) {
         neutralState = new NeutralState(this);
         hostileState = new HostileState(this);
+        deadState = new DeadState(this);
+        chasingState = new ChasingState(this);
         setCurrentState(stateType);
     }
 
     /**
      * Runs the Attack-method of the state stored in currentState
      */
-    public void Attack() {
-        currentState.Attack();
+    public void attack(Character attacker, Character defender) {
+        currentState.attack(attacker, defender);
+    }
+
+    public void defend(Character defender, Character attacker) {
+        currentState.defend(defender, attacker);
     }
 
     /**
@@ -37,7 +45,12 @@ public class CharacterStateController {
         else {
             switch(stateType) {
                 case HOSTILE: currentState = hostileState;
+                break;
                 case NEUTRAL: currentState = neutralState;
+                break;
+                case DEAD: currentState = deadState;
+                break;
+                case CHASING: currentState = chasingState;
             }
         }
 

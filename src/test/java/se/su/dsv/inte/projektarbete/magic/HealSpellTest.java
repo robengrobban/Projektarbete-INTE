@@ -5,6 +5,7 @@ import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.armour.ArmourType;
 import se.su.dsv.inte.projektarbete.characters.Character;
+import se.su.dsv.inte.projektarbete.map.Map;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.Arrays;
@@ -213,6 +214,10 @@ public class HealSpellTest {
         Character c1 = new Character("Bob", new Armour("Helmet", "Shiny", ArmourType.HEAVY, 2), new Weapon("Sword", "Rusty", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND))), 100, 100) {};
         Character c2 = new Character("Bob", new Armour("Helmet", "Shiny", ArmourType.HEAVY, 2), new Weapon("Sword", "Rusty", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND))), 100, 100) {};
 
+        Map map = new Map(10,10);
+        map.placeCharacter(c1, 0, 0);
+        map.placeCharacter(c2, 1, 1);
+
         c2.changeCurrentHealth(-50);
 
         assertTrue(healingSpell.use(c1, c2));
@@ -237,6 +242,10 @@ public class HealSpellTest {
         Character c1 = new Character("Bob", new Armour("Helmet", "Shiny", ArmourType.HEAVY, 2), new Weapon("Sword", "Rusty", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND))), 100, 9) {};
         Character c2 = new Character("Bob", new Armour("Helmet", "Shiny", ArmourType.HEAVY, 2), new Weapon("Sword", "Rusty", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND))), 100, 100) {};
 
+        Map map = new Map(10,10);
+        map.placeCharacter(c1, 0, 0);
+        map.placeCharacter(c2, 1, 1);
+
         c2.changeCurrentHealth(-50);
 
         assertFalse(healingSpell.use(c1, c2));
@@ -248,5 +257,53 @@ public class HealSpellTest {
     /**
      * Test healing between two characters already max health
      */
+    @Test
+    public void testHealingAlreadyMaxHealth() {
+        String name = "Healing";
+        String description = "This spell heals you, or targeted NPC... I think...";
+        int range = 1;
+        int manaCost = 10;
+        int healing = 10;
+
+        HealSpell healingSpell = new HealSpell(name, description, range, manaCost, healing);
+
+        Character c1 = new Character("Bob", null, null, 100, 100) {};
+        Character c2 = new Character("Bob", null, null, 100, 100) {};
+
+        Map map = new Map(10,10);
+        map.placeCharacter(c1, 0, 0);
+        map.placeCharacter(c2, 1, 1);
+
+        assertTrue(healingSpell.use(c1, c2));
+
+        assertEquals(90, c1.getCurrentMana());
+        assertEquals(100, c2.getCurrentHealth());
+    }
+
+    /**
+     * Test healing between two characters that are not within range
+     */
+    @Test
+    public void testHealingOutsideOfRange() {
+        String name = "Healing";
+        String description = "This spell heals you, or targeted NPC... I think...";
+        int range = 1;
+        int manaCost = 10;
+        int healing = 10;
+
+        HealSpell healingSpell = new HealSpell(name, description, range, manaCost, healing);
+
+        Character c1 = new Character("Bob", null, null, 100, 100) {};
+        Character c2 = new Character("Bob", null, null, 100, 100) {};
+
+        Map map = new Map(10,10);
+        map.placeCharacter(c1, 0, 0);
+        map.placeCharacter(c2, 3, 3);
+
+        assertFalse(healingSpell.use(c1, c2));
+
+        assertEquals(100, c1.getCurrentMana());
+        assertEquals(100, c2.getCurrentHealth());
+    }
 
 }
