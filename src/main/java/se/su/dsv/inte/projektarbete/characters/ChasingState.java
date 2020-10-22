@@ -9,6 +9,18 @@ public class ChasingState implements State {
     @Override
     public void Attack(Character source, Character target) {
         //TO-DO
+        /*
+        if(isWithinRange < 5) {
+            controller.setCurrentState(StateType.HOSTILE);
+            controller.Attack(source, target);
+        }
+        else if(isWithinRange > 10) {
+            controller.setCurrentState(StateType.NEUTRAL);
+        }
+        else {
+            //move character
+        }
+        */
     }
 
     @Override

@@ -9,7 +9,7 @@ public class DeadState implements State {
 
     @Override
     public void Attack(Character source, Character target) {
-        //throw exception
+        throw new IllegalArgumentException("Source is dead!");
     }
 
     @Override

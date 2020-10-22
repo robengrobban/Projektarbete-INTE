@@ -9,6 +9,8 @@ class CharacterStateControllerTest {
     private static final CharacterStateController HOSTILE_CONTROLLER = new CharacterStateController(StateType.HOSTILE);
     private static final State NEUTRAL_STATE = new NeutralState(NEUTRAL_CONTROLLER);
     private static final State HOSTILE_STATE = new HostileState(NEUTRAL_CONTROLLER);
+    private static final State DEAD_STATE = new DeadState(NEUTRAL_CONTROLLER);
+    private static final State CHASING_STATE = new ChasingState(NEUTRAL_CONTROLLER);
 
     @Test
     public void constructorSetsCorrectValues() {
@@ -33,6 +35,10 @@ class CharacterStateControllerTest {
         assertEquals(NEUTRAL_STATE.toString(), NEUTRAL_CONTROLLER.getCurrentState().toString());
         NEUTRAL_CONTROLLER.setCurrentState(null);
         assertEquals(NEUTRAL_STATE.toString(), NEUTRAL_CONTROLLER.getCurrentState().toString());
+        NEUTRAL_CONTROLLER.setCurrentState(StateType.DEAD);
+        assertEquals(DEAD_STATE.toString(), NEUTRAL_CONTROLLER.getCurrentState().toString());
+        NEUTRAL_CONTROLLER.setCurrentState(StateType.CHASING);
+        assertEquals(CHASING_STATE.toString(), NEUTRAL_CONTROLLER.getCurrentState().toString());
     }
 
     @Test

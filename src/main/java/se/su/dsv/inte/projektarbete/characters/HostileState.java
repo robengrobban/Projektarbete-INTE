@@ -10,7 +10,18 @@ public class HostileState implements State {
     @Override
     public void Attack(Character source, Character target) {
         //TO-DO if within range attack, else switch to CHASING
-        target.damaged(source.CalculateDamage());
+        /*
+        if(isWithinRange < 5) {
+            target.damaged(source.CalculateDamage());
+        }
+        else if(isWithinRange > 5 && isWithinRange < 10) {
+            controller.setCurrentState(StateType.CHASING);
+        }
+        else {
+            controller.setCurrentState(StateType.NEUTRAL);
+        }
+         */
+
     }
 
     @Override
