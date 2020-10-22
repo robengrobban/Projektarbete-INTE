@@ -4,7 +4,6 @@ import se.su.dsv.inte.projektarbete.map.Tiles.TileType;
 
 public class Point {
     private final TileType type;
-    private Character character;
     private InteractableObject interactableObject;
     private final int[] coordinates = new int[2];
 
@@ -50,6 +49,9 @@ public class Point {
         interactableObject = null;
     }
 
+    /**
+     * @return coordinates
+     */
     public int[] getCoordinates() {
         return coordinates;
     }

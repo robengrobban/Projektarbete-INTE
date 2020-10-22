@@ -139,6 +139,9 @@ public class MapTest {
         });
     }
 
+    /**
+     * Checks that all points in map are assigned the coordinates
+     */
     @Test
     void pointsCorrectCoordinates() {
         TestMap map = new TestMap();

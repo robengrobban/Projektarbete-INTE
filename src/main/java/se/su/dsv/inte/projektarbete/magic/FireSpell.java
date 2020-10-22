@@ -61,8 +61,7 @@ public class FireSpell extends Spell {
         if ( canAttack.contains(target.getElementType()) ) {
 
             // Am I in range
-            // TODO : Check range
-            if ( true ) {
+            if ( source.isWithinRange(target, this.getRange()) ) {
 
                 // Do I have enough mana
                 if ( source.changeCurrentMana(-this.getManaCost()) ) {
