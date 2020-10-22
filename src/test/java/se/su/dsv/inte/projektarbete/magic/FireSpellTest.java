@@ -5,6 +5,7 @@ import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.armour.ArmourType;
 import se.su.dsv.inte.projektarbete.characters.Character;
+import se.su.dsv.inte.projektarbete.map.Map;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -260,6 +261,10 @@ public class FireSpellTest {
         Character source = new Character("Bob", ElementType.LAND, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
         Character target = new Character("Bob", ElementType.LAND, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
 
+        Map map = new Map(10,10);
+        map.placeCharacter(source, 0, 0);
+        map.placeCharacter(target, 1, 1);
+
         assertTrue(fireSpell.use(source, target));
 
         assertEquals(90, source.getCurrentMana());
@@ -282,6 +287,10 @@ public class FireSpellTest {
 
         Character source = new Character("Bob", ElementType.LAND, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
         Character target = new Character("Bob", ElementType.LAND, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
+
+        Map map = new Map(10,10);
+        map.placeCharacter(source, 0, 0);
+        map.placeCharacter(target, 1, 1);
 
         assertTrue(fireSpell.use(source, target));
 
@@ -306,6 +315,10 @@ public class FireSpellTest {
         Character source = new Character("Bob", ElementType.LAND, null, null, 100, 100){};
         Character target = new Character("Bob", ElementType.AIR, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
 
+        Map map = new Map(10,10);
+        map.placeCharacter(source, 0, 0);
+        map.placeCharacter(target, 1, 1);
+
         assertFalse(fireSpell.use(source, target));
 
         assertEquals(100, source.getCurrentMana());
@@ -327,11 +340,42 @@ public class FireSpellTest {
         FireSpell fireSpell = new FireSpell( name, description, range, manaCost, damage, canAttack );
 
         Character source = new Character("Bob", ElementType.LAND, null, null, 100, 9){};
-        Character target = new Character("Bob", ElementType.AIR, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
+        Character target = new Character("Bob", ElementType.LAND, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
+
+        Map map = new Map(10,10);
+        map.placeCharacter(source, 0, 0);
+        map.placeCharacter(target, 1, 1);
 
         assertFalse(fireSpell.use(source, target));
 
         assertEquals(9, source.getCurrentMana());
+        assertEquals(100, target.getCurrentHealth());
+    }
+
+    /**
+     * Test use target not within range
+     */
+    @Test
+    public void testUseTargetNotWithinRange() {
+        String name = "Fire damage";
+        String description = "SO MUCK FIRE!";
+        int range = 2;
+        int manaCost = 10;
+        int damage = 100;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+
+        FireSpell fireSpell = new FireSpell( name, description, range, manaCost, damage, canAttack );
+
+        Character source = new Character("Bob", ElementType.LAND, null, null, 100, 120){};
+        Character target = new Character("Bob", ElementType.LAND, new Armour("ARMOUR", "Yea", ArmourType.LIGHT, 10, 100, null), null, 100, 100){};
+
+        Map map = new Map(10,10);
+        map.placeCharacter(source, 0, 0);
+        map.placeCharacter(target, 5, 5);
+
+        assertFalse(fireSpell.use(source, target));
+
+        assertEquals(120, source.getCurrentMana());
         assertEquals(100, target.getCurrentHealth());
     }
 
