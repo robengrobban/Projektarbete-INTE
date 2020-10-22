@@ -14,7 +14,6 @@ public class MainQuest extends Quest {
     private int enemiesKilled;
     private boolean foundChest;
     private boolean rewardReceived;
-
     /**
      * @param maxStages how many stages the Quest have.
      * @param reward    in case of finishing the quest.
@@ -28,6 +27,13 @@ public class MainQuest extends Quest {
 
     }
 
+    public int getEnemiesKilled() {
+        return enemiesKilled;
+    }
+
+    public int getCurrentStage() {
+        return currentStage;
+    }
 
     @Override
     void reportKill() {
