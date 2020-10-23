@@ -24,9 +24,9 @@ class ElfTest {
         int level = 5;
 
         Elf player = new Elf("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null );
+                defence, attack, 2, 2, experience, level, null, null );
 
-        int baseDamage = 10;
+        int baseDamage = 30;
         int range = 3;
         HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
 

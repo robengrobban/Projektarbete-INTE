@@ -12,7 +12,12 @@ public abstract class Quest {
     public Quest(String name, String description, int maxStages) {
         this.name = name;
         this.description = description;
-        this.maxStages = maxStages;
+        if (maxStages < 1 || maxStages > 10) {
+            throw new IllegalArgumentException("The max stage must be between 1-10");
+        } else {
+
+            this.maxStages = maxStages;
+        }
     }
 
     public int getMaxStages() {

@@ -102,7 +102,14 @@ public class Map {
         for (int i = 0; i < y; i++) {
             ArrayList<Point> list = new ArrayList<>();
             for (int j = 0; j < x; j++) {
-                list.add(new Point(generateTile(j, i, x, y), objectGen(j, i, x, y), j, i));
+                Point point = new Point(generateTile(j, i, x, y), j, i);
+
+                InteractableObject object = objectGen(j, i, x, y);
+                if (object != null) {
+                    object.setPoint(point);
+                }
+                list.add(point);
+
             }
             map.add(i, list);
         }

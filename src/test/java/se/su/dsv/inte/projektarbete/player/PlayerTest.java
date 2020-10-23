@@ -7,8 +7,11 @@ import se.su.dsv.inte.projektarbete.armour.ArmourType;
 import se.su.dsv.inte.projektarbete.characters.Character;
 import se.su.dsv.inte.projektarbete.magic.FireSpell;
 import se.su.dsv.inte.projektarbete.magic.Spell;
+import se.su.dsv.inte.projektarbete.quest.Quest;
+import se.su.dsv.inte.projektarbete.quest.QuestManager;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -18,9 +21,14 @@ class PlayerTest {
 
     @Test
     void newPlayerConstructorSetValuesCorrectly() {
-        String name = "test";
         int expectedLevel = 1;
         int expectedExperience = 0;
+        int expectedDefence = 2;
+        int expectedAttack = 2;
+        int expectedMagicalAttack= 2;
+        int expectedMagicalDefence = 2;
+        String name = "test";
+
         Player player = new Player("test") {
 
             @Override
@@ -47,6 +55,10 @@ class PlayerTest {
 
         assertEquals(name, player.getName());
         assertEquals(expectedLevel, player.getLevel());
+        assertEquals(expectedDefence, player.getTotalDefence());
+        assertEquals(expectedMagicalDefence, player.getTotalMagicDefence());
+        assertEquals(expectedAttack, player.getTotalAttack());
+        assertEquals(expectedMagicalAttack, player.getTotalMagicAttack());
         assertEquals(expectedExperience, player.getExperience());
     }
 
@@ -90,8 +102,9 @@ class PlayerTest {
         int experience = 200;
         int level = 5;
 
+
         Player player = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null, null, null ) {
+                defence, attack, 2, 2, experience, level, null, null, null, null ) {
             @Override
             public String getName() {
                 return super.getName();
@@ -128,7 +141,7 @@ class PlayerTest {
         int defence = 20;
 
         Player player = new Player("test", totalHealth, 30, damage,
-                defence, 20, 57, 2, null, null, null, null ) {
+                defence, 20, 2, 2, 57, 2, null, null, null, null ) {
             @Override
             public boolean damaged(Weapon weapon) {
                 return super.damaged(weapon);
@@ -159,7 +172,7 @@ class PlayerTest {
         int level = 5;
 
         Player player = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null, null, null ) {
+                defence, attack, 2, 2, experience, level, null, null, null, null ) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -191,7 +204,7 @@ class PlayerTest {
         int level = 5;
 
         Player player = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null, null, null ) {
+                defence, attack, 2, 2, experience, level, null, null, null, null ) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -226,7 +239,7 @@ class PlayerTest {
         int level = 5;
 
         Player player1 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null, null, null) {
+                defence, attack, 2, 2, experience, level, null, null, null, null) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -234,7 +247,7 @@ class PlayerTest {
         };
 
         Player player2 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null, null, null) {
+                defence, attack, 2, 2, experience, level, null, null, null, null) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -242,7 +255,7 @@ class PlayerTest {
         };
 
         Player player3 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null, null, null) {
+                defence, attack, 2, 2, experience, level, null, null, null, null) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -285,7 +298,7 @@ class PlayerTest {
         Weapon sword = new Weapon("sword", "A sword.", baseDamage, range, canAttack);
 
         Player player1 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, sword, null, null, null) {
+                defence, attack, 2, 2, experience, level, sword, null, null, null) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -332,7 +345,7 @@ class PlayerTest {
         Weapon sword = new Weapon(name, desc, baseDamage, range, canAttack);
 
         Player player1 = new Player(name, totalHealth, maxMana, damage,
-                defence, attack, experience, level, sword, null, null, null) {
+                defence, attack, 2, 2, experience, level, sword, null, null, null) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -358,6 +371,35 @@ class PlayerTest {
         assertEquals(38, enemy.getCurrentHealth());
     }
 
+    @Test void playerDamagedCorrectlyWithFireSpell() {
+        //Setup player
+        int totalHealth = 100;
+        int maxMana = 50;
+        int damage = 40;
+        int defence = 20;
+        int attack = 25;
+        int magicalDefence = 3;
+        int experience = 200;
+        int level = 5;
+
+        //Setup spell used on the player
+        int spellDamage = 10;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+        FireSpell spell = new FireSpell("firespell" ,"a fire spell", 5 ,5, spellDamage, canAttack);
+
+        Player player = new Player("test", totalHealth, maxMana, damage,
+                defence, attack, magicalDefence, 2, experience, level, null, null, null, null) {
+            @Override
+            public boolean damaged(FireSpell spell) {
+                return super.damaged(spell);
+            }
+        };
+
+        player.damaged(spell);
+
+        assertEquals(53, player.getCurrentHealth());
+    }
+
     @Test
     void levelUpDoesNotWorkIfLevelIs20OrAbove() {
 
@@ -373,7 +415,7 @@ class PlayerTest {
         int level3 = 1999956;
 
         Player player1 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level1, null, null, null, null) {
+                defence, attack, 2, 2, experience, level1, null, null, null, null) {
             @Override
             public int getTotalHealth() {
                 return super.getTotalHealth();
@@ -393,7 +435,7 @@ class PlayerTest {
         };
 
         Player player2 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level2, null, null, null, null) {
+                defence, attack, 2, 2, experience, level2, null, null, null, null) {
             @Override
             public int getTotalHealth() {
                 return super.getTotalHealth();
@@ -413,7 +455,7 @@ class PlayerTest {
         };
 
         Player player3 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level3, null, null, null, null) {
+                defence, attack, 2, 2, experience, level3, null, null, null, null) {
             @Override
             public int getTotalHealth() {
                 return super.getTotalHealth();
@@ -466,7 +508,7 @@ class PlayerTest {
         int level3 = 1;
 
         Player player1 = new Player("test", 10, 0, 10,
-                10, 10, experience1, level1, null, null, null, null) {
+                10, 10, 2, 2, experience1, level1, null, null, null, null) {
             @Override
             public int getLevel() {
                 return super.getLevel();
@@ -474,7 +516,7 @@ class PlayerTest {
         };
 
         Player player2 = new Player("test", 10, 0, 10,
-                10, 10, experience2, level2, null, null, null, null) {
+                10, 10, 2, 2, experience2, level2, null, null, null, null) {
 
             @Override
             public int getLevel() {
@@ -483,7 +525,7 @@ class PlayerTest {
         };
 
         Player player3 = new Player("test", 10, 0, 10,
-                10, 10, experience3, level3, null, null, null, null) {
+                10, 10, 2, 2, experience3, level3, null, null, null, null) {
 
             @Override
             public int getLevel() {

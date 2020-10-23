@@ -119,6 +119,9 @@ class CharacterTest {
         assertEquals(120, c.getMaxMana());
     }
 
+    /**
+     * Checks that isWithinRange returns true when within range.
+     */
     @Test
     void characterIsInRange() {
         MAP.placeCharacter(CHARACTER_1, 0, 0);
@@ -126,13 +129,29 @@ class CharacterTest {
         assertTrue(CHARACTER_1.isWithinRange(CHARACTER_2, RANGE));
     }
 
+    /**
+     * Checks that the pythagoras calculations of isWithinRange is correct (Not in range).
+     */
     @Test
-    void characterNotInRange() {
+    void characterNotInRangePythagoras() {
         MAP.placeCharacter(CHARACTER_1, 0, 0);
         MAP.placeCharacter(CHARACTER_2, 7, 7);
         assertFalse(CHARACTER_1.isWithinRange(CHARACTER_2, RANGE));
     }
 
+    /**
+     * Checks that the pythagoras calculations of isWithinRange is correct (In range).
+     */
+    @Test
+    void characterInRangePythagoras() {
+        MAP.placeCharacter(CHARACTER_1, 0, 0);
+        MAP.placeCharacter(CHARACTER_2, 2, 4);
+        assertTrue(CHARACTER_1.isWithinRange(CHARACTER_2, RANGE));
+    }
+
+    /**
+     * Checks that true is still returned when precisely in range.
+     */
     @Test
     void preciselyInRange() {
         MAP.placeCharacter(CHARACTER_1, 0, 0);
@@ -140,6 +159,9 @@ class CharacterTest {
         assertTrue(CHARACTER_1.isWithinRange(CHARACTER_2, RANGE));
     }
 
+    /**
+     * Checks that the simple calculation of isWithInRange works.
+     */
     @Test
     void isWithInRangeSameXCoordinate() {
         MAP.placeCharacter(CHARACTER_1, 0, 0);
@@ -147,6 +169,9 @@ class CharacterTest {
         assertTrue(CHARACTER_1.isWithinRange(CHARACTER_2, RANGE));
     }
 
+    /**
+     * If no point is found (ex: an x value of 10 when max is 8) an exception should be thrown.
+     */
     @Test
     void exceptionThrownWhenPointNotFound() {
         assertThrows(IllegalStateException.class, () -> {
