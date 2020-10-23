@@ -833,6 +833,7 @@ public class WeaponTest {
     /**
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * FROM THIS LINE ONLY TESTCASES FROM EQUIVALENCE CLASS PARTITIONING *
+     * (THESE TEST WERE FROM A TESTCASE NOT PRESENTED)                   *
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      */
 

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.armour.ArmourType;
+import se.su.dsv.inte.projektarbete.armour.SimpleDefenceModifier;
 import se.su.dsv.inte.projektarbete.characters.Character;
 import se.su.dsv.inte.projektarbete.characters.NonPlayerCharacter;
 import se.su.dsv.inte.projektarbete.characters.StateType;
@@ -12,6 +13,7 @@ import se.su.dsv.inte.projektarbete.magic.Spell;
 import se.su.dsv.inte.projektarbete.map.Map;
 import se.su.dsv.inte.projektarbete.quest.Quest;
 import se.su.dsv.inte.projektarbete.quest.QuestManager;
+import se.su.dsv.inte.projektarbete.weapon.SimpleDamageModifier;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.ArrayList;
@@ -707,4 +709,204 @@ class PlayerTest {
         assertNotEquals(spell3, player.getSpell(1));
         assertEquals(spell2, player.getSpell(1));
     }
+
+
+
+
+    /**
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * FROM THIS LINE ONLY TESTCASES FROM EQUIVALENCE CLASS PARTITIONING *
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     */
+
+    /**
+     * Testcase 1
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseOne() {
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+
+        Character target = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 2);
+
+        human.attack(target);
+
+        assertEquals( 88, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 2
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCasetwo() {
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+        SimpleDamageModifier sdm = new SimpleDamageModifier("More", 10, 2);
+        weapon.setModifier(sdm);
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+        // TODO : FIX PLAYER CLASS
+
+
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 10);
+
+        Character target = new Character("Bob", armour, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 1);
+
+        human.attack(target);
+
+        assertEquals( 93, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 3
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseThree() {
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 4);
+        SimpleDefenceModifier sdm = new SimpleDefenceModifier("Meh..", 10, 2);
+        armour.setModifier(sdm);
+
+        Character target = new Character("Bob", armour, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 2);
+
+        human.attack(target);
+
+        assertEquals( 94, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 4
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseFour() {
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+        SimpleDamageModifier sdm = new SimpleDamageModifier("More", 10, 2);
+        weapon.setModifier(sdm);
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+        // TODO : FIX PLAYER CLASS
+
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 5);
+
+        Character target = new Character("Bob", armour, null, 100, 120) {};
+
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 1);
+
+
+        human.attack(target);
+
+        assertEquals( 91, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 5
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseFive() {
+        Human human = new Human("Test Subject");
+
+        Character target = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 2);
+
+        human.attack(target);
+
+        assertEquals( 100, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 6
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseSix() {
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)), 0);
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+
+        Character target = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 2);
+
+        human.attack(target);
+
+        assertEquals( 100, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 7
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseSeven() {
+        Weapon weapon = new Weapon("Bow... for air only", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.AIR)));
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+
+        Character target = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 2);
+
+        human.attack(target);
+
+        assertEquals( 100, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 8
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseEight() {
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+
+        Character target = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 3);
+
+        human.attack(target);
+
+        assertEquals( 100, target.getCurrentHealth() );
+    }
+
 }
