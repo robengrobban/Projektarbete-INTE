@@ -2,7 +2,7 @@ package se.su.dsv.inte.projektarbete.map;
 
 public abstract class InteractableObject {
     private final String description;
-
+    private Point point;
     /**
      * @param description description.
      * @throws IllegalArgumentException, if description either empty or null.
@@ -19,5 +19,19 @@ public abstract class InteractableObject {
      */
     public String inspect() {
         return description;
+    }
+
+    /**
+     * @return point.
+     */
+    public Point getPoint() {
+        return point;
+    }
+
+    /**
+     * @param point point value.
+     */
+    public void setPoint(Point point) {
+        this.point = point;
     }
 }

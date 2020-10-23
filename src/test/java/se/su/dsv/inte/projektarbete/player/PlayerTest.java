@@ -4,11 +4,19 @@ import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.armour.ArmourType;
+import se.su.dsv.inte.projektarbete.armour.SimpleDefenceModifier;
 import se.su.dsv.inte.projektarbete.characters.Character;
+import se.su.dsv.inte.projektarbete.characters.NonPlayerCharacter;
+import se.su.dsv.inte.projektarbete.characters.StateType;
 import se.su.dsv.inte.projektarbete.magic.FireSpell;
 import se.su.dsv.inte.projektarbete.magic.Spell;
+import se.su.dsv.inte.projektarbete.map.Map;
+import se.su.dsv.inte.projektarbete.quest.Quest;
+import se.su.dsv.inte.projektarbete.quest.QuestManager;
+import se.su.dsv.inte.projektarbete.weapon.SimpleDamageModifier;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -18,9 +26,14 @@ class PlayerTest {
 
     @Test
     void newPlayerConstructorSetValuesCorrectly() {
-        String name = "test";
         int expectedLevel = 1;
         int expectedExperience = 0;
+        int expectedDefence = 2;
+        int expectedAttack = 2;
+        int expectedMagicalAttack= 2;
+        int expectedMagicalDefence = 2;
+        String name = "test";
+
         Player player = new Player("test") {
 
             @Override
@@ -47,6 +60,10 @@ class PlayerTest {
 
         assertEquals(name, player.getName());
         assertEquals(expectedLevel, player.getLevel());
+        assertEquals(expectedDefence, player.getDefence());
+        assertEquals(expectedMagicalDefence, player.getMagicDefence());
+        assertEquals(expectedAttack, player.getTotalAttack());
+        assertEquals(expectedMagicalAttack, player.getTotalMagicAttack());
         assertEquals(expectedExperience, player.getExperience());
     }
 
@@ -90,8 +107,9 @@ class PlayerTest {
         int experience = 200;
         int level = 5;
 
+
         Player player = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null, null, null ) {
+                defence, attack, 2, 2, experience, level, null, null, null, null ) {
             @Override
             public String getName() {
                 return super.getName();
@@ -128,7 +146,7 @@ class PlayerTest {
         int defence = 20;
 
         Player player = new Player("test", totalHealth, 30, damage,
-                defence, 20, 57, 2, null, null, null, null ) {
+                defence, 20, 2, 2, 57, 2, null, null, null, null ) {
             @Override
             public boolean damaged(Weapon weapon) {
                 return super.damaged(weapon);
@@ -159,7 +177,7 @@ class PlayerTest {
         int level = 5;
 
         Player player = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null, null, null ) {
+                defence, attack, 2, 2, experience, level, null, null, null, null ) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -191,7 +209,7 @@ class PlayerTest {
         int level = 5;
 
         Player player = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null, null, null ) {
+                defence, attack, 2, 2, experience, level, null, null, null, null ) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -226,7 +244,7 @@ class PlayerTest {
         int level = 5;
 
         Player player1 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null, null, null) {
+                defence, attack, 2, 2, experience, level, null, null, null, null) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -234,7 +252,7 @@ class PlayerTest {
         };
 
         Player player2 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null, null, null) {
+                defence, attack, 2, 2, experience, level, null, null, null, null) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -242,7 +260,7 @@ class PlayerTest {
         };
 
         Player player3 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, null, null, null, null) {
+                defence, attack, 2, 2, experience, level, null, null, null, null) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -284,8 +302,8 @@ class PlayerTest {
         HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
         Weapon sword = new Weapon("sword", "A sword.", baseDamage, range, canAttack);
 
-        Player player1 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level, sword, null, null, null) {
+        Player player = new Player("test", totalHealth, maxMana, damage,
+                defence, attack, 2, 2, experience, level, sword, null, null, null) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -303,8 +321,12 @@ class PlayerTest {
             }
         };
 
+        Map map = new Map(10,10);
+        map.placeCharacter(enemy, 0, 0);
+        map.placeCharacter(player, 1, 1);
+
         //Player damaging enemy
-        player1.attack(enemy);
+        player.attack(enemy);
 
         //Asserting correct damage done.
         assertEquals(65, enemy.getCurrentHealth());
@@ -331,8 +353,8 @@ class PlayerTest {
         HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
         Weapon sword = new Weapon(name, desc, baseDamage, range, canAttack);
 
-        Player player1 = new Player(name, totalHealth, maxMana, damage,
-                defence, attack, experience, level, sword, null, null, null) {
+        Player player = new Player(name, totalHealth, maxMana, damage,
+                defence, attack, 2, 2, experience, level, sword, null, null, null) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -350,12 +372,46 @@ class PlayerTest {
                 return super.getCurrentHealth();
             }
         };
+        Map map = new Map(10,10);
+        map.placeCharacter(enemy, 0, 0);
+        map.placeCharacter(player, 1, 1);
 
         //Player damaging enemy
-        player1.attack(enemy);
+        player.attack(enemy);
 
         //Asserting correct damage done.
         assertEquals(38, enemy.getCurrentHealth());
+    }
+
+    @Test void playerDamagedCorrectlyWithFireSpell() {
+        //Setup player
+        int totalHealth = 100;
+        int maxMana = 50;
+        int damage = 40;
+        int defence = 20;
+        int attack = 25;
+        int magicalDefence = 3;
+        int experience = 200;
+        int level = 5;
+
+        //Setup spell used on the player
+        int spellDamage = 10;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+        FireSpell spell = new FireSpell("firespell" ,"a fire spell", 5 ,5, spellDamage, canAttack);
+
+        Player player = new Player("test", totalHealth, maxMana, damage,
+                defence, attack, magicalDefence, 2, experience, level, null, null, null, null) {
+
+        };
+
+        NonPlayerCharacter npc = new NonPlayerCharacter("name", null, null, 50, 100, StateType.HOSTILE);
+
+        Map map = new Map(10,10);
+        map.placeCharacter(npc, 0, 0);
+        map.placeCharacter(player, 1, 1);
+        spell.use(npc, player);
+
+        assertEquals(53, player.getCurrentHealth());
     }
 
     @Test
@@ -373,7 +429,7 @@ class PlayerTest {
         int level3 = 1999956;
 
         Player player1 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level1, null, null, null, null) {
+                defence, attack, 2, 2, experience, level1, null, null, null, null) {
             @Override
             public int getTotalHealth() {
                 return super.getTotalHealth();
@@ -393,7 +449,7 @@ class PlayerTest {
         };
 
         Player player2 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level2, null, null, null, null) {
+                defence, attack, 2, 2, experience, level2, null, null, null, null) {
             @Override
             public int getTotalHealth() {
                 return super.getTotalHealth();
@@ -413,7 +469,7 @@ class PlayerTest {
         };
 
         Player player3 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, experience, level3, null, null, null, null) {
+                defence, attack, 2, 2, experience, level3, null, null, null, null) {
             @Override
             public int getTotalHealth() {
                 return super.getTotalHealth();
@@ -424,7 +480,7 @@ class PlayerTest {
             }
             @Override
             public int getExperience() {
-                return super.getTotalDefence();
+                return super.getDefence();
             }
             @Override
             public int getLevel() {
@@ -440,18 +496,15 @@ class PlayerTest {
         //Assert no changes
         assertEquals(100, player1.getTotalHealth());
         assertEquals(25, player1.getTotalAttack());
-        assertEquals(20, player1.getTotalDefence());
-        assertEquals(20, player1.getTotalDefence());
+        assertEquals(20, player1.getDefence());
 
         assertEquals(100, player2.getTotalHealth());
         assertEquals(25, player2.getTotalAttack());
-        assertEquals(20, player2.getTotalDefence());
-        assertEquals(20, player2.getTotalDefence());
+        assertEquals(20, player2.getDefence());
 
         assertEquals(100, player3.getTotalHealth());
         assertEquals(25, player3.getTotalAttack());
-        assertEquals(20, player3.getTotalDefence());
-        assertEquals(20, player3.getTotalDefence());
+        assertEquals(20, player3.getDefence());
 
     }
 
@@ -466,7 +519,7 @@ class PlayerTest {
         int level3 = 1;
 
         Player player1 = new Player("test", 10, 0, 10,
-                10, 10, experience1, level1, null, null, null, null) {
+                10, 10, 2, 2, experience1, level1, null, null, null, null) {
             @Override
             public int getLevel() {
                 return super.getLevel();
@@ -474,7 +527,7 @@ class PlayerTest {
         };
 
         Player player2 = new Player("test", 10, 0, 10,
-                10, 10, experience2, level2, null, null, null, null) {
+                10, 10, 2, 2, experience2, level2, null, null, null, null) {
 
             @Override
             public int getLevel() {
@@ -483,7 +536,7 @@ class PlayerTest {
         };
 
         Player player3 = new Player("test", 10, 0, 10,
-                10, 10, experience3, level3, null, null, null, null) {
+                10, 10, 2, 2, experience3, level3, null, null, null, null) {
 
             @Override
             public int getLevel() {
@@ -663,4 +716,204 @@ class PlayerTest {
         assertNotEquals(spell3, player.getSpell(1));
         assertEquals(spell2, player.getSpell(1));
     }
+
+
+
+
+    /**
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     * FROM THIS LINE ONLY TESTCASES FROM EQUIVALENCE CLASS PARTITIONING *
+     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+     */
+
+    /**
+     * Testcase 1
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseOne() {
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+
+        Character target = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 2);
+
+        human.attack(target);
+
+        assertEquals( 88, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 2
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCasetwo() {
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+        SimpleDamageModifier sdm = new SimpleDamageModifier("More", 10, 2);
+        weapon.setModifier(sdm);
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+        // TODO : FIX PLAYER CLASS
+
+
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 10);
+
+        Character target = new Character("Bob", armour, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 1);
+
+        human.attack(target);
+
+        assertEquals( 93, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 3
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseThree() {
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 4);
+        SimpleDefenceModifier sdm = new SimpleDefenceModifier("Meh..", 10, 2);
+        armour.setModifier(sdm);
+
+        Character target = new Character("Bob", armour, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 2);
+
+        human.attack(target);
+
+        assertEquals( 94, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 4
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseFour() {
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+        SimpleDamageModifier sdm = new SimpleDamageModifier("More", 10, 2);
+        weapon.setModifier(sdm);
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+        // TODO : FIX PLAYER CLASS
+
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 5);
+
+        Character target = new Character("Bob", armour, null, 100, 120) {};
+
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 1);
+
+
+        human.attack(target);
+
+        assertEquals( 91, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 5
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseFive() {
+        Human human = new Human("Test Subject");
+
+        Character target = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 2);
+
+        human.attack(target);
+
+        assertEquals( 100, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 6
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseSix() {
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)), 0);
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+
+        Character target = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 2);
+
+        human.attack(target);
+
+        assertEquals( 100, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 7
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseSeven() {
+        Weapon weapon = new Weapon("Bow... for air only", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.AIR)));
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+
+        Character target = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 2);
+
+        human.attack(target);
+
+        assertEquals( 100, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 8
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseEight() {
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+
+        Character target = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 3);
+
+        human.attack(target);
+
+        assertEquals( 100, target.getCurrentHealth() );
+    }
+
 }

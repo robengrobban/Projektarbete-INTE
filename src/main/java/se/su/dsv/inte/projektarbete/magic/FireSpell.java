@@ -67,7 +67,7 @@ public class FireSpell extends Spell {
                 if ( source.changeCurrentMana(-this.getManaCost()) ) {
 
                     // Do damage
-                    target.hurt( this.damage );
+                    target.hurtWithMagic( this.damage );
 
                     return true;
                 }

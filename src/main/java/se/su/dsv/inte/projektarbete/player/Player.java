@@ -1,6 +1,5 @@
 package se.su.dsv.inte.projektarbete.player;
 
-import se.su.dsv.inte.projektarbete.Item;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.characters.Character;
 import se.su.dsv.inte.projektarbete.magic.FireSpell;
@@ -10,7 +9,6 @@ import se.su.dsv.inte.projektarbete.quest.QuestManager;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Player extends Character {
 
@@ -24,7 +22,6 @@ public abstract class Player extends Character {
 
     private QuestManager questManager;
     private PlayerClass playerClass;
-    private Item[] inventory;
     private ArrayList<Spell> spells;
 
     /**
@@ -40,6 +37,10 @@ public abstract class Player extends Character {
         questManager = new QuestManager(new ArrayList<Quest>());
         playerClass = null;
         spells = new ArrayList<Spell>();
+        defence = 2;
+        attack = 2;
+        magicalAttack= 2;
+        magicalDefence = 2;
     }
 
     /**
@@ -52,11 +53,14 @@ public abstract class Player extends Character {
      * @param level current level of the player
      */
     public Player(String name, int health, int maxMana, int damage, int defence,
-                  int attack, int experience, int level, Weapon weapon, Armour armour, PlayerClass playerClass, ArrayList<Spell> spells) {
+                  int attack, int magicalDefence, int magicalAttack, int experience, int level, Weapon weapon,
+                  Armour armour, PlayerClass playerClass, ArrayList<Spell> spells) {
         super(name, armour, weapon, health, maxMana);
 
         this.defence = defence;
         this.attack = attack;
+        this.magicalDefence = magicalDefence;
+        this.magicalAttack = magicalAttack;
         this.experience = experience;
         this.level = level;
         changeCurrentHealth(-damage);
@@ -104,16 +108,30 @@ public abstract class Player extends Character {
         else return  magicalAttack;
     }
 
-    public int getTotalDefence() {
-        if (playerClass != null)
-            return defence + playerClass.getDefenceModifier();
-        else return defence;
+    public int getDefence() {
+        return this.defence;
     }
 
-    public int getTotalMagicDefence() {
+    @Override
+    public int getTotalDefence(int damage) {
+        int defence = super.getTotalDefence(damage) + this.defence;
+        if (playerClass != null)
+            defence += playerClass.getDefenceModifier();
+       return defence;
+    }
+
+    public int getMagicDefence() {
         if (playerClass != null)
             return magicalDefence + playerClass.getMagicDefenceModifier();
-        else return  magicalDefence;
+        else return magicalDefence;
+    }
+
+    @Override
+    public int getTotalMagicDefence(int damage) {
+        int defence = super.getTotalMagicDefence(damage) + this.magicalDefence;
+        if (playerClass != null)
+            defence += playerClass.getMagicDefenceModifier();
+        return defence;
     }
 
     public Spell getSpell(int index) {
@@ -128,19 +146,14 @@ public abstract class Player extends Character {
      * @param attacked
      */
     public void attack(Character attacked) {
-        if (getWeapon() != null && getWeapon().usable() && getWeapon().canAttack(attacked.getElementType())) {
+        if (getWeapon() != null && getWeapon().usable() && getWeapon().canAttack(attacked.getElementType()) && this.isWithinRange(attacked, getWeapon().getRange())) {
             attacked.hurt(getWeapon().getTotalDamage() + getTotalAttack());
             getWeapon().deteriorate();
         }
     }
 
     public boolean damaged(Weapon weapon) {
-        super.hurt(weapon.getTotalDamage() - getTotalDefence());
-        return super.isAlive();
-    }
-
-    public boolean damaged(FireSpell spell) {
-        super.hurt(spell.getDamage() - getTotalMagicDefence());
+        super.hurt(weapon.getTotalDamage());
         return super.isAlive();
     }
 

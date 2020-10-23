@@ -10,20 +10,20 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 class NonPlayerCharacterTest {
-    private static final Weapon WEAPON = new Weapon("sword", "super shiny", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
-    private static final NonPlayerCharacter c1 = new NonPlayerCharacter("Bobby", null, WEAPON, 2, 5, StateType.NEUTRAL);
-    private static final NonPlayerCharacter c2 = new NonPlayerCharacter("Bobby", null, WEAPON, 100, 5, StateType.NEUTRAL);
-    private static final CharacterStateController NEUTRAL_CONTROLLER = new CharacterStateController(StateType.NEUTRAL);
-    private static final State DEAD_STATE = new DeadState(NEUTRAL_CONTROLLER);
-    private static final State HOSTILE_STATE = new HostileState(NEUTRAL_CONTROLLER);
-
     @Test
     void hurtSwitchesState() {
+        Weapon weapon = new Weapon("sword", "super shiny", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+        NonPlayerCharacter c1 = new NonPlayerCharacter("Bobby", null, weapon, 2, 5, StateType.NEUTRAL);
+        NonPlayerCharacter c2 = new NonPlayerCharacter("Bobby", null, weapon, 100, 5, StateType.NEUTRAL);
+        CharacterStateController neutralController = new CharacterStateController(StateType.NEUTRAL);
+        State deadState = new DeadState(neutralController);
+        State hostileState = new HostileState(neutralController);
+
         c1.hurt(5);
         System.out.println("HP: " + c1.getCurrentHealth());
-        assertEquals(DEAD_STATE.toString(), c1.getController().getCurrentState().toString());
+        assertEquals(deadState.toString(), c1.getController().getCurrentState().toString());
         c2.hurt(5);
         System.out.println("HP: " + c2.getCurrentHealth());
-        assertEquals(HOSTILE_STATE.toString(), c2.getController().getCurrentState().toString());
+        assertEquals(hostileState.toString(), c2.getController().getCurrentState().toString());
     }
 }

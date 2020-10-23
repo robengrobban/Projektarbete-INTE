@@ -80,7 +80,9 @@ class CharacterStateControllerTest {
 
         assertEquals(hostileState.toString(), enemy.getController().getCurrentState().toString());
 
-        enemy.hurt(100);
+        while(enemy.getCurrentHealth() > 0) {
+            enemy.getController().defend(enemy, player);
+        }
 
         assertEquals(deadState.toString(), enemy.getController().getCurrentState().toString());
     }

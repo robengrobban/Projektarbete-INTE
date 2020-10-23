@@ -23,8 +23,8 @@ class HostileStateTest {
         neutralController = new CharacterStateController(StateType.NEUTRAL);
         map = new Map(30, 30);
         weapon = new Weapon("sword", "super shiny", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
-        c1 = new NonPlayerCharacter("Bob", null, weapon, StateType.NEUTRAL);
-        c2 = new NonPlayerCharacter("Bobby", null, weapon, StateType.NEUTRAL);
+        c1 = new NonPlayerCharacter("Bob", null, weapon, StateType.HOSTILE);
+        c2 = new NonPlayerCharacter("Bobby", null, weapon, StateType.HOSTILE);
     }
 
     @Test
@@ -46,21 +46,20 @@ class HostileStateTest {
     }
 
     @Test
-    void attackWithoutVisibilityTriggersNeutral() {
-        State neutralState = new NeutralState(neutralController);
-        map.placeCharacter(c1, 1, 1);
-        map.placeCharacter(c2, 7, 7);
-        c1.getController().attack(c1, c2);
-        assertEquals(neutralState.toString(), c1.getController().getCurrentState().toString());
-    }
-
-    @Test
     void defendRemovesHealth() {
-
+        c1 = new NonPlayerCharacter("bob", null, weapon, 100, 100, StateType.HOSTILE);
+        int startingHealth = c1.getCurrentHealth();
+        c1.getController().defend(c1, c2);
+        int currentHealth = c1.getCurrentHealth();
+        assertTrue(currentHealth < startingHealth);
     }
 
     @Test
     void defendSwitchesToDead() {
+        NonPlayerCharacter weakling = new NonPlayerCharacter("bob", null, weapon, 1, 100, StateType.HOSTILE);
+        State deadState = new DeadState(neutralController);
 
+        weakling.getController().defend(weakling, c2);
+        assertEquals(deadState.toString(), weakling.getController().getCurrentState().toString());
     }
 }

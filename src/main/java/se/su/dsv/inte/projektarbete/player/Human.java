@@ -10,8 +10,8 @@ public class Human extends Player{
     }
 
     public Human(String name, int health, int maxMana, int damage,
-               int defence, int attack, int experience, int level, Armour armour, Weapon weapon) {
-        super(name, health, maxMana, damage, defence, attack, experience, level, weapon, armour, null, null);
+               int defence, int attack, int magicDefence, int magicAttack, int experience, int level, Armour armour, Weapon weapon) {
+        super(name, health, maxMana, damage, defence, attack, magicDefence, magicAttack, experience, level, weapon, armour, null, null);
     }
 
     public boolean attacked(Weapon weapon) {
