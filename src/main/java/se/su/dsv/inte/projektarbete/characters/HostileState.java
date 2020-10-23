@@ -17,10 +17,6 @@ public class HostileState implements State {
             System.out.println("Switching to CHASING");
             controller.setCurrentState(StateType.CHASING);
         }
-        else {
-            System.out.println("Switching to NEUTRAL");
-            controller.setCurrentState(StateType.NEUTRAL);
-        }
     }
 
     @Override
