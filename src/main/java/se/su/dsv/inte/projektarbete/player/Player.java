@@ -174,6 +174,13 @@ public abstract class Player extends Character {
         return false;
     }
 
+    public boolean canUseMagic() {
+        if (playerClass != null) {
+            return playerClass.canUseMagic();
+        }
+        return false;
+    }
+
     public void replaceSpell(Spell newSpell, int replacedIndex) {
         spells.set(replacedIndex, newSpell);
     }
