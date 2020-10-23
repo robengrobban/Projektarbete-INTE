@@ -46,7 +46,6 @@ public class HealSpell extends Spell {
      */
     @Override
     public boolean use(Character source, Character target) {
-        // TODO : Check range between source and target
         if ( source.isWithinRange(target, this.getRange()) ) {
             // Try to remove mana
             if (source.changeCurrentMana(-getManaCost())) {
