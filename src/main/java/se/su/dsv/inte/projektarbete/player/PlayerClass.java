@@ -1,10 +1,10 @@
 package se.su.dsv.inte.projektarbete.player;
 
 public abstract class PlayerClass {
-    int attackModifier;
-    int magicAttackModifier;
-    int defenceModifier;
-    int magicDefenceModifier;
+    private int attackModifier;
+    private int magicAttackModifier;
+    private int defenceModifier;
+    private int magicDefenceModifier;
 
     /**
      * Constructor for only setting attack and defence.

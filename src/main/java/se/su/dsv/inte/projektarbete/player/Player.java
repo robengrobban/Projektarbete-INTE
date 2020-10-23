@@ -1,6 +1,5 @@
 package se.su.dsv.inte.projektarbete.player;
 
-import se.su.dsv.inte.projektarbete.Item;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.characters.Character;
 import se.su.dsv.inte.projektarbete.magic.FireSpell;
@@ -10,7 +9,6 @@ import se.su.dsv.inte.projektarbete.quest.QuestManager;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Player extends Character {
 
@@ -110,16 +108,30 @@ public abstract class Player extends Character {
         else return  magicalAttack;
     }
 
-    public int getTotalDefence() {
-        if (playerClass != null)
-            return defence + playerClass.getDefenceModifier();
-        else return defence;
+    public int getDefence() {
+        return this.defence;
     }
 
-    public int getTotalMagicDefence() {
+    @Override
+    public int getTotalDefence(int damage) {
+        int defence = super.getTotalDefence(damage) + this.defence;
+        if (playerClass != null)
+            defence += playerClass.getDefenceModifier();
+       return defence;
+    }
+
+    public int getMagicDefence() {
         if (playerClass != null)
             return magicalDefence + playerClass.getMagicDefenceModifier();
-        else return  magicalDefence;
+        else return magicalDefence;
+    }
+
+    @Override
+    public int getTotalMagicDefence(int damage) {
+        int defence = super.getTotalMagicDefence(damage) + this.magicalDefence;
+        if (playerClass != null)
+            defence += playerClass.getMagicDefenceModifier();
+        return defence;
     }
 
     public Spell getSpell(int index) {
@@ -141,12 +153,7 @@ public abstract class Player extends Character {
     }
 
     public boolean damaged(Weapon weapon) {
-        super.hurt(weapon.getTotalDamage() - getTotalDefence());
-        return super.isAlive();
-    }
-
-    public boolean damaged(FireSpell spell) {
-        super.hurt(spell.getDamage() - getTotalMagicDefence());
+        super.hurt(weapon.getTotalDamage());
         return super.isAlive();
     }
 

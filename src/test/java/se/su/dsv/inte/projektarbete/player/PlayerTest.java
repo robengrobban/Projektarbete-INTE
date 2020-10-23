@@ -6,6 +6,8 @@ import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.armour.ArmourType;
 import se.su.dsv.inte.projektarbete.armour.SimpleDefenceModifier;
 import se.su.dsv.inte.projektarbete.characters.Character;
+import se.su.dsv.inte.projektarbete.characters.NonPlayerCharacter;
+import se.su.dsv.inte.projektarbete.characters.StateType;
 import se.su.dsv.inte.projektarbete.magic.FireSpell;
 import se.su.dsv.inte.projektarbete.magic.Spell;
 import se.su.dsv.inte.projektarbete.map.Map;
@@ -58,8 +60,8 @@ class PlayerTest {
 
         assertEquals(name, player.getName());
         assertEquals(expectedLevel, player.getLevel());
-        assertEquals(expectedDefence, player.getTotalDefence());
-        assertEquals(expectedMagicalDefence, player.getTotalMagicDefence());
+        assertEquals(expectedDefence, player.getDefence());
+        assertEquals(expectedMagicalDefence, player.getMagicDefence());
         assertEquals(expectedAttack, player.getTotalAttack());
         assertEquals(expectedMagicalAttack, player.getTotalMagicAttack());
         assertEquals(expectedExperience, player.getExperience());
@@ -300,7 +302,7 @@ class PlayerTest {
         HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
         Weapon sword = new Weapon("sword", "A sword.", baseDamage, range, canAttack);
 
-        Player player1 = new Player("test", totalHealth, maxMana, damage,
+        Player player = new Player("test", totalHealth, maxMana, damage,
                 defence, attack, 2, 2, experience, level, sword, null, null, null) {
             @Override
             public boolean damaged(Weapon sword) {
@@ -319,8 +321,12 @@ class PlayerTest {
             }
         };
 
+        Map map = new Map(10,10);
+        map.placeCharacter(enemy, 0, 0);
+        map.placeCharacter(player, 1, 1);
+
         //Player damaging enemy
-        player1.attack(enemy);
+        player.attack(enemy);
 
         //Asserting correct damage done.
         assertEquals(65, enemy.getCurrentHealth());
@@ -347,7 +353,7 @@ class PlayerTest {
         HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
         Weapon sword = new Weapon(name, desc, baseDamage, range, canAttack);
 
-        Player player1 = new Player(name, totalHealth, maxMana, damage,
+        Player player = new Player(name, totalHealth, maxMana, damage,
                 defence, attack, 2, 2, experience, level, sword, null, null, null) {
             @Override
             public boolean damaged(Weapon sword) {
@@ -366,9 +372,12 @@ class PlayerTest {
                 return super.getCurrentHealth();
             }
         };
+        Map map = new Map(10,10);
+        map.placeCharacter(enemy, 0, 0);
+        map.placeCharacter(player, 1, 1);
 
         //Player damaging enemy
-        player1.attack(enemy);
+        player.attack(enemy);
 
         //Asserting correct damage done.
         assertEquals(38, enemy.getCurrentHealth());
@@ -392,13 +401,15 @@ class PlayerTest {
 
         Player player = new Player("test", totalHealth, maxMana, damage,
                 defence, attack, magicalDefence, 2, experience, level, null, null, null, null) {
-            @Override
-            public boolean damaged(FireSpell spell) {
-                return super.damaged(spell);
-            }
+
         };
 
-        player.damaged(spell);
+        NonPlayerCharacter npc = new NonPlayerCharacter("name", null, null, 50, 100, StateType.HOSTILE);
+
+        Map map = new Map(10,10);
+        map.placeCharacter(npc, 0, 0);
+        map.placeCharacter(player, 1, 1);
+        spell.use(npc, player);
 
         assertEquals(53, player.getCurrentHealth());
     }
@@ -469,7 +480,7 @@ class PlayerTest {
             }
             @Override
             public int getExperience() {
-                return super.getTotalDefence();
+                return super.getDefence();
             }
             @Override
             public int getLevel() {
@@ -485,18 +496,15 @@ class PlayerTest {
         //Assert no changes
         assertEquals(100, player1.getTotalHealth());
         assertEquals(25, player1.getTotalAttack());
-        assertEquals(20, player1.getTotalDefence());
-        assertEquals(20, player1.getTotalDefence());
+        assertEquals(20, player1.getDefence());
 
         assertEquals(100, player2.getTotalHealth());
         assertEquals(25, player2.getTotalAttack());
-        assertEquals(20, player2.getTotalDefence());
-        assertEquals(20, player2.getTotalDefence());
+        assertEquals(20, player2.getDefence());
 
         assertEquals(100, player3.getTotalHealth());
         assertEquals(25, player3.getTotalAttack());
-        assertEquals(20, player3.getTotalDefence());
-        assertEquals(20, player3.getTotalDefence());
+        assertEquals(20, player3.getDefence());
 
     }
 
