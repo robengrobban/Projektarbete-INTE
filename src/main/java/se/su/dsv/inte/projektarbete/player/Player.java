@@ -134,7 +134,7 @@ public abstract class Player extends Character {
      * @param attacked
      */
     public void attack(Character attacked) {
-        if (getWeapon() != null && getWeapon().usable() && getWeapon().canAttack(attacked.getElementType())) {
+        if (getWeapon() != null && getWeapon().usable() && getWeapon().canAttack(attacked.getElementType()) && this.isWithinRange(attacked, getWeapon().getRange())) {
             attacked.hurt(getWeapon().getTotalDamage() + getTotalAttack());
             getWeapon().deteriorate();
         }
