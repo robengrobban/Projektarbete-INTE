@@ -17,7 +17,7 @@ public class MapTest {
     private static final int MIN_INTERACTABLEOBJECT_AMOUNT = Map.MIN_INTERACTABLEOBJECT_AMOUNT;
     private static final int MAX_INTERACTABLEOBJECT_AMOUNT = Map.MAX_INTERACTABLEOBJECT_AMOUNT;
 
-    private static class TestMap extends Map {
+    static class TestMap extends Map {
         public TestMap() {
             super();
         }
@@ -137,20 +137,5 @@ public class MapTest {
 
             Map map = new Map(xMin, xMax, yMin, yMax);
         });
-    }
-
-    /**
-     * Checks that all points in map are assigned the coordinates
-     */
-    @Test
-    void pointsCorrectCoordinates() {
-        TestMap map = new TestMap();
-
-        for (ArrayList<Point> list : map.getMap()) {
-            for (Point point : list) {
-                assertEquals(list.indexOf(point), point.getCoordinates()[0]);
-                assertEquals(map.getMap().indexOf(list), point.getCoordinates()[1]);
-            }
-        }
     }
 }

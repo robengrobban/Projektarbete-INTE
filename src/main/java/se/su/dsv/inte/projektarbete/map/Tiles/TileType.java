@@ -12,6 +12,9 @@ public abstract class TileType {
         this.isPassable = isPassable;
     }
 
+    /**
+     * @return if the tile is passable or not.
+     */
     public boolean isPassable() {
         return isPassable;
     }
