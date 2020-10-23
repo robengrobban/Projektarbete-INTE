@@ -108,12 +108,16 @@ public abstract class Player extends Character {
         else return  magicalAttack;
     }
 
+    public int getDefence() {
+        return this.defence;
+    }
+
     @Override
-    public int getTotalDefence() {
-        int defence = this.defence;
+    public int getTotalDefence(int damage) {
+        int defence = super.getTotalDefence(damage) + this.defence;
         if (playerClass != null)
             return defence += playerClass.getDefenceModifier();
-        else return super.getTotalDefence() + defence;
+        else return defence;
     }
 
     public int getTotalMagicDefence() {
@@ -141,7 +145,7 @@ public abstract class Player extends Character {
     }
 
     public boolean damaged(Weapon weapon) {
-        super.hurt(weapon.getTotalDamage() - getTotalDefence());
+        super.hurt(weapon.getTotalDamage());
         return super.isAlive();
     }
 

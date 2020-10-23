@@ -58,7 +58,7 @@ class PlayerTest {
 
         assertEquals(name, player.getName());
         assertEquals(expectedLevel, player.getLevel());
-        assertEquals(expectedDefence, player.getTotalDefence());
+        assertEquals(expectedDefence, player.getDefence());
         assertEquals(expectedMagicalDefence, player.getTotalMagicDefence());
         assertEquals(expectedAttack, player.getTotalAttack());
         assertEquals(expectedMagicalAttack, player.getTotalMagicAttack());
@@ -471,7 +471,7 @@ class PlayerTest {
             }
             @Override
             public int getExperience() {
-                return super.getTotalDefence();
+                return super.getDefence();
             }
             @Override
             public int getLevel() {
@@ -487,18 +487,15 @@ class PlayerTest {
         //Assert no changes
         assertEquals(100, player1.getTotalHealth());
         assertEquals(25, player1.getTotalAttack());
-        assertEquals(20, player1.getTotalDefence());
-        assertEquals(20, player1.getTotalDefence());
+        assertEquals(20, player1.getDefence());
 
         assertEquals(100, player2.getTotalHealth());
         assertEquals(25, player2.getTotalAttack());
-        assertEquals(20, player2.getTotalDefence());
-        assertEquals(20, player2.getTotalDefence());
+        assertEquals(20, player2.getDefence());
 
         assertEquals(100, player3.getTotalHealth());
         assertEquals(25, player3.getTotalAttack());
-        assertEquals(20, player3.getTotalDefence());
-        assertEquals(20, player3.getTotalDefence());
+        assertEquals(20, player3.getDefence());
 
     }
 
