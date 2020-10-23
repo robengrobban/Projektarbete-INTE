@@ -5,8 +5,11 @@ import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.armour.ArmourType;
 import se.su.dsv.inte.projektarbete.characters.Character;
+import se.su.dsv.inte.projektarbete.characters.NonPlayerCharacter;
+import se.su.dsv.inte.projektarbete.characters.StateType;
 import se.su.dsv.inte.projektarbete.magic.FireSpell;
 import se.su.dsv.inte.projektarbete.magic.Spell;
+import se.su.dsv.inte.projektarbete.map.Map;
 import se.su.dsv.inte.projektarbete.quest.Quest;
 import se.su.dsv.inte.projektarbete.quest.QuestManager;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
@@ -389,13 +392,15 @@ class PlayerTest {
 
         Player player = new Player("test", totalHealth, maxMana, damage,
                 defence, attack, magicalDefence, 2, experience, level, null, null, null, null) {
-            @Override
-            public boolean damaged(FireSpell spell) {
-                return super.damaged(spell);
-            }
+
         };
 
-        player.damaged(spell);
+        NonPlayerCharacter npc = new NonPlayerCharacter("name", null, null, 50, 100, StateType.HOSTILE);
+
+        Map map = new Map(10,10);
+        map.placeCharacter(npc, 0, 0);
+        map.placeCharacter(player, 1, 1);
+        spell.use(npc, player);
 
         assertEquals(53, player.getCurrentHealth());
     }

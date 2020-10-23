@@ -1,6 +1,5 @@
 package se.su.dsv.inte.projektarbete.player;
 
-import se.su.dsv.inte.projektarbete.Item;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.characters.Character;
 import se.su.dsv.inte.projektarbete.magic.FireSpell;
@@ -10,7 +9,6 @@ import se.su.dsv.inte.projektarbete.quest.QuestManager;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Player extends Character {
 
@@ -110,10 +108,12 @@ public abstract class Player extends Character {
         else return  magicalAttack;
     }
 
+    @Override
     public int getTotalDefence() {
+        int defence = this.defence;
         if (playerClass != null)
-            return defence + playerClass.getDefenceModifier();
-        else return defence;
+            return defence += playerClass.getDefenceModifier();
+        else return super.getTotalDefence() + defence;
     }
 
     public int getTotalMagicDefence() {
@@ -142,11 +142,6 @@ public abstract class Player extends Character {
 
     public boolean damaged(Weapon weapon) {
         super.hurt(weapon.getTotalDamage() - getTotalDefence());
-        return super.isAlive();
-    }
-
-    public boolean damaged(FireSpell spell) {
-        super.hurt(spell.getDamage() - getTotalMagicDefence());
         return super.isAlive();
     }
 

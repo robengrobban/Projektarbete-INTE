@@ -246,7 +246,7 @@ public abstract class Character {
     //Let's use this method instead for handling damage, override it in Player
     public void hurt(int damage) {
         if (getArmour() != null) {
-            int defence = getArmour().getTotalArmour();
+            int defence = getTotalDefence();
             if (defence > damage/2) {
                 defence = damage/2; //armour can protect at half the incoming damage at most.
             }
@@ -257,6 +257,11 @@ public abstract class Character {
             damage = 0;
         }
         changeCurrentHealth(-damage);
+    }
+
+
+    public int getTotalDefence() {
+        return getArmour().getTotalArmour();
     }
 
     /**
