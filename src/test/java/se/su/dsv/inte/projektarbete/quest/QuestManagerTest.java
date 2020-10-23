@@ -180,7 +180,7 @@ class QuestManagerTest {
 
         Weapon weapon= new Weapon("name","description",3,2,canAttack);
 
-        Human human = new Human("human",2,3,4,9,2,1,4,new Armour("name","description", ArmourType.HEAVY,2),weapon);
+        Human human = new Human("human",2,3,4,9,2,1,4,1,1,new Armour("name","description", ArmourType.HEAVY,2),weapon);
         questManager.receiveReward(questOne,human);
         Weapon humanWeapon = human.getWeapon();
         assertEquals(new SimpleDamageModifier("test",1,1),humanWeapon.getModifier());
