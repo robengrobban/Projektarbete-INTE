@@ -1,6 +1,9 @@
 package se.su.dsv.inte.projektarbete.map;
 
 import org.junit.jupiter.api.Test;
+import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
+import se.su.dsv.inte.projektarbete.map.Tiles.TileType;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class InteractableObjectTest {
@@ -15,6 +18,23 @@ public class InteractableObjectTest {
         public ConcreteImplementation(String description) {
             super(description);
         }
+    }
+
+    private static class MockPoint extends Point {
+        public MockPoint() {
+            super(new Ground(), 0,0);
+        }
+    }
+
+    /**
+     * Checks for correct return.
+     */
+    @Test
+    void objectPlacedOnCorrectPoint() {
+        ConcreteImplementation concreteImplementation = new ConcreteImplementation(VALID_DESCRIPTION);
+        Point point = new MockPoint();
+        concreteImplementation.setPoint(point);
+        assertEquals(point, concreteImplementation.getPoint());
     }
 
     /**

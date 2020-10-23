@@ -269,6 +269,11 @@ public abstract class Character {
         return damage;
     }
 
+    /**
+     * @param target to check distance to from this.
+     * @param range determines whether target is in within range depending on distance.
+     * @return if target is with in range of this or not.
+     */
     public boolean isWithinRange(Character target, int range) {
         int[] sourceCoordinates = this.point.getCoordinates();
         int[] targetCoordinates = target.point.getCoordinates();
@@ -284,6 +289,13 @@ public abstract class Character {
         }
     }
 
+    /**
+     * @param x1 x value of point of first point.
+     * @param y1 y value of point of first point.
+     * @param x2 x value of point of second point.
+     * @param y2 y value of point of second point.
+     * @return int, the length of the hypotenuse between the points.
+     */
     private int pythagoras(int x1, int y1, int x2, int y2) {
         double a = Math.pow(Math.abs(y1 - y2), 2.0);
         double b = Math.pow(Math.abs(x1 - x2), 2.0);
