@@ -9,14 +9,19 @@ public class QuestManager {
     private final List<Quest> questList;
 
     public QuestManager(List<Quest> questList) {
-        this.questList = questList;
+        if (questList == null) {
+            throw new IllegalArgumentException("The questList can not be null");
+        } else {
+            this.questList = questList;
+        }
+
     }
 
-    private void reportKillsToQuests() {
+    public void reportKillsToQuests() {
         questList.forEach(Quest::reportKill);
     }
 
-    private void reportIntractableObject(InteractableObject interactableObject) {
+    public void reportIntractableObject(InteractableObject interactableObject) {
 
         for (Quest quest : questList) {
             quest.reportIntractableObject(interactableObject);
@@ -24,17 +29,33 @@ public class QuestManager {
 
     }
 
-    private void addQuest(Quest quest) {
-        questList.add(quest);
+    public void addQuest(Quest quest) {
+        if (quest == null) {
+            throw new IllegalArgumentException("The quest can not be null");
+        } else {
+
+            questList.add(quest);
+        }
+
     }
 
-    private void cancelQuest(Quest quest) {
-        questList.remove(quest);
+    public void cancelQuest(Quest quest) {
+        if (quest == null) {
+            throw new IllegalArgumentException("The quest can not be null");
+        } else {
+
+            questList.remove(quest);
+        }
     }
 
-    private void receiveReward(Quest quest, Player player) {
-        if (questList.contains(quest)) {
-            quest.receiveReward(player);
+    public void receiveReward(Quest quest, Player player) {
+        if (quest == null || player == null) {
+            throw new IllegalArgumentException("The quest or player can not be null");
+        } else {
+
+            if (questList.contains(quest)) {
+                quest.receiveReward(player);
+            }
         }
     }
 
