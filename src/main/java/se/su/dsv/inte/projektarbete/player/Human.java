@@ -5,6 +5,8 @@ import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 public class Human extends Player{
 
+
+
     public Human(String name) {
         super(name);
     }

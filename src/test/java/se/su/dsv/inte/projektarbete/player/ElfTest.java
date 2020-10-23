@@ -32,7 +32,7 @@ class ElfTest {
 
         Weapon sword = new Weapon("sword", "A sword", baseDamage, range, canAttack);
 
-        player.attacked(sword);
+        player.damaged(sword);
         assertEquals(50, player.getCurrentHealth());
     }
 }
