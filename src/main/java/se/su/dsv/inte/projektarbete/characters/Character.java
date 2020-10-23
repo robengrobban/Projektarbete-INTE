@@ -243,7 +243,10 @@ public abstract class Character {
         }
     }
 
-    //Let's use this method instead for handling damage, override it in Player
+    /**
+     * Hurts the character with damage with defence subtracted.
+     * @param damage Base incoming damage.
+     */
     public void hurt(int damage) {
         int defence = getTotalDefence(damage);
         damage -= defence;
@@ -253,8 +256,16 @@ public abstract class Character {
         changeCurrentHealth(-damage);
     }
 
+    public void hurtWithMagic(int damage) {
+        int defence = getTotalMagicDefence(damage);
+        damage -= defence;
+        if (damage < 0) {
+            damage = 0;
+        }
+        changeCurrentHealth(-damage);
+    }
 
-    public int getTotalDefence(int damage) {
+    private int getBaseDefence(int damage) {
         int defence = 0;
         if (getArmour() != null) {
             defence = getArmour().getTotalArmour();
@@ -264,6 +275,14 @@ public abstract class Character {
             getArmour().deteriorate();
         }
         return defence;
+    }
+
+    public int getTotalDefence(int damage) {
+        return getBaseDefence(damage);
+    }
+
+    public int getTotalMagicDefence(int damage) {
+        return getBaseDefence(damage);
     }
 
     /**

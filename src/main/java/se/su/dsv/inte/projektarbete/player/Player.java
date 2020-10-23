@@ -116,14 +116,22 @@ public abstract class Player extends Character {
     public int getTotalDefence(int damage) {
         int defence = super.getTotalDefence(damage) + this.defence;
         if (playerClass != null)
-            return defence += playerClass.getDefenceModifier();
-        else return defence;
+            defence += playerClass.getDefenceModifier();
+       return defence;
     }
 
-    public int getTotalMagicDefence() {
+    public int getMagicDefence() {
         if (playerClass != null)
             return magicalDefence + playerClass.getMagicDefenceModifier();
-        else return  magicalDefence;
+        else return magicalDefence;
+    }
+
+    @Override
+    public int getTotalMagicDefence(int damage) {
+        int defence = super.getTotalMagicDefence(damage) + this.magicalDefence;
+        if (playerClass != null)
+            defence += playerClass.getMagicDefenceModifier();
+        return defence;
     }
 
     public Spell getSpell(int index) {
