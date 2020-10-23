@@ -17,7 +17,6 @@ class ElfTest {
         int totalHealth = 100;
         int damage = 40;
         int maxMana = 102;
-        final int CURRENT_HEALTH = 60;
         int defence = 20;
         int attack = 25;
         int experience = 200;
@@ -33,6 +32,6 @@ class ElfTest {
         Weapon sword = new Weapon("sword", "A sword", baseDamage, range, canAttack);
 
         player.damaged(sword);
-        assertEquals(50, player.getCurrentHealth());
+        assertEquals(47, player.getCurrentHealth());
     }
 }

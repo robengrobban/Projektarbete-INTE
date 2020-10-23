@@ -19,7 +19,7 @@ public class Elf extends Player{
     }
 
     private void setRaceModifier() {
-        raceModifier = new RaceModifier(-5, 10, -15, 10);
+        raceModifier = new RaceModifier(-5, 10, -15, 15);
     }
 
     public int getTotalDefence(int damage) {
