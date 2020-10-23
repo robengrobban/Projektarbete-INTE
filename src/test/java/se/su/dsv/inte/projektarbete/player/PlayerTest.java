@@ -563,6 +563,7 @@ class PlayerTest {
                 return super.addSpell(spell);
             }
         };
+        player.addPlayerClass(new MagicianClass());
 
         for (int i = 1; i <= 10; i++) {
             int range = i;
@@ -591,6 +592,8 @@ class PlayerTest {
                 return super.addSpell(spell);
             }
         };
+
+        player.addPlayerClass(new MagicianClass());
 
         int range = 3;
         int manaCost = 13;
@@ -647,6 +650,8 @@ class PlayerTest {
             }
         };
 
+        player.addPlayerClass(new MagicianClass());
+
         player.addSpell(spell);
 
         assertDoesNotThrow(() -> {
@@ -699,6 +704,7 @@ class PlayerTest {
                 super.replaceSpell(newSpell, replacedIndex);
             }
         };
+        player.addPlayerClass(new MagicianClass());
 
         //Add two spells
         player.addSpell(spell1);

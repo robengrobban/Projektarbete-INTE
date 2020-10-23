@@ -19,7 +19,7 @@ public class Elf extends Player{
     }
 
     private void setRaceModifier() {
-        raceModifier = new RaceModifier(-5, 10, -15, 10);
+        raceModifier = new RaceModifier(-5, 10, -15, 15);
     }
 
     public int getTotalDefence(int damage) {
@@ -28,7 +28,7 @@ public class Elf extends Player{
     }
 
     public int getTotalMagicDefence(int damage) {
-        int baseDefence = super.getTotalDefence(damage);
+        int baseDefence = super.getTotalMagicDefence(damage);
         return raceModifier.modifyMagicDefence(baseDefence);
     }
 
