@@ -19,7 +19,7 @@ public class Human extends Player{
     }
 
     private void setRaceModifier() {
-        raceModifier = new RaceModifier(10, -5, -10, -5);
+        raceModifier = new RaceModifier(10, -5, 10, -5);
     }
 
     public int getTotalDefence(int damage) {
@@ -28,7 +28,7 @@ public class Human extends Player{
     }
 
     public int getTotalMagicDefence(int damage) {
-        int baseDefence = super.getTotalDefence(damage);
+        int baseDefence = super.getTotalMagicDefence(damage);
         return raceModifier.modifyMagicDefence(baseDefence);
     }
 }

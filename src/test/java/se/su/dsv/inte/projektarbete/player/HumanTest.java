@@ -2,8 +2,13 @@ package se.su.dsv.inte.projektarbete.player;
 
 import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.ElementType;
+import se.su.dsv.inte.projektarbete.armour.Armour;
+import se.su.dsv.inte.projektarbete.armour.ArmourType;
+import se.su.dsv.inte.projektarbete.characters.Character;
 import se.su.dsv.inte.projektarbete.magic.FireSpell;
 import se.su.dsv.inte.projektarbete.magic.HealSpell;
+import se.su.dsv.inte.projektarbete.map.Map;
+import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -11,6 +16,117 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HumanTest {
+
+    @Test
+    void attackedWithWeaponDamagesCorrectly() {
+        String name = "test";
+        int totalHealth = 100;
+        int damage = 40;
+        int maxMana = 102;
+        int defence = 20;
+        int attack = 25;
+        int experience = 200;
+        int level = 5;
+
+        Human player = new Human("test", totalHealth, maxMana, damage,
+                defence, attack, 2, 2, experience, level, null, null );
+
+        int baseDamage = 50;
+        int range = 3;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+
+        Weapon sword = new Weapon("sword", "A sword", baseDamage, range, canAttack);
+
+        player.damaged(sword);
+        assertEquals(32, player.getCurrentHealth());
+    }
+
+    @Test
+    void equipedWithArmourattackedWithWeaponDamagesCorrectly() {
+        String name = "test";
+        int totalHealth = 100;
+        int damage = 40;
+        int maxMana = 102;
+        int defence = 20;
+        int attack = 25;
+        int experience = 200;
+        int level = 5;
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 10);
+
+        Human player = new Human("test", totalHealth, maxMana, damage,
+                defence, attack, 2, 2, experience, level, armour, null );
+
+        int baseDamage = 50;
+        int range = 3;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+
+        Weapon sword = new Weapon("sword", "A sword", baseDamage, range, canAttack);
+
+        player.damaged(sword);
+        assertEquals(43, player.getCurrentHealth());
+    }
+
+    @Test
+    void attackedWithMagicDamagesCorrectly() {
+        int totalHealth = 100;
+        int damage = 40;
+        int maxMana = 102;
+        int defence = 20;
+        int magicDefence = 22;
+        int attack = 25;
+        int experience = 200;
+        int level = 5;
+
+        Human player = new Human("test", totalHealth, maxMana, damage,
+                defence, attack, magicDefence, 2, experience, level, null, null );
+
+        int baseDamage = 55;
+        int range = 3;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+        FireSpell spell = new FireSpell("spellname", "firespell", range, 10, baseDamage, canAttack);
+
+        Character caster = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+        map.placeCharacter(caster, 0, 0);
+        map.placeCharacter(player, 0, 1);
+
+        spell.use(caster, player);
+
+        assertEquals(26, player.getCurrentHealth());
+    }
+
+    @Test
+    void equipedWithArmourAttackedWithMagicDamagesCorrectly() {
+        int totalHealth = 100;
+        int damage = 20;
+        int maxMana = 102;
+        int defence = 20;
+        int magicDefence = 37;
+        int attack = 25;
+        int experience = 200;
+        int level = 5;
+
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 10);
+
+        Human player = new Human("test", totalHealth, maxMana, damage,
+                defence, attack, magicDefence, 2, experience, level, armour, null );
+
+        int baseDamage = 85;
+        int range = 3;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+        FireSpell spell = new FireSpell("spellname", "firespell", range, 10, baseDamage, canAttack);
+
+        Character caster = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+        map.placeCharacter(caster, 0, 0);
+        map.placeCharacter(player, 0, 1);
+
+        spell.use(caster, player);
+
+        assertEquals(40, player.getCurrentHealth());
+    }
 
     @Test
     void classLessHumanCannotUseMagic() {

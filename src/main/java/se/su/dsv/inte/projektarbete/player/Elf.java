@@ -28,7 +28,7 @@ public class Elf extends Player{
     }
 
     public int getTotalMagicDefence(int damage) {
-        int baseDefence = super.getTotalDefence(damage);
+        int baseDefence = super.getTotalMagicDefence(damage);
         return raceModifier.modifyMagicDefence(baseDefence);
     }
 

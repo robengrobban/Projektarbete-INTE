@@ -277,6 +277,7 @@ public abstract class Character {
         return defence;
     }
 
+
     public int getTotalDefence(int damage) {
         return getBaseDefence(damage);
     }
