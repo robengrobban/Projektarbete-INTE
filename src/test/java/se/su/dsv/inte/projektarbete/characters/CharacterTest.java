@@ -119,6 +119,17 @@ class CharacterTest {
         assertEquals(120, c.getMaxMana());
     }
 
+    @Test
+    public void constructorSetManaNegative() {
+        String name = "Bob";
+        int health = 100;
+        int mana = -2;
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            Character c = new Character(name, null, null, health, mana);
+        });
+    }
+
     /**
      * Checks that isWithinRange returns true when within range.
      */
@@ -177,5 +188,54 @@ class CharacterTest {
         assertThrows(IllegalStateException.class, () -> {
             MAP.placeCharacter(CHARACTER_1, 11, 11);
         });
+    }
+
+    @Test
+    void getPointReturnsPoint() {
+        Character c = new Character("Bob", null, null);
+        Map map = new Map(10, 10);
+        int x = 1;
+        int y = 5;
+        map.placeCharacter(c, x, y);
+        assertEquals(x, c.getPoint().getCoordinates()[0]);
+        assertEquals(y, c.getPoint().getCoordinates()[1]);
+    }
+
+    @Test
+    void setElementTypeChangesCurrent() {
+        String name = "bob";
+        int health = 100;
+        int mana = 120;
+
+        Character c = new Character(name, ElementType.LAND, null, null, health, mana) {};
+        c.setElementType(ElementType.AIR);
+
+        assertEquals(ElementType.AIR, c.getElementType());
+    }
+
+    @Test
+    void hurtWithNegativeValue() {
+        Character c = new Character("Bob", null, null);
+
+        int startingHealth = c.getCurrentHealth();
+
+        c.hurt(-2);
+
+        int currentHealth = c.getCurrentHealth();
+
+        assertEquals(startingHealth, currentHealth);
+    }
+
+    @Test
+    void hurtWithMagicWithNegativeValue() {
+        Character c = new Character("Bob", null, null);
+
+        int startingHealth = c.getCurrentHealth();
+
+        c.hurtWithMagic(-2);
+
+        int currentHealth = c.getCurrentHealth();
+
+        assertEquals(startingHealth, currentHealth);
     }
 }
