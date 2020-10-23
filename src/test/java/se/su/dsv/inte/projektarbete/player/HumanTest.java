@@ -19,7 +19,6 @@ class HumanTest {
 
     @Test
     void attackedWithWeaponDamagesCorrectly() {
-        String name = "test";
         int totalHealth = 100;
         int damage = 40;
         int maxMana = 102;
@@ -42,8 +41,7 @@ class HumanTest {
     }
 
     @Test
-    void equipedWithArmourattackedWithWeaponDamagesCorrectly() {
-        String name = "test";
+    void equippedWithArmourAttackedWithWeaponDamagesCorrectly() {
         int totalHealth = 100;
         int damage = 40;
         int maxMana = 102;
@@ -97,7 +95,7 @@ class HumanTest {
     }
 
     @Test
-    void equipedWithArmourAttackedWithMagicDamagesCorrectly() {
+    void equippedWithArmourAttackedWithMagicDamagesCorrectly() {
         int totalHealth = 100;
         int damage = 20;
         int maxMana = 102;

@@ -140,6 +140,22 @@ class PlayerTest {
         assertEquals(CURRENT_HEALTH, player.getCurrentHealth());
     }
 
+    @Test void playerMagicAttackCorrectWithPlayerClass() {
+        Player player = new Player("test", 100, 50, 20,
+                20, 20, 25, 22, 10, 1, null,
+                null, new MagicianClass(), null ) {};
+
+        assertEquals(37, player.getTotalMagicAttack());
+    }
+
+    @Test void playerMagicDefenceCorrectWithPlayerClass() {
+        Player player = new Player("test", 100, 50, 20,
+                20, 20, 25, 22, 10, 1, null,
+                null, new MagicianClass(), null ) {};
+
+        assertEquals(40, player.getMagicDefence());
+    }
+
     @Test void defenceProtectsAsExpected() {
         int totalHealth = 100;
         int damage = 30;

@@ -126,6 +126,40 @@ class ElfTest {
         assertEquals(45, player.getCurrentHealth());
     }
 
+    @Test void elfTotalDefenceCorrectWithArmourAndMagicianClass() {
+        int totalHealth = 100;
+        int damage = 40;
+        int maxMana = 102;
+        int defence = 20;
+        int experience = 200;
+        int level = 5;
+
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 10);
+
+        Elf player = new Elf("test", totalHealth, maxMana, damage, defence, 2, 2,
+                2, experience, level, armour, null );
+        player.addPlayerClass(new MagicianClass());
+
+        assertEquals(22, player.getTotalDefence(player.getTotalDefence(90)));
+    }
+
+    @Test void elfTotalMagicDefenceCorrectWithArmourAndMagicianClass() {
+        int totalHealth = 100;
+        int damage = 40;
+        int maxMana = 102;
+        int magicDefence = 28;
+        int experience = 200;
+        int level = 5;
+
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 10);
+
+        Elf player = new Elf("test", totalHealth, maxMana, damage, 10, 2, magicDefence,
+                2, experience, level, armour, null );
+        player.addPlayerClass(new MagicianClass());
+
+        assertEquals(60, player.getTotalMagicDefence(250));
+    }
+
     @Test
     void classLessElfCanUseMagic() {
         Elf elf = new Elf("Bosse");
