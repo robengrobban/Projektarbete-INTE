@@ -17,9 +17,6 @@ public class ChasingState implements State {
             System.out.println("Switching to NEUTRAL");
             controller.setCurrentState(StateType.NEUTRAL);
         }
-        else {
-            //move character
-        }
     }
 
     @Override
