@@ -3,7 +3,7 @@ package se.su.dsv.inte.projektarbete;
 /**
  * Class to represent a modifier at the highest level.
  */
-public abstract class Modifier { 
+public abstract class Modifier {
 
     // Instance Variables
     private String name;
