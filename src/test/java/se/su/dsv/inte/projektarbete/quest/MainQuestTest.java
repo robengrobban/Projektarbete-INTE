@@ -26,6 +26,8 @@ class MainQuestTest {
 
     }
 
+
+
     @Test
     void maxStageLessThanOne() {
         assertThrows(IllegalArgumentException.class, () -> new MainQuest("Test Quest", "Test", 0, new SimpleDamageModifier("Test Damage Modifier", 1, 5)));
@@ -41,6 +43,12 @@ class MainQuestTest {
     @Test
     void rewardNull() {
         assertThrows(IllegalArgumentException.class, () -> new MainQuest("Test Quest", "Test", 1, null));
+
+    }
+
+    @Test
+    void rewardNotNull() {
+        new MainQuest("Test Quest", "Test", 1,  new SimpleDamageModifier("Test Damage Modifier", 1, 5));
 
     }
 
