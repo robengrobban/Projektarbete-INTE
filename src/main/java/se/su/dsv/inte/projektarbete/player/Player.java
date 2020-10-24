@@ -68,7 +68,7 @@ public abstract class Player extends Character {
         addPlayerClass(playerClass);
         questManager = new QuestManager(new ArrayList<Quest>());
         if (spells == null)
-            spells = new ArrayList<Spell>();
+            this.spells = new ArrayList<Spell>();
         else
             this.spells = spells;
     }
@@ -141,7 +141,7 @@ public abstract class Player extends Character {
      * @return Requested spell.
      */
     public Spell getSpell(int index) {
-        if (index < 0 || index > 10 || index > spells.size() - 1) {
+        if (index < 0 || index > 10 || index >= spells.size()) {
             throw new IllegalArgumentException("index out of range");
         }
         return spells.get(index);

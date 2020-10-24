@@ -130,6 +130,10 @@ class PlayerTest {
             public int getLevel() {
                 return super.getLevel();
             }
+            @Override
+            public int getSpellCount() {
+                return super.getSpellCount();
+            }
         };
 
         assertEquals(name, player.getName());
@@ -138,6 +142,70 @@ class PlayerTest {
         assertEquals(totalHealth, player.getTotalHealth());
         assertEquals(maxMana, player.getMaxMana());
         assertEquals(CURRENT_HEALTH, player.getCurrentHealth());
+        assertEquals(0, player.getSpellCount());
+    }
+
+    @Test
+    void playerConstructorSetSpellsCorrectly() {
+        String name = "test";
+        int totalHealth = 100;
+        int damage = 40;
+        int maxMana = 50;
+        final int CURRENT_HEALTH = 60;
+        int defence = 20;
+        int attack = 25;
+        int experience = 200;
+        int level = 5;
+
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+        FireSpell spell = new FireSpell("fire", "hot", 5, 10, 10, canAttack);
+        FireSpell spell2 = new FireSpell("fire", "hot", 5, 10, 10, canAttack);
+        FireSpell spell3 = new FireSpell("fire", "hot", 5, 10, 10, canAttack);
+        FireSpell spell4 = new FireSpell("fire", "hot", 5, 10, 10, canAttack);
+        FireSpell spell5 = new FireSpell("fire", "hot", 5, 10, 10, canAttack);
+        FireSpell spell6 = new FireSpell("fire", "hot", 5, 10, 10, canAttack);
+
+        ArrayList<Spell> spells = new ArrayList<Spell>();
+        spells.add(spell);
+        spells.add(spell2);
+        spells.add(spell3);
+        spells.add(spell4);
+        spells.add(spell5);
+        spells.add(spell6);
+
+        assertEquals(6, spells.size());
+
+        Player player = new Player("test", totalHealth, maxMana, damage,
+                defence, attack, 2, 2, experience, level, null, null, null, spells ) {
+            @Override
+            public String getName() {
+                return super.getName();
+            }
+            @Override
+            public int getTotalHealth() {
+                return super.getTotalHealth();
+            }
+            @Override
+            public int getCurrentHealth() {
+                return super.getCurrentHealth();
+            }
+            @Override
+            public int getExperience() {
+                return super.getExperience();
+            }
+            @Override
+            public int getLevel() {
+                return super.getLevel();
+            }
+        };
+
+        assertEquals(6, player.getSpellCount());
+        assertEquals(spell, player.getSpell(0));
+        assertEquals(spell, player.getSpell(1));
+        assertEquals(spell, player.getSpell(2));
+        assertEquals(spell, player.getSpell(3));
+        assertEquals(spell, player.getSpell(4));
+        assertEquals(spell, player.getSpell(5));
     }
 
     @Test void playerMagicAttackCorrectWithPlayerClass() {
