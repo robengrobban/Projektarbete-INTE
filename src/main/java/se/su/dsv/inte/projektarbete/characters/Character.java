@@ -7,7 +7,7 @@ import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class Character {
+public class Character {
     static final int DAMAGE_RANGE = 5;
     static final int UNARMED_DAMAGE = 5;
     static final int VISIBILITY_RANGE = 3;
@@ -276,6 +276,7 @@ public abstract class Character {
         }
         return defence;
     }
+
 
     public int getTotalDefence(int damage) {
         return getBaseDefence(damage);

@@ -5,30 +5,34 @@ import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 public class Elf extends Player{
 
-    private final int PERCENT_ATTACK_MODIFIER;
-    private final int PERCENT_MAGIC_ATTACK_MODIFIER;
-    private final int PERCENT_DEFENCE_MODIFIER;
-    private final int PERCENT_MAGIC_DEFENCE_MODIFIER;
-
+    private RaceModifier raceModifier;
 
     public Elf(String name) {
         super(name);
-        PERCENT_ATTACK_MODIFIER = -5;
-        PERCENT_MAGIC_ATTACK_MODIFIER = 15;
-        PERCENT_DEFENCE_MODIFIER = -5;
-        PERCENT_MAGIC_DEFENCE_MODIFIER = 10;
+        setRaceModifier();
     }
 
     public Elf(String name, int health, int maxMana, int damage,
                int defence, int attack, int magicDefence, int magicAttack, int experience, int level, Armour armour, Weapon weapon) {
         super(name, health, maxMana, damage, defence, attack, magicDefence, magicAttack, experience, level, weapon, armour, null, null);
-        PERCENT_ATTACK_MODIFIER = -5;
-        PERCENT_MAGIC_ATTACK_MODIFIER = 15;
-        PERCENT_DEFENCE_MODIFIER = -5;
-        PERCENT_MAGIC_DEFENCE_MODIFIER = 10;
+        setRaceModifier();
     }
 
-    public boolean attacked(Weapon weapon) {
-        return damaged(weapon);
+    private void setRaceModifier() {
+        raceModifier = new RaceModifier(-5, 10, -15, 15);
+    }
+
+    public int getTotalDefence(int damage) {
+        int baseDefence = super.getTotalDefence(damage);
+        return raceModifier.modifyDefence(baseDefence);
+    }
+
+    public int getTotalMagicDefence(int damage) {
+        int baseDefence = super.getTotalMagicDefence(damage);
+        return raceModifier.modifyMagicDefence(baseDefence);
+    }
+
+    public boolean canUseMagic() {
+        return true;
     }
 }

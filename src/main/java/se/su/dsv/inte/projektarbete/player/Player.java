@@ -23,6 +23,7 @@ public abstract class Player extends Character {
     private QuestManager questManager;
     private PlayerClass playerClass;
     private ArrayList<Spell> spells;
+    private int spellLimit;
 
     /**
      * Constructor for creating a new player with a new name.
@@ -35,7 +36,7 @@ public abstract class Player extends Character {
         level = 1;
         experience = 0;
         questManager = new QuestManager(new ArrayList<Quest>());
-        playerClass = null;
+        addPlayerClass(null);
         spells = new ArrayList<Spell>();
         defence = 2;
         attack = 2;
@@ -64,7 +65,7 @@ public abstract class Player extends Character {
         this.experience = experience;
         this.level = level;
         changeCurrentHealth(-damage);
-        this.playerClass = playerClass;
+        addPlayerClass(playerClass);
         questManager = new QuestManager(new ArrayList<Quest>());
         if (spells == null)
             spells = new ArrayList<Spell>();
@@ -134,11 +135,24 @@ public abstract class Player extends Character {
         return defence;
     }
 
+    /**
+     * Retrieves a spell for the index if it exists.
+     * @param index Index of the spell to be retrieved.
+     * @return Requested spell.
+     */
     public Spell getSpell(int index) {
         if (index < 0 || index > 10 || index > spells.size() - 1) {
             throw new IllegalArgumentException("index out of range");
         }
         return spells.get(index);
+    }
+
+    /**
+     * Gets the number of spells the player has.
+     * @return Number of current spells.
+     */
+    public int getSpellCount() {
+        return spells.size();
     }
 
     /**
@@ -157,19 +171,40 @@ public abstract class Player extends Character {
         return super.isAlive();
     }
 
+    public void addPlayerClass(PlayerClass playerClass) {
+        //TODO: should modify magic list
+        this.playerClass = playerClass;
+        if (playerClass != null && playerClass.canUseMagic()) {
+            spellLimit = 10;
+        }
+        else if (canUseMagic()){
+            spellLimit = 3; //TODO: Check all four combinations for spell limit.
+        }
+    }
+
     /**
      * Adds a spell if spell list is not full (10 spells)
      * @param spell
      * @return
      */
     public boolean addSpell(Spell spell) {
-        if (spells.contains(spell))
-            throw new IllegalArgumentException();
+        if (canUseMagic())
+        {
+            if (spells.contains(spell))
+                throw new IllegalArgumentException();
 
-        final int MAX_SPELL_COUNT = 10;
-        if (spells.size() < MAX_SPELL_COUNT) {
-            spells.add(spell);
-            return true;
+            if (spells.size() < spellLimit) {
+                spells.add(spell);
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public boolean canUseMagic() {
+        if (playerClass != null) {
+            return playerClass.canUseMagic();
         }
         return false;
     }

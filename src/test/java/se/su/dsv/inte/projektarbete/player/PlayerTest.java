@@ -140,6 +140,22 @@ class PlayerTest {
         assertEquals(CURRENT_HEALTH, player.getCurrentHealth());
     }
 
+    @Test void playerMagicAttackCorrectWithPlayerClass() {
+        Player player = new Player("test", 100, 50, 20,
+                20, 20, 25, 22, 10, 1, null,
+                null, new MagicianClass(), null ) {};
+
+        assertEquals(37, player.getTotalMagicAttack());
+    }
+
+    @Test void playerMagicDefenceCorrectWithPlayerClass() {
+        Player player = new Player("test", 100, 50, 20,
+                20, 20, 25, 22, 10, 1, null,
+                null, new MagicianClass(), null ) {};
+
+        assertEquals(40, player.getMagicDefence());
+    }
+
     @Test void defenceProtectsAsExpected() {
         int totalHealth = 100;
         int damage = 30;
@@ -563,6 +579,7 @@ class PlayerTest {
                 return super.addSpell(spell);
             }
         };
+        player.addPlayerClass(new MagicianClass());
 
         for (int i = 1; i <= 10; i++) {
             int range = i;
@@ -591,6 +608,8 @@ class PlayerTest {
                 return super.addSpell(spell);
             }
         };
+
+        player.addPlayerClass(new MagicianClass());
 
         int range = 3;
         int manaCost = 13;
@@ -647,6 +666,8 @@ class PlayerTest {
             }
         };
 
+        player.addPlayerClass(new MagicianClass());
+
         player.addSpell(spell);
 
         assertDoesNotThrow(() -> {
@@ -699,6 +720,7 @@ class PlayerTest {
                 super.replaceSpell(newSpell, replacedIndex);
             }
         };
+        player.addPlayerClass(new MagicianClass());
 
         //Add two spells
         player.addSpell(spell1);
@@ -757,12 +779,10 @@ class PlayerTest {
         SimpleDamageModifier sdm = new SimpleDamageModifier("More", 10, 2);
         weapon.setModifier(sdm);
 
-        Human human = new Human("Test Subject");
+        Player human = new Player("Test Subject", 100, 120, 2, 2, 2, 2, 2, 2, 1, null, null, new WarriorClass(), null) {};
         human.setWeapon(weapon);
-        // TODO : FIX PLAYER CLASS
 
-
-        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 10);
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 13);
 
         Character target = new Character("Bob", armour, null, 100, 120) {};
 
@@ -773,7 +793,7 @@ class PlayerTest {
 
         human.attack(target);
 
-        assertEquals( 93, target.getCurrentHealth() );
+        assertEquals( 88, target.getCurrentHealth() );
     }
 
     /**
@@ -781,12 +801,12 @@ class PlayerTest {
      */
     @Test
     public void testPlayerAttackWithWeaponCaseThree() {
-        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
+        Weapon weapon = new Weapon("Sword", "Shiny...", 4, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
 
         Human human = new Human("Test Subject");
         human.setWeapon(weapon);
 
-        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 4);
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 4, 49);
         SimpleDefenceModifier sdm = new SimpleDefenceModifier("Meh..", 10, 2);
         armour.setModifier(sdm);
 
@@ -799,7 +819,7 @@ class PlayerTest {
 
         human.attack(target);
 
-        assertEquals( 94, target.getCurrentHealth() );
+        assertEquals( 97, target.getCurrentHealth() );
     }
 
     /**
@@ -811,11 +831,10 @@ class PlayerTest {
         SimpleDamageModifier sdm = new SimpleDamageModifier("More", 10, 2);
         weapon.setModifier(sdm);
 
-        Human human = new Human("Test Subject");
+        Player human = new Player("Test Subject", 100, 120, 2, 2, 2, 2, 2, 2, 1, null, null, new WarriorClass(), null) {};
         human.setWeapon(weapon);
-        // TODO : FIX PLAYER CLASS
 
-        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 5);
+        Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 4);
 
         Character target = new Character("Bob", armour, null, 100, 120) {};
 
@@ -828,7 +847,7 @@ class PlayerTest {
 
         human.attack(target);
 
-        assertEquals( 91, target.getCurrentHealth() );
+        assertEquals( 80, target.getCurrentHealth() );
     }
 
     /**
@@ -836,9 +855,14 @@ class PlayerTest {
      */
     @Test
     public void testPlayerAttackWithWeaponCaseFive() {
-        Human human = new Human("Test Subject");
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
 
-        Character target = new Character("Bob", null, null, 100, 120) {};
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+
+        Armour armour = new Armour("Nice", ":)", ArmourType.LIGHT, 10, 0);
+
+        Character target = new Character("Bob", armour, null, 100, 120) {};
 
         Map map = new Map(10, 10);
 
@@ -847,7 +871,7 @@ class PlayerTest {
 
         human.attack(target);
 
-        assertEquals( 100, target.getCurrentHealth() );
+        assertEquals( 88, target.getCurrentHealth() );
     }
 
     /**
@@ -855,10 +879,7 @@ class PlayerTest {
      */
     @Test
     public void testPlayerAttackWithWeaponCaseSix() {
-        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)), 0);
-
         Human human = new Human("Test Subject");
-        human.setWeapon(weapon);
 
         Character target = new Character("Bob", null, null, 100, 120) {};
 
@@ -877,7 +898,7 @@ class PlayerTest {
      */
     @Test
     public void testPlayerAttackWithWeaponCaseSeven() {
-        Weapon weapon = new Weapon("Bow... for air only", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.AIR)));
+        Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)), 0);
 
         Human human = new Human("Test Subject");
         human.setWeapon(weapon);
@@ -899,6 +920,28 @@ class PlayerTest {
      */
     @Test
     public void testPlayerAttackWithWeaponCaseEight() {
+        Weapon weapon = new Weapon("Bow... for air only", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.AIR)));
+
+        Human human = new Human("Test Subject");
+        human.setWeapon(weapon);
+
+        Character target = new Character("Bob", null, null, 100, 120) {};
+
+        Map map = new Map(10, 10);
+
+        map.placeCharacter(human, 0, 0);
+        map.placeCharacter(target, 0, 2);
+
+        human.attack(target);
+
+        assertEquals( 100, target.getCurrentHealth() );
+    }
+
+    /**
+     * Testcase 9
+     */
+    @Test
+    public void testPlayerAttackWithWeaponCaseNine() {
         Weapon weapon = new Weapon("Sword", "Shiny...", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
 
         Human human = new Human("Test Subject");
