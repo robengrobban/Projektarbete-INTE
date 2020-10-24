@@ -21,32 +21,35 @@ import static org.junit.jupiter.api.Assertions.*;
 class QuestManagerTest {
 
     @Test
-    void questListNull(){
-        assertThrows(IllegalArgumentException.class,()-> new QuestManager(null));
+    void questListNull() {
+        assertThrows(IllegalArgumentException.class, () -> new QuestManager(null));
     }
+
     @Test
-    void reportKillNoQuestAdded(){
+    void reportKillNoQuestAdded() {
         List<Quest> questList = new ArrayList<>();
         QuestManager questManager = new QuestManager(questList);
         questManager.reportKillsToQuests();
+
     }
+
     @Test
-    void reportKillOneQuestAdded(){
+    void reportKillOneQuestAdded() {
         List<Quest> questList = new ArrayList<>();
-        MainQuest quest= new MainQuest("name","description",2,new SimpleDamageModifier("test",1,1));
+        MainQuest quest = new MainQuest("name", "description", 2, new SimpleDamageModifier("test", 1, 1));
         questList.add(quest);
         QuestManager questManager = new QuestManager(questList);
         questManager.reportKillsToQuests();
         questManager.reportKillsToQuests();
 
-        assertEquals(2,quest.getEnemiesKilled());
+        assertEquals(2, quest.getEnemiesKilled());
     }
 
     @Test
-    void reportKillTwoQuestAdded(){
+    void reportKillTwoQuestAdded() {
         List<Quest> questList = new ArrayList<>();
-        MainQuest questOne= new MainQuest("name","description",2,new SimpleDamageModifier("test",1,1));
-        MainQuest questTwo= new MainQuest("name","description",2,new SimpleDamageModifier("test",1,1));
+        MainQuest questOne = new MainQuest("name", "description", 2, new SimpleDamageModifier("test", 1, 1));
+        MainQuest questTwo = new MainQuest("name", "description", 2, new SimpleDamageModifier("test", 1, 1));
 
         questList.add(questOne);
         questList.add(questTwo);
@@ -54,36 +57,39 @@ class QuestManagerTest {
         questManager.reportKillsToQuests();
         questManager.reportKillsToQuests();
 
-        assertEquals(2,questOne.getEnemiesKilled());
-        assertEquals(2,questTwo.getEnemiesKilled());
+        assertEquals(2, questOne.getEnemiesKilled());
+        assertEquals(2, questTwo.getEnemiesKilled());
 
     }
+
+
+
     @Test
-    void reportIntractableObjectChest(){
+    void reportIntractableObjectChest() {
         List<Quest> questList = new ArrayList<>();
-        MainQuest questOne= new MainQuest("name","description",2,new SimpleDamageModifier("test",1,1));
+        MainQuest questOne = new MainQuest("name", "description", 2, new SimpleDamageModifier("test", 1, 1));
 
         questList.add(questOne);
         QuestManager questManager = new QuestManager(questList);
         Item[] items = new Item[5];
-        questManager.reportIntractableObject(new Chest(items,"test"));
+        questManager.reportIntractableObject(new Chest(items, "test"));
 
         assertTrue(questOne.isFoundChest());
 
     }
 
     @Test
-    void reportIntractableObjectChestForTwoQuest(){
+    void reportIntractableObjectChestForTwoQuest() {
         List<Quest> questList = new ArrayList<>();
-        MainQuest questOne= new MainQuest("name","description",2,new SimpleDamageModifier("test",1,1));
-        MainQuest questTwo= new MainQuest("name","description",2,new SimpleDamageModifier("test",1,1));
+        MainQuest questOne = new MainQuest("name", "description", 2, new SimpleDamageModifier("test", 1, 1));
+        MainQuest questTwo = new MainQuest("name", "description", 2, new SimpleDamageModifier("test", 1, 1));
 
         questList.add(questOne);
         questList.add(questTwo);
 
         QuestManager questManager = new QuestManager(questList);
         Item[] items = new Item[5];
-        questManager.reportIntractableObject(new Chest(items,"test"));
+        questManager.reportIntractableObject(new Chest(items, "test"));
 
         assertTrue(questOne.isFoundChest());
         assertTrue(questTwo.isFoundChest());
@@ -92,10 +98,10 @@ class QuestManagerTest {
     }
 
     @Test
-    void reportIntractableObjectNoChestForTwoQuest(){
+    void reportIntractableObjectNoChestForTwoQuest() {
         List<Quest> questList = new ArrayList<>();
-        MainQuest questOne= new MainQuest("name","description",2,new SimpleDamageModifier("test",1,1));
-        MainQuest questTwo= new MainQuest("name","description",2,new SimpleDamageModifier("test",1,1));
+        MainQuest questOne = new MainQuest("name", "description", 2, new SimpleDamageModifier("test", 1, 1));
+        MainQuest questTwo = new MainQuest("name", "description", 2, new SimpleDamageModifier("test", 1, 1));
 
         questList.add(questOne);
         questList.add(questTwo);
@@ -110,39 +116,43 @@ class QuestManagerTest {
 
 
     }
+
     @Test
-    void addQuestNull(){
+    void addQuestNull() {
         List<Quest> questList = new ArrayList<>();
 
 
         QuestManager questManager = new QuestManager(questList);
 
-        assertThrows(IllegalArgumentException.class,()->questManager.addQuest(null));
+        assertThrows(IllegalArgumentException.class, () -> questManager.addQuest(null));
 
     }
+
     @Test
-    void addQuest(){
+    void addQuest() {
         List<Quest> questList = new ArrayList<>();
         QuestManager questManager = new QuestManager(questList);
-        MainQuest questOne= new MainQuest("name","description",2,new SimpleDamageModifier("test",1,1));
+        MainQuest questOne = new MainQuest("name", "description", 2, new SimpleDamageModifier("test", 1, 1));
         questManager.addQuest(questOne);
         questManager.reportKillsToQuests();
-        assertEquals(1,questOne.getEnemiesKilled());
+        assertEquals(1, questOne.getEnemiesKilled());
 
     }
+
     @Test
-    void cancelQuestNull(){
+    void cancelQuestNull() {
         List<Quest> questList = new ArrayList<>();
 
 
         QuestManager questManager = new QuestManager(questList);
 
-        assertThrows(IllegalArgumentException.class,()->questManager.cancelQuest(null));
+        assertThrows(IllegalArgumentException.class, () -> questManager.cancelQuest(null));
     }
+
     @Test
-    void cancelQuest(){
+    void cancelQuest() {
         List<Quest> questList = new ArrayList<>();
-        MainQuest questOne= new MainQuest("name","description",2,new SimpleDamageModifier("test",1,1));
+        MainQuest questOne = new MainQuest("name", "description", 2, new SimpleDamageModifier("test", 1, 1));
 
         QuestManager questManager = new QuestManager(questList);
         questManager.addQuest(questOne);
@@ -150,21 +160,22 @@ class QuestManagerTest {
         questManager.reportKillsToQuests();
 
 
-        assertEquals(0,questOne.getEnemiesKilled());
+        assertEquals(0, questOne.getEnemiesKilled());
     }
+
     @Test
-    void receiveRewardQuestAndPlayerNull(){
+    void receiveRewardQuestAndPlayerNull() {
         List<Quest> questList = new ArrayList<>();
         QuestManager questManager = new QuestManager(questList);
-        assertThrows(IllegalArgumentException.class,()->questManager.receiveReward(null,null));
+        assertThrows(IllegalArgumentException.class, () -> questManager.receiveReward(null, null));
 
     }
 
     @Test
-    void receiveReward(){
+    void receiveReward() {
         List<Quest> questList = new ArrayList<>();
         QuestManager questManager = new QuestManager(questList);
-        MainQuest questOne= new MainQuest("name","description",2,new SimpleDamageModifier("test",1,1));
+        MainQuest questOne = new MainQuest("name", "description", 2, new SimpleDamageModifier("test", 1, 1));
         questManager.addQuest(questOne);
         for (int i = 0; i < 11; i++) {
 
@@ -172,24 +183,21 @@ class QuestManagerTest {
         }
         Item[] items = new Item[5];
 
-        questManager.reportIntractableObject(new Chest(items,"test"));
+        questManager.reportIntractableObject(new Chest(items, "test"));
 
         Set<ElementType> canAttack = new HashSet<>();
         canAttack.add(ElementType.AIR);
         canAttack.add(ElementType.WATER);
 
-        Weapon weapon= new Weapon("name","description",3,2,canAttack);
+        Weapon weapon = new Weapon("name", "description", 3, 2, canAttack);
 
-        Human human = new Human("human",2,3,4,9,2,1,4,1,1,new Armour("name","description", ArmourType.HEAVY,2),weapon);
-        questManager.receiveReward(questOne,human);
+        Human human = new Human("human", 2, 3, 4, 9, 2, 1, 4, 1, 1, new Armour("name", "description", ArmourType.HEAVY, 2), weapon);
+        questManager.receiveReward(questOne, human);
         Weapon humanWeapon = human.getWeapon();
-        assertEquals(new SimpleDamageModifier("test",1,1),humanWeapon.getModifier());
-
+        assertEquals(new SimpleDamageModifier("test", 1, 1), humanWeapon.getModifier());
 
 
     }
-
-
 
 
 }
