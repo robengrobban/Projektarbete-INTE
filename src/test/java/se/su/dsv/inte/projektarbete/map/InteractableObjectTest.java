@@ -2,7 +2,6 @@ package se.su.dsv.inte.projektarbete.map;
 
 import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
-import se.su.dsv.inte.projektarbete.map.Tiles.TileType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,13 +14,13 @@ public class InteractableObjectTest {
      * ConcreteImplementation of InteractableObject testing it's specifics.
      */
     private static class ConcreteImplementation extends InteractableObject {
-        public ConcreteImplementation(String description) {
-            super(description);
+        public ConcreteImplementation(String description, MapPoint mapPoint) {
+            super(description, mapPoint);
         }
     }
 
-    private static class MockPoint extends Point {
-        public MockPoint() {
+    private static class MockMapPoint extends MapPoint {
+        public MockMapPoint() {
             super(new Ground(), 0,0);
         }
     }
@@ -31,10 +30,19 @@ public class InteractableObjectTest {
      */
     @Test
     void objectPlacedOnCorrectPoint() {
-        ConcreteImplementation concreteImplementation = new ConcreteImplementation(VALID_DESCRIPTION);
-        Point point = new MockPoint();
-        concreteImplementation.setPoint(point);
-        assertEquals(point, concreteImplementation.getPoint());
+        MapPoint mapPoint = new MockMapPoint();
+        ConcreteImplementation concreteImplementation = new ConcreteImplementation(VALID_DESCRIPTION, mapPoint);
+        assertEquals(mapPoint, concreteImplementation.getPoint());
+    }
+
+    /**
+     * Checks tht any attempt to set mapPoint to null throws exception.
+     */
+    @Test
+    void nullMapPointThrowsException() {
+        assertThrows(NullPointerException.class, () -> {
+            ConcreteImplementation concreteImplementation = new ConcreteImplementation(VALID_DESCRIPTION, null);
+        });
     }
 
     /**
@@ -42,8 +50,8 @@ public class InteractableObjectTest {
      */
     @Test
     void descriptionReturned() {
-        ConcreteImplementation concreteImplementation = new ConcreteImplementation(VALID_DESCRIPTION);
-        assertEquals(VALID_DESCRIPTION, concreteImplementation.inspect());
+        ConcreteImplementation concreteImplementation = new ConcreteImplementation(VALID_DESCRIPTION, new MockMapPoint());
+        assertEquals(VALID_DESCRIPTION, concreteImplementation.getDescription());
     }
 
     /**
@@ -52,7 +60,7 @@ public class InteractableObjectTest {
     @Test
     void emptyDescriptionThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> {
-           ConcreteImplementation concreteImplementation = new ConcreteImplementation(INVALID_EMPTY_DESCRIPTION);
+           ConcreteImplementation concreteImplementation = new ConcreteImplementation(INVALID_EMPTY_DESCRIPTION, new MockMapPoint());
         });
     }
 
@@ -62,7 +70,7 @@ public class InteractableObjectTest {
     @Test
     void nullDescriptionThrowsException() {
         assertThrows(IllegalArgumentException.class, () -> {
-            ConcreteImplementation concreteImplementation = new ConcreteImplementation(INVALID_NULL_DESCRIPTION);
+            ConcreteImplementation concreteImplementation = new ConcreteImplementation(INVALID_NULL_DESCRIPTION, new MockMapPoint());
         });
     }
 }

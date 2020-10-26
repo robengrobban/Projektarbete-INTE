@@ -1,16 +1,23 @@
 package se.su.dsv.inte.projektarbete.map;
 
 import se.su.dsv.inte.projektarbete.Item;
+import java.util.Arrays;
 
+/**
+ * Representing a chest containing an array of items.
+ */
 public class Chest extends InteractableObject {
+    /**
+     * The content of the chest.
+     */
     private final Item[] items;
 
     /**
      * @param items Chest content.
      * @param description object description.
      */
-    public Chest(Item[] items, String description) {
-        super(description);
+    public Chest(Item[] items, String description, MapPoint mapPoint) {
+        super(description, mapPoint);
         this.items = items;
     }
 
@@ -18,6 +25,8 @@ public class Chest extends InteractableObject {
      * @return items.
      */
     public Item[] open() {
-        return items;
+        Item[] tmp = items;
+        Arrays.fill(items, null);
+        return tmp;
     }
 }

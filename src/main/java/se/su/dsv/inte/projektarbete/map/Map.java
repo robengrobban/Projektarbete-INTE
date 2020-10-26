@@ -1,28 +1,89 @@
 package se.su.dsv.inte.projektarbete.map;
 
 import se.su.dsv.inte.projektarbete.Item;
+import se.su.dsv.inte.projektarbete.MathHandler;
 import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
-import se.su.dsv.inte.projektarbete.map.Tiles.Door;
 import se.su.dsv.inte.projektarbete.map.Tiles.TileType;
 import se.su.dsv.inte.projektarbete.characters.Character;
+import se.su.dsv.inte.projektarbete.map.Tiles.Toxic;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
 
+/**
+ * Represents a map which is a 2D list of points and handles generation and interaction.
+ */
 public class Map {
-    private static final int HIGHER_LIMIT = 10;
-    private static final int LOWER_LIMIT = 4;
 
-    //Public so they can be referred to in tests
-    public static final int MIN_DOOR_AMOUNT = 1;
-    public static final int MAX_DOOR_AMOUNT = 4;
-    public static final int MIN_INTERACTABLEOBJECT_AMOUNT = 0;
-    public static final int MAX_INTERACTABLEOBJECT_AMOUNT = 2;
+    /**
+     * Used for random numbers.
+     */
+    private static final MathHandler MATH_HANDLER = new MathHandler();
+    /**
+     * Min amount of doors a map may generate.
+     */
+    private static final int MIN_DOOR_AMOUNT = 1;
 
+    /**
+     * Max amount of doors a map may generate.
+     */
+    private static final int MAX_DOOR_AMOUNT = 4;
+
+    /**
+     * Min amount of interactable objects a map may generate.
+     */
+    private static final int MIN_CHEST_AMOUNT = 0;
+
+    /**
+     * Max amount of interactable objects a map may generate.
+     */
+    private static final int MAX_CHEST_AMOUNT = 2;
+
+    /**
+     * The default max size of a map (both x and y values).
+     */
+    private static final int HIGHER_MAP_SIZE_LIMIT = 10;
+    /**
+     * The default lower size of a map (both x and y values).
+     */
+    private static final int LOWER_MAP_SIZE_LIMIT = 4;
+
+    //Generation odds:
+
+    /**
+     * Possible numbers.
+     */
+    private static final int DOOR_GENERATION_HIGH = 5;
+
+    /**
+     * Possible numbers.
+     */
+    private static final int CHEST_GENERATION_HIGH = 10;
+
+    /**
+     * Possible numbers.
+     */
+    private static final int TOXIC_GENERATION_HIGH = 20;
+
+    /**
+     * Amount of doors.
+     */
     private int doorAmount = 0;
-    private int objectAmount = 0;
 
-    protected final ArrayList<ArrayList<Point>> map = new ArrayList<>(); //Protected for testing.
+    /**
+     * Amount of chests.
+     */
+    private int chestAmount = 0;
+
+    /**
+     * 2D list of points.
+     */
+    protected final List<List<MapPoint>> map = new ArrayList<>(); //Protected for testing.
+
+    /**
+     * List of all object in map.
+     */
+    protected final List<InteractableObject> interactableObjects = new ArrayList<>(); //protected for testing.
 
     /**
      * Creates a map with random x and y value by calling populateMap()
@@ -35,7 +96,7 @@ public class Map {
      * Creates a map with specified x and y values.
      * @param xSize Desired x size of map.
      * @param ySize Desired y size of map.
-     * @throws IllegalArgumentException if either xSize or ySize are < 0.
+     * @throws IllegalArgumentException if either xSize or ySize are <= 0.
      */
     public Map(int xSize, int ySize) {
         if (xSize <= 0 || ySize <= 0) {
@@ -52,7 +113,7 @@ public class Map {
      * @param xMax Maximum size of x.
      * @param yMin Minimum size of y.
      * @param yMax Maximum size of y.
-     * @throws IllegalArgumentException if either xMin or yMin are < 0, larger or equal to the max values.
+     * @throws IllegalArgumentException if either xMin or yMin are <= 0, larger or equal to the max values.
      */
     public Map(int xMin, int xMax, int yMin, int yMax) {
         if (xMin <= 0 || yMin <= 0) {
@@ -67,143 +128,227 @@ public class Map {
     }
 
     /**
+     * @return min amount of doors.
+     */
+    public static int getMinDoorAmount() {
+        return MIN_DOOR_AMOUNT;
+    }
+
+    /**
+     * @return max amount of doors.
+     */
+    public static int getMaxDoorAmount() {
+        return MAX_DOOR_AMOUNT;
+    }
+
+    /**
+     * @return min amount of interactable objects.
+     */
+    public static int getMinInteractableobjectAmountAmount() {
+        return MIN_CHEST_AMOUNT;
+    }
+
+    /**
+     * @return max amount of interactable objects.
+     */
+    public static int getMaxInteractableObjectAmount() {
+        return MAX_CHEST_AMOUNT;
+    }
+
+    /**
+     * @return the default higher limit of map size.
+     */
+    public static int getHigherMapSizeLimit() {
+        return HIGHER_MAP_SIZE_LIMIT;
+    }
+
+    /**
+     * @return the default lower limit of map size.
+     */
+    public static int getLowerMapSizeLimit() {
+        return LOWER_MAP_SIZE_LIMIT;
+    }
+
+    /**
+     * @return y size of map.
+     */
+    public int getYSize() {
+        return map.size();
+    }
+
+    /**
+     * @return x size of map.
+     */
+    public int getXSize() {
+        return map.get(1).size();
+    }
+
+    /**
+     * @return amount of doors.
+     */
+    public int getDoorAmount() {
+        return doorAmount;
+    }
+
+    /**
+     * @return amount of interactable objects.
+     */
+    public int getInteractableObjectAmount() {
+        return chestAmount;
+    }
+
+    /**
+     * @param character Character to place.
+     * @param x coordinate.
+     * @param y coordinate.
+     * @throws NullPointerException if specified Character is null.
+     */
+    public void placeCharacter(Character character, int x, int y) {
+        if (character == null)
+            throw new NullPointerException("Character may not be null");
+
+        int[] coordinates = { x, y };
+        character.setPoint(findPoint(coordinates));
+    }
+
+    /**
      * Populates map randomly according to the lower and higher limits.
      */
     private void populateMap() {
-        int x = randomInt(LOWER_LIMIT, HIGHER_LIMIT);
-        int y = randomInt(LOWER_LIMIT, HIGHER_LIMIT);
+        int x = MATH_HANDLER.randomInt(LOWER_MAP_SIZE_LIMIT, HIGHER_MAP_SIZE_LIMIT);
+        int y = MATH_HANDLER.randomInt(LOWER_MAP_SIZE_LIMIT, HIGHER_MAP_SIZE_LIMIT);
 
         addRandomTile(x, y);
     }
 
     /**
-     * Populates map according to specified x and y values.
+     * @param x size of map.
+     * @param y size of map.
      */
     private void populateMap(int x, int y) {
         addRandomTile(x, y);
     }
 
     /**
-     * Populates map randomly according to the lower and higher limits.
+     * @param xMin min size of x.
+     * @param xMax max size of x.
+     * @param yMin min size of y.
+     * @param yMax max size of y.
      */
     private void populateMap(int xMin, int xMax, int yMin, int yMax) {
-        int x = randomInt(xMin, xMax + 1);
-        int y = randomInt(yMin, yMax);
+        int x = MATH_HANDLER.randomInt(xMin, xMax + 1);
+        int y = MATH_HANDLER.randomInt(yMin, yMax + 1);
 
         addRandomTile(x, y);
     }
 
     /**
      * Fills every point in map with a TileType.
-     * @param x x size of list.
-     * @param y y size of list.
+     * @param maxX size of maxX axis in list.
+     * @param maxY size of maxY axis in list.
      */
-    private void addRandomTile(int x, int y) {
-        for (int i = 0; i < y; i++) {
-            ArrayList<Point> list = new ArrayList<>();
-            for (int j = 0; j < x; j++) {
-                Point point = new Point(generateTile(j, i, x, y), j, i);
+    private void addRandomTile(int maxX, int maxY) {
+        for (int currentY = 0; currentY < maxY; currentY++) {
+            List<MapPoint> yRow = new ArrayList<>();
+            for (int currentX = 0; currentX < maxX; currentX++) {
+                MapPoint mapPoint = new MapPoint(generateTile(), currentX, currentY);
 
-                InteractableObject object = objectGen(j, i, x, y);
-                if (object != null) {
-                    object.setPoint(point);
+                InteractableObject interactableObject = generateObject(currentX, currentY, maxX, maxY, mapPoint);
+
+                if (interactableObject != null) {
+                    interactableObjects.add(interactableObject);
                 }
-                list.add(point);
+
+                yRow.add(mapPoint);
 
             }
-            map.add(i, list);
+            map.add(currentY, yRow);
         }
     }
 
     /**
-     * @param lower lowest allowed number.
-     * @param higher highest allowed number.
-     * @return int, random number between lower and higher.
+     * @return type of tile.
      */
-    private int randomInt(int lower, int higher) {
-        Random r = new Random();
-        return r.nextInt(higher - lower) + lower;
+    private TileType generateTile() {
+        if (objectShouldSpawn(TOXIC_GENERATION_HIGH)) {
+            return new Toxic();
+        }
+        return new Ground();
     }
 
     /**
-     * Generates a tile type to be placed on a point.
-     * @return TileType, the type of tile that gets selected.
+     * @param currentX value of current x in creation loop.
+     * @param currentY value of current y in creation loop.
+     * @param maxX max x value of created map.
+     * @param maxY max y value of created map.
+     * @param mapPoint the current point.
+     * @return the InteractableObject generated.
      */
-    private TileType generateTile(int currentX, int currentY, int maxX, int maxY) {
-        boolean door = false;
-
-        //20% chance of door
-        if (randomInt(0, 5) == 4) {
-            door = true;
-        }
-
-        if ( (isEdgeTile(currentX, currentY, maxX, maxY) && door) && doorAmount != MAX_DOOR_AMOUNT|| isLastEdgeTile(currentX, currentY, maxX, maxY) && doorAmount < MIN_DOOR_AMOUNT) {
+    private InteractableObject generateObject(int currentX, int currentY, int maxX, int maxY, MapPoint mapPoint) {
+        if (isLastEdgeTile(currentX, currentY, maxX, maxY) && doorAmount != MIN_DOOR_AMOUNT) {
             doorAmount++;
-            return new Door();
+            return new Door("a door", mapPoint);
         }
 
-        else {
-            return new Ground();
+        else if (doorAllowed(currentX, currentY, maxX, maxY) && objectShouldSpawn(DOOR_GENERATION_HIGH)) {
+            doorAmount++;
+            return new Door("a door", mapPoint);
         }
-    }
-
-    /**
-     * @param currentX int, of point.
-     * @param currentY int, of point.
-     * @param maxX int, max value.
-     * @param maxY int, max value.
-     * @return InteractableObject, the object to be placed if decided.
-     */
-    private InteractableObject objectGen(int currentX, int currentY, int maxX, int maxY) {
-        boolean chest = false;
-        if (randomInt(0, 10) == 9) {
-            chest = true;
+        else if (chestAllowed() && objectShouldSpawn(CHEST_GENERATION_HIGH)) {
+            chestAmount++;
+            return new Chest(new Item[0], "desc", mapPoint);
         }
 
-        if ( (notEdgeTile(currentX, currentY, maxX, maxY) && chest) && objectAmount != MAX_INTERACTABLEOBJECT_AMOUNT) {
-            objectAmount++;
-            Item[] items = new Item[0];
-            return new Chest(items, "desc");
-        }
         return null;
     }
 
+    /**
+     * @param currentX value of current x in creation loop.
+     * @param currentY value of current y in creation loop.
+     * @param maxX max x value of created map.
+     * @param maxY max y value of created map.
+     * @return whether a door is allowed to spawn.
+     */
+    private boolean doorAllowed(int currentX, int currentY, int maxX, int maxY) {
+        return isEdgeTile(currentX, currentY, maxX, maxY) && doorAmount != MAX_DOOR_AMOUNT;
+    }
+
+    /**
+     * @return whether a chest i allowed to spawn.
+     */
+    private boolean chestAllowed() {
+        return chestAmount != MAX_CHEST_AMOUNT;
+    }
+
+    /**
+     * @param maxNumber max number generates, determines the odds.
+     * @return whether or not an object (or tile) should spawn.
+     */
+    private boolean objectShouldSpawn(int maxNumber) {
+        int x = MATH_HANDLER.randomInt(0, maxNumber);
+        return x == maxNumber - 1;
+    }
+
+    /**
+     * @param currentX the x value being checked.
+     * @param currentY the y value being checked.
+     * @param maxX the max value of x.
+     * @param maxY the max value of y.
+     * @return whether or not current point is edge tile or not.
+     */
     private boolean isEdgeTile(int currentX, int currentY, int maxX, int maxY) {
         return currentX == 0 || currentY == 0 || currentX + 1 == maxX || currentY + 1 == maxY;
     }
 
-    private boolean notEdgeTile(int currentX, int currentY, int maxX, int maxY) {
-        return !isEdgeTile(currentX, currentY, maxX, maxY);
-    }
-
+    /**
+     * @param currentX the x value being checked.
+     * @param currentY the y value being checked.
+     * @param maxX the max value of x.
+     * @param maxY the max value of y.
+     * @return whether or not current point is edge tile or not.
+     */
     private boolean isLastEdgeTile(int currentX, int currentY, int maxX, int maxY) {
         return currentX == maxX - 1 && currentY == maxY - 1;
-    }
-
-    public int getYSize() {
-        return map.size();
-    }
-
-    public int getXSize() {
-        return map.get(1).size();
-    }
-
-    public int getDoorAmount() {
-        return doorAmount;
-    }
-
-    public int getInteractableObjectAmount() {
-        return objectAmount;
-    }
-
-    /**
-     * @param character Character to place.
-     * @param x coordinate
-     * @param y coordinate
-     */
-    public void placeCharacter(Character character, int x, int y) {
-        int[] coordinates = { x, y };
-        character.setPoint(findPoint(coordinates));
     }
 
     /**
@@ -211,14 +356,15 @@ public class Map {
      * @return Point, the found point.
      * @throws IllegalStateException, if specified point does not exist.
      */
-    private Point findPoint(int[] coordinates) {
-        for (ArrayList<Point> list : map) {
-            for (Point point : list) {
-                if (point.getCoordinates()[0] == coordinates[0] && point.getCoordinates()[1] == coordinates[1]) {
-                    return point;
-                }
-            }
+    private MapPoint findPoint(int[] coordinates) {
+        MapPoint mapPoint;
+
+        try {
+            mapPoint = map.get(coordinates[1]).get(coordinates[0]);
         }
-        throw new IllegalStateException("No point found");
+        catch (IndexOutOfBoundsException e) {
+            throw new IllegalStateException("No point found");
+        }
+        return mapPoint;
     }
 }

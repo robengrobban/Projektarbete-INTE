@@ -7,6 +7,8 @@ import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.armour.ArmourType;
 import se.su.dsv.inte.projektarbete.map.Chest;
 import se.su.dsv.inte.projektarbete.map.InteractableObject;
+import se.su.dsv.inte.projektarbete.map.MapPoint;
+import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
 import se.su.dsv.inte.projektarbete.player.Human;
 import se.su.dsv.inte.projektarbete.weapon.SimpleDamageModifier;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
@@ -19,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MainQuestTest {
 
     private final MainQuest mainQuest = new MainQuest("Test Quest", "Test", 2, new SimpleDamageModifier("Test Damage Modifier", 1, 5));
+    private final MapPoint mapPoint = new MapPoint(new Ground(), 0, 0);
 
     @Test
     void getMaxStages() {
@@ -100,7 +103,7 @@ class MainQuestTest {
 
     @Test
     void reportIntractableObjectNotInstantsOfChest() {
-        mainQuest.reportIntractableObject(new InteractableObject("Test") {
+        mainQuest.reportIntractableObject(new InteractableObject("Test", mapPoint) {
         });
         assertFalse(mainQuest.isFoundChest());
 
@@ -110,7 +113,7 @@ class MainQuestTest {
     @Test
     void reportIntractableObjectInstantsOfChest() {
         Item[] items = new Item[0];
-        mainQuest.reportIntractableObject(new Chest(items, "Test"));
+        mainQuest.reportIntractableObject(new Chest(items, "Test", mapPoint));
         assertTrue(mainQuest.isFoundChest());
 
 
@@ -125,7 +128,7 @@ class MainQuestTest {
         for (int i = 0; i < 11; i++) {
             mainQuest.reportKill();
         }
-        mainQuest.reportIntractableObject(new Chest(items, "Test"));
+        mainQuest.reportIntractableObject(new Chest(items, "Test", mapPoint));
         mainQuest.receiveReward(human);
         assertFalse(mainQuest.isRewardReceived());
     }
@@ -146,7 +149,7 @@ class MainQuestTest {
         for (int i = 0; i < 11; i++) {
             mainQuest.reportKill();
         }
-        mainQuest.reportIntractableObject(new Chest(items, "Test"));
+        mainQuest.reportIntractableObject(new Chest(items, "Test", mapPoint));
         mainQuest.receiveReward(human);
         assertFalse(mainQuest.isRewardReceived());
     }
@@ -165,7 +168,7 @@ class MainQuestTest {
         for (int i = 0; i < 11; i++) {
             mainQuest.reportKill();
         }
-        mainQuest.reportIntractableObject(new Chest(items, "Test"));
+        mainQuest.reportIntractableObject(new Chest(items, "Test", mapPoint));
 
 
         assertNull(weapon.getModifier());
