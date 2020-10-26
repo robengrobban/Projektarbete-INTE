@@ -1,20 +1,10 @@
 package se.su.dsv.inte.projektarbete.player;
 
 public abstract class PlayerClass {
-    private int attackModifier;
-    private int magicAttackModifier;
-    private int defenceModifier;
-    private int magicDefenceModifier;
-
-    /**
-     * Constructor for only setting attack and defence.
-     * @param attackModifier
-     * @param defenceModifier
-     */
-    public PlayerClass(int attackModifier, int defenceModifier) {
-        this.attackModifier = attackModifier;
-        this.defenceModifier = defenceModifier;
-    }
+    private final int ATTACK_MODIFIER;
+    private final int MAGIC_ATTACK_MODIFIER;
+    private final int DEFENCE_MODIFIER;
+    private final int MAGIC_DEFENCE_MODIFIER;
 
     /**
      * Construcor for setting all modifier values.
@@ -24,27 +14,47 @@ public abstract class PlayerClass {
      * @param magicDefenceModifier
      */
     public PlayerClass(int attackModifier, int magicAttackModifier, int defenceModifier, int magicDefenceModifier) {
-        this.attackModifier = attackModifier;
-        this.magicAttackModifier = magicAttackModifier;
-        this.defenceModifier = defenceModifier;
-        this.magicDefenceModifier = magicDefenceModifier;
+        this.ATTACK_MODIFIER = attackModifier;
+        this.MAGIC_ATTACK_MODIFIER = magicAttackModifier;
+        this.DEFENCE_MODIFIER = defenceModifier;
+        this.MAGIC_DEFENCE_MODIFIER = magicDefenceModifier;
     }
 
+    /**
+     * Gets the modifier for the attack.
+     * @return Attack modifier
+     */
     public int getAttackModifier() {
-        return attackModifier;
+        return ATTACK_MODIFIER;
     }
 
+    /**
+     * Gets the modifier for the defence.
+     * @return Defence modifier
+     */
     public int getDefenceModifier() {
-        return defenceModifier;
+        return DEFENCE_MODIFIER;
     }
 
+    /**
+     * Gets the modifier for the magic attack
+     * @return Magic attack modifier
+     */
     public int getMagicAttackModifier() {
-        return magicAttackModifier;
+        return MAGIC_ATTACK_MODIFIER;
     }
 
-    public int getMagicDefenceModifier() {
-        return magicDefenceModifier;
+    /**
+     * Gets the modifier for the magic defence.
+     * @return Magic defence modifier
+     */
+    public int getMAGIC_DEFENCE_MODIFIER() {
+        return MAGIC_DEFENCE_MODIFIER;
     }
 
+    /**
+     * Returns of player with job class can use magic or not.
+     * @return True if can use magic, else false.
+     */
     public abstract boolean canUseMagic();
 }
