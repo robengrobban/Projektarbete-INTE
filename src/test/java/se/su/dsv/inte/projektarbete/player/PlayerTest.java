@@ -11,8 +11,6 @@ import se.su.dsv.inte.projektarbete.characters.StateType;
 import se.su.dsv.inte.projektarbete.magic.FireSpell;
 import se.su.dsv.inte.projektarbete.magic.Spell;
 import se.su.dsv.inte.projektarbete.map.Map;
-import se.su.dsv.inte.projektarbete.quest.Quest;
-import se.su.dsv.inte.projektarbete.quest.QuestManager;
 import se.su.dsv.inte.projektarbete.weapon.SimpleDamageModifier;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
@@ -34,7 +32,7 @@ class PlayerTest {
         int expectedMagicalDefence = 2;
         String name = "test";
 
-        Player player = new Player("test") {
+        Player player = new Player("test", 0, 0, 0, 0) {
 
             @Override
             public String getName() {
@@ -60,8 +58,8 @@ class PlayerTest {
 
         assertEquals(name, player.getName());
         assertEquals(expectedLevel, player.getLevel());
-        assertEquals(expectedDefence, player.getDefence());
-        assertEquals(expectedMagicalDefence, player.getMagicDefence());
+        assertEquals(expectedDefence, player.getTotalDefence(100));
+        assertEquals(expectedMagicalDefence, player.getTotalMagicDefence(100));
         assertEquals(expectedAttack, player.getTotalAttack());
         assertEquals(expectedMagicalAttack, player.getTotalMagicAttack());
         assertEquals(expectedExperience, player.getExperience());
@@ -70,7 +68,7 @@ class PlayerTest {
     @Test
     void emptyNameNotAccepted() {
         assertThrows(IllegalArgumentException.class, () -> {
-            Player player = new Player("") {
+            Player player = new Player("", 0, 0, 0, 0) {
                 @Override
                 public String getName() {
                     return super.getName();
@@ -78,7 +76,7 @@ class PlayerTest {
             };
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            Player player = new Player("   ") {
+            Player player = new Player("   ", 0, 0, 0, 0) {
                 @Override
                 public String getName() {
                     return super.getName();
@@ -86,7 +84,7 @@ class PlayerTest {
             };
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            Player player = new Player(null) {
+            Player player = new Player(null, 0, 0, 0, 0) {
                 @Override
                 public String getName() {
                     return super.getName();
@@ -109,7 +107,7 @@ class PlayerTest {
 
 
         Player player = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, 2, 2, experience, level, null, null, null, null ) {
+                defence, attack, 2, 2, experience, level, null, null, null, null, 0, 0, 0, 0) {
             @Override
             public String getName() {
                 return super.getName();
@@ -176,7 +174,7 @@ class PlayerTest {
         assertEquals(6, spells.size());
 
         Player player = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, 2, 2, experience, level, null, null, null, spells ) {
+                defence, attack, 2, 2, experience, level, null, null, null, spells, 0, 0, 0, 0) {
             @Override
             public String getName() {
                 return super.getName();
@@ -211,7 +209,7 @@ class PlayerTest {
     @Test void playerMagicAttackCorrectWithPlayerClass() {
         Player player = new Player("test", 100, 50, 20,
                 20, 20, 25, 22, 10, 1, null,
-                null, new MagicianClass(), null ) {};
+                null, new MagicianClass(), null, 0, 0, 0, 0) {};
 
         assertEquals(37, player.getTotalMagicAttack());
     }
@@ -219,9 +217,9 @@ class PlayerTest {
     @Test void playerMagicDefenceCorrectWithPlayerClass() {
         Player player = new Player("test", 100, 50, 20,
                 20, 20, 25, 22, 10, 1, null,
-                null, new MagicianClass(), null ) {};
+                null, new MagicianClass(), null, 0, 0, 0, 0) {};
 
-        assertEquals(40, player.getMagicDefence());
+        assertEquals(40, player.getTotalMagicDefence(100));
     }
 
     @Test void defenceProtectsAsExpected() {
@@ -230,7 +228,7 @@ class PlayerTest {
         int defence = 20;
 
         Player player = new Player("test", totalHealth, 30, damage,
-                defence, 20, 2, 2, 57, 2, null, null, null, null ) {
+                defence, 20, 2, 2, 57, 2, null, null, null, null, 0, 0, 0, 0) {
             @Override
             public boolean damaged(Weapon weapon) {
                 return super.damaged(weapon);
@@ -261,7 +259,7 @@ class PlayerTest {
         int level = 5;
 
         Player player = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, 2, 2, experience, level, null, null, null, null ) {
+                defence, attack, 2, 2, experience, level, null, null, null, null, 0, 0, 0, 0) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -293,7 +291,7 @@ class PlayerTest {
         int level = 5;
 
         Player player = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, 2, 2, experience, level, null, null, null, null ) {
+                defence, attack, 2, 2, experience, level, null, null, null, null, 0, 0, 0, 0) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -328,7 +326,7 @@ class PlayerTest {
         int level = 5;
 
         Player player1 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, 2, 2, experience, level, null, null, null, null) {
+                defence, attack, 2, 2, experience, level, null, null, null, null, 0, 0, 0, 0) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -336,7 +334,7 @@ class PlayerTest {
         };
 
         Player player2 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, 2, 2, experience, level, null, null, null, null) {
+                defence, attack, 2, 2, experience, level, null, null, null, null, 0, 0, 0, 0) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -344,7 +342,7 @@ class PlayerTest {
         };
 
         Player player3 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, 2, 2, experience, level, null, null, null, null) {
+                defence, attack, 2, 2, experience, level, null, null, null, null, 0, 0, 0, 0) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -387,7 +385,7 @@ class PlayerTest {
         Weapon sword = new Weapon("sword", "A sword.", baseDamage, range, canAttack);
 
         Player player = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, 2, 2, experience, level, sword, null, null, null) {
+                defence, attack, 2, 2, experience, level, sword, null, null, null, 0, 0, 0, 0) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -438,7 +436,7 @@ class PlayerTest {
         Weapon sword = new Weapon(name, desc, baseDamage, range, canAttack);
 
         Player player = new Player(name, totalHealth, maxMana, damage,
-                defence, attack, 2, 2, experience, level, sword, null, null, null) {
+                defence, attack, 2, 2, experience, level, sword, null, null, null, 0, 0, 0, 0) {
             @Override
             public boolean damaged(Weapon sword) {
                 return super.damaged(sword);
@@ -484,7 +482,7 @@ class PlayerTest {
         FireSpell spell = new FireSpell("firespell" ,"a fire spell", 5 ,5, spellDamage, canAttack);
 
         Player player = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, magicalDefence, 2, experience, level, null, null, null, null) {
+                defence, attack, magicalDefence, 2, experience, level, null, null, null, null, 0, 0, 0, 0) {
 
         };
 
@@ -513,7 +511,7 @@ class PlayerTest {
         int level3 = 1999956;
 
         Player player1 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, 2, 2, experience, level1, null, null, null, null) {
+                defence, attack, 2, 2, experience, level1, null, null, null, null, 0, 0, 0, 0) {
             @Override
             public int getTotalHealth() {
                 return super.getTotalHealth();
@@ -533,7 +531,7 @@ class PlayerTest {
         };
 
         Player player2 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, 2, 2, experience, level2, null, null, null, null) {
+                defence, attack, 2, 2, experience, level2, null, null, null, null, 0, 0, 0, 0) {
             @Override
             public int getTotalHealth() {
                 return super.getTotalHealth();
@@ -553,7 +551,7 @@ class PlayerTest {
         };
 
         Player player3 = new Player("test", totalHealth, maxMana, damage,
-                defence, attack, 2, 2, experience, level3, null, null, null, null) {
+                defence, attack, 2, 2, experience, level3, null, null, null, null, 0, 0, 0, 0) {
             @Override
             public int getTotalHealth() {
                 return super.getTotalHealth();
@@ -564,7 +562,7 @@ class PlayerTest {
             }
             @Override
             public int getExperience() {
-                return super.getDefence();
+                return super.getTotalDefence(100);
             }
             @Override
             public int getLevel() {
@@ -580,15 +578,15 @@ class PlayerTest {
         //Assert no changes
         assertEquals(100, player1.getTotalHealth());
         assertEquals(25, player1.getTotalAttack());
-        assertEquals(20, player1.getDefence());
+        assertEquals(20, player1.getTotalDefence(100));
 
         assertEquals(100, player2.getTotalHealth());
         assertEquals(25, player2.getTotalAttack());
-        assertEquals(20, player2.getDefence());
+        assertEquals(20, player2.getTotalDefence(100));
 
         assertEquals(100, player3.getTotalHealth());
         assertEquals(25, player3.getTotalAttack());
-        assertEquals(20, player3.getDefence());
+        assertEquals(20, player3.getTotalDefence(100));
 
     }
 
@@ -603,7 +601,7 @@ class PlayerTest {
         int level3 = 1;
 
         Player player1 = new Player("test", 10, 0, 10,
-                10, 10, 2, 2, experience1, level1, null, null, null, null) {
+                10, 10, 2, 2, experience1, level1, null, null, null, null, 0, 0, 0, 0) {
             @Override
             public int getLevel() {
                 return super.getLevel();
@@ -611,7 +609,7 @@ class PlayerTest {
         };
 
         Player player2 = new Player("test", 10, 0, 10,
-                10, 10, 2, 2, experience2, level2, null, null, null, null) {
+                10, 10, 2, 2, experience2, level2, null, null, null, null, 0, 0, 0, 0) {
 
             @Override
             public int getLevel() {
@@ -620,7 +618,7 @@ class PlayerTest {
         };
 
         Player player3 = new Player("test", 10, 0, 10,
-                10, 10, 2, 2, experience3, level3, null, null, null, null) {
+                10, 10, 2, 2, experience3, level3, null, null, null, null, 0, 0, 0, 0) {
 
             @Override
             public int getLevel() {
@@ -641,7 +639,7 @@ class PlayerTest {
 
     @Test
     void canOnlyAddTenSpells() {
-        Player player = new Player("name") {
+        Player player = new Player("name", 0, 0, 0, 0) {
             @Override
             public boolean addSpell(Spell spell) {
                 return super.addSpell(spell);
@@ -670,7 +668,7 @@ class PlayerTest {
 
     @Test
     void cannotAddDuplicateSpells() {
-        Player player = new Player("name") {
+        Player player = new Player("name", 0, 0, 0, 0) {
             @Override
             public boolean addSpell(Spell spell) {
                 return super.addSpell(spell);
@@ -702,7 +700,7 @@ class PlayerTest {
         HashSet<ElementType> canAttack1 = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.AIR));
         FireSpell spell1 = new FireSpell("spellname", "firespell", range, manaCost, damage, canAttack1);
 
-        Player player = new Player("name") {
+        Player player = new Player("name", 0, 0, 0, 0) {
             @Override
             public boolean addSpell(Spell spell) {
                 return super.addSpell(spell);
@@ -723,7 +721,7 @@ class PlayerTest {
         HashSet<ElementType> canAttack1 = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.AIR));
         FireSpell spell = new FireSpell("spellname", "firespell", range, manaCost, damage, canAttack1);
 
-        Player player = new Player("name") {
+        Player player = new Player("name", 0, 0, 0, 0) {
             @Override
             public boolean addSpell(Spell spell) {
                 return super.addSpell(spell);
@@ -774,7 +772,7 @@ class PlayerTest {
         HashSet<ElementType> canAttack3 = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
         FireSpell spell3 = new FireSpell("spellname", "firespell", range3, manaCost3, damage3, canAttack3);
 
-        Player player = new Player("name") {
+        Player player = new Player("name", 0, 0, 0, 0) {
             @Override
             public boolean addSpell(Spell spell) {
                 return super.addSpell(spell);
@@ -847,7 +845,7 @@ class PlayerTest {
         SimpleDamageModifier sdm = new SimpleDamageModifier("More", 10, 2);
         weapon.setModifier(sdm);
 
-        Player human = new Player("Test Subject", 100, 120, 2, 2, 2, 2, 2, 2, 1, null, null, new WarriorClass(), null) {};
+        Player human = new Player("Test Subject", 100, 120, 2, 2, 2, 2, 2, 2, 1, null, null, new WarriorClass(), null, 0, 0, 0, 0) {};
         human.setWeapon(weapon);
 
         Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 13);
@@ -899,7 +897,7 @@ class PlayerTest {
         SimpleDamageModifier sdm = new SimpleDamageModifier("More", 10, 2);
         weapon.setModifier(sdm);
 
-        Player human = new Player("Test Subject", 100, 120, 2, 2, 2, 2, 2, 2, 1, null, null, new WarriorClass(), null) {};
+        Player human = new Player("Test Subject", 100, 120, 2, 2, 2, 2, 2, 2, 1, null, null, new WarriorClass(), null, 0, 0, 0, 0) {};
         human.setWeapon(weapon);
 
         Armour armour = new Armour("Chestplate", "Rusty", ArmourType.LIGHT, 4);
