@@ -14,7 +14,7 @@ class MagicianClassTest {
         assertEquals(-5, m.getAttackModifier());
         assertEquals(15, m.getMagicAttackModifier());
         assertEquals(-5, m.getDefenceModifier());
-        assertEquals(15, m.getMagicDefenceModifier());
+        assertEquals(15, m.getMAGIC_DEFENCE_MODIFIER());
     }
 
 }
