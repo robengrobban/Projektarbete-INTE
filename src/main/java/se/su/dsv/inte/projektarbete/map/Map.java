@@ -53,17 +53,17 @@ public class Map {
     /**
      * Possible numbers.
      */
-    private static final int DOOR_GENERATION_HIGH = 5;
+    private static final int DOOR_GENERATION_ODDS = 5;
 
     /**
      * Possible numbers.
      */
-    private static final int CHEST_GENERATION_HIGH = 10;
+    private static final int CHEST_GENERATION_ODDS = 10;
 
     /**
      * Possible numbers.
      */
-    private static final int TOXIC_GENERATION_HIGH = 20;
+    private static final int TOXIC_GENERATION_ODDS = 20;
 
     /**
      * Amount of doors.
@@ -270,7 +270,7 @@ public class Map {
      * @return type of tile.
      */
     private TileType generateTile() {
-        if (objectShouldSpawn(TOXIC_GENERATION_HIGH)) {
+        if (objectShouldSpawn(TOXIC_GENERATION_ODDS)) {
             return new Toxic();
         }
         return new Ground();
@@ -290,11 +290,11 @@ public class Map {
             return new Door("a door", mapPoint);
         }
 
-        else if (doorAllowed(currentX, currentY, maxX, maxY) && objectShouldSpawn(DOOR_GENERATION_HIGH)) {
+        else if (doorAllowed(currentX, currentY, maxX, maxY) && objectShouldSpawn(DOOR_GENERATION_ODDS)) {
             doorAmount++;
             return new Door("a door", mapPoint);
         }
-        else if (chestAllowed() && objectShouldSpawn(CHEST_GENERATION_HIGH)) {
+        else if (chestAllowed() && objectShouldSpawn(CHEST_GENERATION_ODDS)) {
             chestAmount++;
             return new Chest(new Item[0], "desc", mapPoint);
         }
