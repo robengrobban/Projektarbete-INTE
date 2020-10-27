@@ -13,11 +13,11 @@ public abstract class Item {
     public Item(String name, String description) {
 
         // Verify name
-        if ( name == null || name.isEmpty() ) {
+        if ( name == null || name.trim().isEmpty() ) {
             throw new IllegalArgumentException("Name must be set.");
         }
         // Verify description
-        else if ( description == null || description.isEmpty() ) {
+        else if ( description == null || description.trim().isEmpty() ) {
             throw new IllegalArgumentException("Description must be set.");
         }
 
