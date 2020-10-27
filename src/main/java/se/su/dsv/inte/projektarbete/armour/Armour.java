@@ -132,11 +132,7 @@ public class Armour extends Item {
      * @return int, the total armour
      */
     public int getTotalArmour() {
-        int sum = this.modifyArmorAfterModifier( this.getBaseArmour() );
-
-
-
-        return sum;
+        return this.modifyArmourAfterDurability(this.modifyArmorAfterModifier(this.getBaseArmour()));
     }
 
     /**
@@ -245,10 +241,10 @@ public class Armour extends Item {
      */
     private int modifyArmourAfterDurability(int armour) {
         if ( this.durability <= 50 && this.durability != 0 ) {
-            armour *= 0.5;
+            return armour *= 0.5;
         }
         else if ( this.durability == 0 ) {
-            armour = 0;
+            return 0;
         }
         else {
             return armour;
