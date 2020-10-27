@@ -1,6 +1,7 @@
 package se.su.dsv.inte.projektarbete.map;
 
 import org.junit.jupiter.api.Test;
+import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
 
 import java.util.List;
 
@@ -13,8 +14,8 @@ public class MapTest {
     private static final int MIN_DOOR_AMOUNT = Map.getMinDoorAmount();
     private static final int MAX_DOOR_AMOUNT = Map.getMaxDoorAmount();
 
-    private static final int MIN_INTERACTABLEOBJECT_AMOUNT = Map.getMinInteractableobjectAmountAmount();
-    private static final int MAX_INTERACTABLEOBJECT_AMOUNT = Map.getMaxInteractableObjectAmount();
+    private static final int MIN_CHEST_AMOUNT = Map.getMinChestAmount();
+    private static final int MAX_CHEST_AMOUNT = Map.getMaxChestAmount();
 
     static class TestMap extends Map {
         public TestMap() {
@@ -32,6 +33,13 @@ public class MapTest {
          * @return interactableObjects
          */
         List<InteractableObject> getInteractableObjects() { return interactableObjects; }
+
+        /**
+         * Sets door amount to 0.
+         */
+        void setDoorAmountToZero() {
+            doorAmount = 0;
+        }
     }
 
     /**
@@ -45,13 +53,24 @@ public class MapTest {
     }
 
     /**
+     * Checks that the last tile is assigned a door when the map otherwise does not have any doors.
+     */
+    @Test
+    void ifDoorsUnderLimitAtLastTileADoorIsAdded() {
+        TestMap testMap = new TestMap();
+        testMap.setDoorAmountToZero();
+        System.out.println(testMap.getDoorAmount());
+        assertTrue(testMap.generateObject(0, 2, 1, 3, new MapPoint(new Ground(), 0, 2)) instanceof Door);
+    }
+
+    /**
      * Checks that a map does not have to few or too many of elements
      */
     @Test
     void mapContainsCorrectComponents() {
         Map map = new Map();
         assertTrue(map.getDoorAmount() >= MIN_DOOR_AMOUNT && map.getDoorAmount() <= MAX_DOOR_AMOUNT);
-        assertTrue(map.getInteractableObjectAmount() >= MIN_INTERACTABLEOBJECT_AMOUNT && map.getInteractableObjectAmount() <= MAX_INTERACTABLEOBJECT_AMOUNT);
+        assertTrue(map.getChestAmount() >= MIN_CHEST_AMOUNT && map.getChestAmount() <= MAX_CHEST_AMOUNT);
     }
 
     /**
@@ -69,7 +88,7 @@ public class MapTest {
             int x = object.getPoint().getCoordinates()[0];
             int y = object.getPoint().getCoordinates()[1];
 
-            if (!isEdgeTile(x, y, maxX, maxY)) {
+            if (!isEdgeTile(x, y, maxX, maxY) && object instanceof Door) {
                 return false;
             }
         }

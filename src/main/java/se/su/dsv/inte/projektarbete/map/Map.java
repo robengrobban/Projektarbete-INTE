@@ -68,7 +68,7 @@ public class Map {
     /**
      * Amount of doors.
      */
-    private int doorAmount = 0;
+    protected int doorAmount = 0;
 
     /**
      * Amount of chests.
@@ -144,14 +144,14 @@ public class Map {
     /**
      * @return min amount of interactable objects.
      */
-    public static int getMinInteractableobjectAmountAmount() {
+    public static int getMinChestAmount() {
         return MIN_CHEST_AMOUNT;
     }
 
     /**
      * @return max amount of interactable objects.
      */
-    public static int getMaxInteractableObjectAmount() {
+    public static int getMaxChestAmount() {
         return MAX_CHEST_AMOUNT;
     }
 
@@ -193,7 +193,7 @@ public class Map {
     /**
      * @return amount of interactable objects.
      */
-    public int getInteractableObjectAmount() {
+    public int getChestAmount() {
         return chestAmount;
     }
 
@@ -284,8 +284,8 @@ public class Map {
      * @param mapPoint the current point.
      * @return the InteractableObject generated.
      */
-    private InteractableObject generateObject(int currentX, int currentY, int maxX, int maxY, MapPoint mapPoint) {
-        if (isLastEdgeTile(currentX, currentY, maxX, maxY) && doorAmount != MIN_DOOR_AMOUNT) {
+    protected InteractableObject generateObject(int currentX, int currentY, int maxX, int maxY, MapPoint mapPoint) {
+        if (isLastEdgeTile(currentX, currentY, maxX, maxY) && doorAmount < MIN_DOOR_AMOUNT) {
             doorAmount++;
             return new Door("a door", mapPoint);
         }
@@ -348,7 +348,7 @@ public class Map {
      * @return whether or not current point is edge tile or not.
      */
     private boolean isLastEdgeTile(int currentX, int currentY, int maxX, int maxY) {
-        return currentX == maxX - 1 && currentY == maxY - 1;
+        return (currentX == maxX - 1 && currentY == maxY - 1) || (currentX == maxX - 1 && maxY == 0);
     }
 
     /**

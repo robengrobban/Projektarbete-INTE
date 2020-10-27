@@ -10,7 +10,7 @@ public class Chest extends InteractableObject {
     /**
      * The content of the chest.
      */
-    private final Item[] items;
+    private Item[] items;
 
     /**
      * @param items Chest content.
@@ -25,8 +25,8 @@ public class Chest extends InteractableObject {
      * @return items.
      */
     public Item[] open() {
-        Item[] tmp = items;
-        Arrays.fill(items, null);
+        Item[] tmp = items.clone();
+        items = new Item[0];
         return tmp;
     }
 }
