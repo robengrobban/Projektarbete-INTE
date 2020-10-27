@@ -134,12 +134,7 @@ public class Armour extends Item {
     public int getTotalArmour() {
         int sum = this.modifyArmorAfterModifier( this.getBaseArmour() );
 
-        if ( this.durability <= 50 && this.durability != 0 ) {
-            sum *= 0.5;
-        }
-        else if ( this.durability == 0 ) {
-            sum = 0;
-        }
+
 
         return sum;
     }
@@ -237,6 +232,23 @@ public class Armour extends Item {
     private int modifyArmorAfterModifier(int armour) {
         if ( this.modifier != null ) {
             return this.modifier.calculateBaseDefenceModification(armour);
+        }
+        else {
+            return armour;
+        }
+    }
+
+    /**
+     * Modifies the armour with regards to durability
+     * @param armour int, the armour to be modified
+     * @return int, the modified value
+     */
+    private int modifyArmourAfterDurability(int armour) {
+        if ( this.durability <= 50 && this.durability != 0 ) {
+            armour *= 0.5;
+        }
+        else if ( this.durability == 0 ) {
+            armour = 0;
         }
         else {
             return armour;
