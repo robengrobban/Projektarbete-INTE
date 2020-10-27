@@ -46,9 +46,10 @@ public class HealSpell extends Spell {
      */
     @Override
     public boolean use(Character source, Character target) {
-        if ( source.isWithinRange(target, this.getRange()) ) {
-            // Try to remove mana
-            if (source.changeCurrentMana(-getManaCost())) {
+        if ( isWithinRange(source, target) ) {
+
+            // Try to use spell with mana
+            if ( useWithMana(source) ) {
 
                 // Heal target
                 target.changeCurrentHealth(this.healing);
@@ -61,4 +62,24 @@ public class HealSpell extends Spell {
         // Was not able to use
         return false;
     }
+
+    /**
+     * Is a target within range of a source
+     * @param source Character, the source
+     * @param target Character, the target
+     * @return boolean, true if it is within range
+     */
+    private boolean isWithinRange(Character source, Character target) {
+        return source.isWithinRange(target, this.getRange());
+    }
+
+    /**
+     * Use the spell with mana
+     * @param source Character, the source of the spell
+     * @return boolean, true if Character was able to use this spell with mana
+     */
+    private boolean useWithMana(Character source) {
+        return source.changeCurrentMana(-this.getManaCost());
+    }
+
 }
