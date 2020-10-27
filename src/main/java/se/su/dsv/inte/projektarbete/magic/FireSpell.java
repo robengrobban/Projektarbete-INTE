@@ -58,7 +58,7 @@ public class FireSpell extends Spell {
     @Override
     public boolean use(Character source, Character target) {
         // Control that I can attack this target
-        if ( isAttackable(target) ) {
+        if ( isTreatable(target) ) {
 
             // Am I in range
             if ( isWithinRange(source, target) ) {
@@ -81,27 +81,8 @@ public class FireSpell extends Spell {
      * @param target Character, the target
      * @return boolean, true if it can be attacked and false if it cannot
      */
-    private boolean isAttackable(Character target) {
+    private boolean isTreatable(Character target) {
         return this.canAttack.contains(target.getElementType());
-    }
-
-    /**
-     * Is a target within range of a source
-     * @param source Character, the source
-     * @param target Character, the target
-     * @return boolean, true if it is within range
-     */
-    private boolean isWithinRange(Character source, Character target) {
-        return source.isWithinRange(target, this.getRange());
-    }
-
-    /**
-     * Use the spell with mana
-     * @param source Character, the source of the spell
-     * @return boolean, true if Character was able to use this spell with mana
-     */
-    private boolean useWithMana(Character source) {
-        return source.changeCurrentMana(-this.getManaCost());
     }
 
 }
