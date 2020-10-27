@@ -34,6 +34,9 @@ public class MapTest {
         List<InteractableObject> getInteractableObjects() { return interactableObjects; }
     }
 
+    /**
+     * Checks that a random map is created within the default range.
+     */
     @Test
     void randomMapCreated() {
         Map map = new Map();
@@ -47,8 +50,6 @@ public class MapTest {
     @Test
     void mapContainsCorrectComponents() {
         Map map = new Map();
-        System.out.println(map.getDoorAmount());
-        System.out.println(map.getInteractableObjectAmount());
         assertTrue(map.getDoorAmount() >= MIN_DOOR_AMOUNT && map.getDoorAmount() <= MAX_DOOR_AMOUNT);
         assertTrue(map.getInteractableObjectAmount() >= MIN_INTERACTABLEOBJECT_AMOUNT && map.getInteractableObjectAmount() <= MAX_INTERACTABLEOBJECT_AMOUNT);
     }
@@ -63,14 +64,6 @@ public class MapTest {
     }
 
     private boolean noDoorsWithInWall(TestMap map, int maxX, int maxY) {
-        /*for (List<MapPoint> yRow : map) {
-            for (MapPoint mapPoint : yRow) {
-                if (!isEdgeTile(yRow.indexOf(mapPoint), map.indexOf(yRow), maxX, maxY) && mapPoint.getType() instanceof Door) {
-                    return false;
-                }
-            }
-        }
-        return true;*/
         List<InteractableObject> objects = map.getInteractableObjects();
         for (InteractableObject object : objects) {
             int x = object.getPoint().getCoordinates()[0];
