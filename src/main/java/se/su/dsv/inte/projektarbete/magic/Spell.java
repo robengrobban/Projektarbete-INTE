@@ -27,11 +27,11 @@ public abstract class Spell {
     public Spell(String name, String description, int range, int manaCost) {
 
         // Verify name
-        if ( name == null || name.isEmpty() ) {
+        if ( name == null || name.trim().isEmpty() ) {
             throw new IllegalArgumentException("The name must be set.");
         }
         // Verify description
-        else if ( description == null || description.isEmpty()) {
+        else if ( description == null || description.trim().isEmpty()) {
             throw new IllegalArgumentException("The description must be set.");
         }
         // Verify range

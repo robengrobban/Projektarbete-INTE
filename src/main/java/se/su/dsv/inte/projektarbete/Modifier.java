@@ -18,7 +18,7 @@ public abstract class Modifier {
     public Modifier(String name, int cost) {
 
         // Verify name
-        if ( name == null || name.isEmpty() ) {
+        if ( name == null || name.trim().isEmpty() ) {
             throw new IllegalArgumentException("Name needs to be set.");
         }
         // Verify cost
