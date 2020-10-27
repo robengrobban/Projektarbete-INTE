@@ -181,11 +181,7 @@ public class Weapon extends Item {
      */
     @Override
     public int getValue() {
-        int value = this.baseDamage + this.range + this.canAttack.size();
-
-        if ( this.modifier != null ) {
-            value += this.modifier.getValue();
-        }
+        int value = this.modifyValueAfterModifier(this.getBaseValue());
 
         // Truncation expected
         value *= durability/100.0;
@@ -242,6 +238,28 @@ public class Weapon extends Item {
             return sameItem && sameBaseDamage && sameRange && sameDurability && sameCanAttack && sameModifier;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * Get the base value of this item
+     * @return int, the base value. Will be modified
+     */
+    private int getBaseValue() {
+        return this.baseDamage + this.range + this.canAttack.size();
+    }
+
+    /**
+     * Modifies the value with regards to the weapon modifier
+     * @param value int, the value to be modified
+     * @return int, the modified value
+     */
+    private int modifyValueAfterModifier(int value) {
+        if ( this.modifier != null ) {
+            return value += this.modifier.getValue();
+        }
+        else {
+            return value;
         }
     }
 

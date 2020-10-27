@@ -132,11 +132,7 @@ public class Armour extends Item {
      * @return int, the total armour
      */
     public int getTotalArmour() {
-        int sum = this.baseDefence * this.type.getFactor();
-
-        if ( this.modifier != null ) {
-            sum = this.modifier.calculateBaseDefenceModification( sum );
-        }
+        int sum = this.modifyArmorAfterModifier( this.getBaseArmour() );
 
         if ( this.durability <= 50 && this.durability != 0 ) {
             sum *= 0.5;
@@ -163,11 +159,7 @@ public class Armour extends Item {
      */
     @Override
     public int getValue() {
-        int sum = this.baseDefence * this.type.getFactor();
-
-        if ( this.modifier != null ) {
-            sum += this.modifier.getValue();
-        }
+        int sum = this.modifyValueAfterModifier(this.getBaseValue());
 
         // Truncation expected
         sum *= this.durability/100.0;
@@ -204,6 +196,50 @@ public class Armour extends Item {
         }
         else {
             return false;
+        }
+    }
+
+    /**
+     * Get the base value of this item
+     * @return int, the base value. Will be modified
+     */
+    private int getBaseValue() {
+        return this.baseDefence * this.type.getFactor();
+    }
+
+    /**
+     * Modifies the value with regards to the weapon modifier
+     * @param value int, the value to be modified
+     * @return int, the modified value
+     */
+    private int modifyValueAfterModifier(int value) {
+        if ( this.modifier != null ) {
+            return value += this.modifier.getValue();
+        }
+        else {
+            return value;
+        }
+    }
+
+    /**
+     * Get the base armour of this armour piece
+     * @return int, the base armour. Will be modified
+     */
+    private int getBaseArmour() {
+        return this.baseDefence * this.type.getFactor();
+    }
+
+    /**
+     * Modifies the armour with regards to the armour modifier
+     * @param armour int, the value to be modified
+     * @return int, the modified value
+     */
+    private int modifyArmorAfterModifier(int armour) {
+        if ( this.modifier != null ) {
+            return this.modifier.calculateBaseDefenceModification(armour);
+        }
+        else {
+            return armour;
         }
     }
 
