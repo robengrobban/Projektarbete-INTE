@@ -58,7 +58,7 @@ public class FireSpell extends Spell {
     @Override
     public boolean use(Character source, Character target) {
         // Control that I can attack this target
-        if ( isTreatable(target) ) {
+        if ( isTargetable(target) ) {
 
             // Am I in range
             if ( isWithinRange(source, target) ) {
@@ -81,7 +81,7 @@ public class FireSpell extends Spell {
      * @param target Character, the target
      * @return boolean, true if it can be attacked and false if it cannot
      */
-    private boolean isTreatable(Character target) {
+    private boolean isTargetable(Character target) {
         return this.canAttack.contains(target.getElementType());
     }
 
