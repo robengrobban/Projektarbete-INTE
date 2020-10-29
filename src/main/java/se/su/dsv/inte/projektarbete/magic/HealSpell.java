@@ -46,9 +46,10 @@ public class HealSpell extends Spell {
      */
     @Override
     public boolean use(Character source, Character target) {
-        if ( source.isWithinRange(target, this.getRange()) ) {
-            // Try to remove mana
-            if (source.changeCurrentMana(-getManaCost())) {
+        if ( isWithinRange(source, target) ) {
+
+            // Try to use spell with mana
+            if ( useWithMana(source) ) {
 
                 // Heal target
                 target.changeCurrentHealth(this.healing);
@@ -61,4 +62,6 @@ public class HealSpell extends Spell {
         // Was not able to use
         return false;
     }
+
+
 }

@@ -7,6 +7,8 @@ import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.armour.ArmourType;
 import se.su.dsv.inte.projektarbete.map.Chest;
 import se.su.dsv.inte.projektarbete.map.InteractableObject;
+import se.su.dsv.inte.projektarbete.map.MapPoint;
+import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
 import se.su.dsv.inte.projektarbete.player.Human;
 import se.su.dsv.inte.projektarbete.weapon.SimpleDamageModifier;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
@@ -19,6 +21,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuestManagerTest {
+    private final MapPoint mapPoint = new MapPoint(new Ground(), 0, 0);
 
     @Test
     void questListNull() {
@@ -72,7 +75,7 @@ class QuestManagerTest {
         questList.add(questOne);
         QuestManager questManager = new QuestManager(questList);
         Item[] items = new Item[5];
-        questManager.reportIntractableObject(new Chest(items, "test"));
+        questManager.reportIntractableObject(new Chest(items, "test", mapPoint));
 
         assertTrue(questOne.isFoundChest());
 
@@ -89,7 +92,7 @@ class QuestManagerTest {
 
         QuestManager questManager = new QuestManager(questList);
         Item[] items = new Item[5];
-        questManager.reportIntractableObject(new Chest(items, "test"));
+        questManager.reportIntractableObject(new Chest(items, "test", mapPoint));
 
         assertTrue(questOne.isFoundChest());
         assertTrue(questTwo.isFoundChest());
@@ -108,7 +111,7 @@ class QuestManagerTest {
 
         QuestManager questManager = new QuestManager(questList);
         Item[] items = new Item[5];
-        questManager.reportIntractableObject(new InteractableObject("test") {
+        questManager.reportIntractableObject(new InteractableObject("test", mapPoint) {
         });
 
         assertFalse(questOne.isFoundChest());
@@ -183,7 +186,7 @@ class QuestManagerTest {
         }
         Item[] items = new Item[5];
 
-        questManager.reportIntractableObject(new Chest(items, "test"));
+        questManager.reportIntractableObject(new Chest(items, "test", mapPoint));
 
         Set<ElementType> canAttack = new HashSet<>();
         canAttack.add(ElementType.AIR);

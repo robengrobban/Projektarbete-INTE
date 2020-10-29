@@ -652,6 +652,23 @@ public class WeaponTest {
     }
 
     /**
+     * Test if the weapon returns correct total damage if it has no durability
+     */
+    @Test
+    public void testWeaponCorrectTotalDamageNoDurability() {
+        String name = "A rusty Sword";
+        String desc = "The sword is so rusty that you shuold really consider switching it...";
+        int baseDamage = 2;
+        int range = 1;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND));
+        int durability = 0;
+
+        Weapon w = new Weapon(name, desc, baseDamage, range, canAttack, durability);
+
+        assertEquals(0, w.getTotalDamage());
+    }
+
+    /**
      * Test if the weapon calculates its own worth correctly
      */
     @Test

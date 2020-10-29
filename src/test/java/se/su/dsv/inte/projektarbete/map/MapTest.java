@@ -1,37 +1,66 @@
 package se.su.dsv.inte.projektarbete.map;
 
 import org.junit.jupiter.api.Test;
-import se.su.dsv.inte.projektarbete.map.Tiles.Door;
+import se.su.dsv.inte.projektarbete.map.Tiles.Ground;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MapTest {
-    private static final int HIGHER_LIMIT = 10;
-    private static final int LOWER_LIMIT = 4;
+    private static final int HIGHER_MAP_SIZE_LIMIT = Map.getHigherMapSizeLimit();
+    private static final int LOWER_MAP_SIZE_LIMIT = Map.getLowerMapSizeLimit();
 
-    private static final int MIN_DOOR_AMOUNT = Map.MIN_DOOR_AMOUNT;
-    private static final int MAX_DOOR_AMOUNT = Map.MAX_DOOR_AMOUNT;
+    private static final int MIN_DOOR_AMOUNT = Map.getMinDoorAmount();
+    private static final int MAX_DOOR_AMOUNT = Map.getMaxDoorAmount();
 
-    private static final int MIN_INTERACTABLEOBJECT_AMOUNT = Map.MIN_INTERACTABLEOBJECT_AMOUNT;
-    private static final int MAX_INTERACTABLEOBJECT_AMOUNT = Map.MAX_INTERACTABLEOBJECT_AMOUNT;
+    private static final int MIN_CHEST_AMOUNT = Map.getMinChestAmount();
+    private static final int MAX_CHEST_AMOUNT = Map.getMaxChestAmount();
 
     static class TestMap extends Map {
         public TestMap() {
             super();
         }
 
-        ArrayList<ArrayList<Point>> getMap() {
+        /**
+         * @return map
+         */
+        List<List<MapPoint>> getMap() {
             return map;
+        }
+
+        /**
+         * @return interactableObjects
+         */
+        List<InteractableObject> getInteractableObjects() { return interactableObjects; }
+
+        /**
+         * Sets door amount to 0.
+         */
+        void setDoorAmountToZero() {
+            doorAmount = 0;
         }
     }
 
+    /**
+     * Checks that a random map is created within the default range.
+     */
     @Test
     void randomMapCreated() {
         Map map = new Map();
-        assertTrue(LOWER_LIMIT <= map.getXSize() || map.getXSize() <= HIGHER_LIMIT);
-        assertTrue(LOWER_LIMIT <= map.getYSize() || map.getYSize() <= HIGHER_LIMIT);
+        assertTrue(LOWER_MAP_SIZE_LIMIT <= map.getXSize() || map.getXSize() <= HIGHER_MAP_SIZE_LIMIT);
+        assertTrue(LOWER_MAP_SIZE_LIMIT <= map.getYSize() || map.getYSize() <= HIGHER_MAP_SIZE_LIMIT);
+    }
+
+    /**
+     * Checks that the last tile is assigned a door when the map otherwise does not have any doors.
+     */
+    @Test
+    void ifDoorsUnderLimitAtLastTileADoorIsAdded() {
+        TestMap testMap = new TestMap();
+        testMap.setDoorAmountToZero();
+        System.out.println(testMap.getDoorAmount());
+        assertTrue(testMap.generateObject(0, 2, 1, 3, new MapPoint(new Ground(), 0, 2)) instanceof Door);
     }
 
     /**
@@ -40,10 +69,8 @@ public class MapTest {
     @Test
     void mapContainsCorrectComponents() {
         Map map = new Map();
-        System.out.println(map.getDoorAmount());
-        System.out.println(map.getInteractableObjectAmount());
         assertTrue(map.getDoorAmount() >= MIN_DOOR_AMOUNT && map.getDoorAmount() <= MAX_DOOR_AMOUNT);
-        assertTrue(map.getInteractableObjectAmount() >= MIN_INTERACTABLEOBJECT_AMOUNT && map.getInteractableObjectAmount() <= MAX_INTERACTABLEOBJECT_AMOUNT);
+        assertTrue(map.getChestAmount() >= MIN_CHEST_AMOUNT && map.getChestAmount() <= MAX_CHEST_AMOUNT);
     }
 
     /**
@@ -52,16 +79,17 @@ public class MapTest {
     @Test
     void doorsOnlyPlacedAlongWall() {
         TestMap testMap = new TestMap();
-        assertTrue(noDoorsWithInWall(testMap.getMap(), testMap.getXSize(), testMap.getYSize()));
+        assertTrue(noDoorsWithInWall(testMap, testMap.getXSize(), testMap.getYSize()));
     }
 
-    private boolean noDoorsWithInWall(ArrayList<ArrayList<Point>> testMapContent, int maxX, int maxY) {
-        for (ArrayList<Point> list : testMapContent) {
-            for (Point point : list) {
-                if (!isEdgeTile(list.indexOf(point), testMapContent.indexOf(list), maxX, maxY) && point.getType() instanceof Door) {
-                    System.out.println(testMapContent.indexOf(list) + " " + list.indexOf(point));
-                    return false;
-                }
+    private boolean noDoorsWithInWall(TestMap map, int maxX, int maxY) {
+        List<InteractableObject> objects = map.getInteractableObjects();
+        for (InteractableObject object : objects) {
+            int x = object.getPoint().getCoordinates()[0];
+            int y = object.getPoint().getCoordinates()[1];
+
+            if (!isEdgeTile(x, y, maxX, maxY) && object instanceof Door) {
+                return false;
             }
         }
         return true;
