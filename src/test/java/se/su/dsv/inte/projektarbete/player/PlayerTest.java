@@ -316,7 +316,6 @@ class PlayerTest {
 
     @Test
     void playerDeadAfterDamagedMorOrSameAsHPLeft() {
-        String name = "test";
         int totalHealth = 100;
         int maxMana = 50;
         int damage = 40;
@@ -680,25 +679,38 @@ class PlayerTest {
         int range = 3;
         int manaCost = 13;
         int damage = 25;
-        HashSet<ElementType> canAttack1 = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.AIR));
-        FireSpell f = new FireSpell("spellname", "firespell", range, manaCost, damage, canAttack1);
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.AIR));
+        FireSpell f = new FireSpell("spellname", "firespell", range, manaCost, damage, canAttack);
+
+        int range2 = 3;
+        int manaCost2 = 13;
+        int damage2 = 25;
+        HashSet<ElementType> canAttack2 = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.AIR));
+        FireSpell f2 = new FireSpell("spellname", "firespell", range2, manaCost2, damage2, canAttack2);
 
         assertDoesNotThrow(() -> {
             player.addSpell(f);
         });
-
         assertThrows(IllegalArgumentException.class, () -> {
             player.addSpell(f);
         });
-
+        assertThrows(IllegalArgumentException.class, () -> {
+            player.addSpell(f2);
+        });
     }
 
     @Test void getSpellReturnsCorrectSpell() {
-        int range = 3;
-        int manaCost = 13;
-        int damage = 25;
-        HashSet<ElementType> canAttack1 = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.AIR));
-        FireSpell spell1 = new FireSpell("spellname", "firespell", range, manaCost, damage, canAttack1);
+        int range = 3, manaCost = 13, damage = 25;
+        HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.AIR));
+        FireSpell spell1 = new FireSpell("spellname", "firespell", range, manaCost, damage, canAttack);
+
+        int range2 = 4, manaCost2 = 14, damage2 = 35;
+        HashSet<ElementType> canAttack2 = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.AIR));
+        FireSpell spell2 = new FireSpell("spellname", "firespell", range2, manaCost2, damage2, canAttack2);
+
+        int range3 = 7, manaCost3 = 17, damage3 = 55;
+        HashSet<ElementType> canAttack3 = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.AIR));
+        FireSpell spell3 = new FireSpell("spellname", "firespell", range3, manaCost3, damage3, canAttack3);
 
         Player player = new Player("name", 0, 0, 0, 0) {
             @Override
@@ -710,8 +722,14 @@ class PlayerTest {
                 return super.getSpell(index);
             }
         };
-
+        player.addPlayerClass(new MagicianClass());
         player.addSpell(spell1);
+        player.addSpell(spell2);
+        player.addSpell(spell3);
+
+        assertEquals(spell2, player.getSpell(1));
+        assertEquals(spell1, player.getSpell(0));
+        assertEquals(spell3, player.getSpell(2));
     }
 
     @Test void cannotRetrieveSpellOutOfRange() {

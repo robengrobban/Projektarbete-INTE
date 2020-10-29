@@ -11,9 +11,9 @@ class WarriorClassTest {
 
         WarriorClass w = new WarriorClass();
 
-        assertEquals(10, w.getAttackModifier());
-        assertEquals(0, w.getMagicAttackModifier());
-        assertEquals(10, w.getDefenceModifier());
+        assertEquals(10, w.getATTACK_MODIFIER());
+        assertEquals(0, w.getMAGIC_ATTACK_MODIFIER());
+        assertEquals(10, w.getDEFENCE_MODIFIER());
         assertEquals(0, w.getMAGIC_DEFENCE_MODIFIER());
     }
 }

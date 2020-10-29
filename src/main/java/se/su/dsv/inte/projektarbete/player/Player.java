@@ -18,18 +18,16 @@ public abstract class Player extends Character {
     private int magicalDefence;
     private int attack;
     private int magicalAttack;
-
+    private int spellLimit;
     private int experience;
     private int level; //Max 20
-
-    private QuestManager questManager;
-    private PlayerClass playerClass;
-    /**
-     * Race modifier used to modify physical/magic attack and defence.
-     */
-    private RaceModifier raceModifier;
     private ArrayList<Spell> spells;
-    private int spellLimit;
+    private PlayerClass playerClass;
+    private RaceModifier raceModifier;
+    private QuestManager questManager;
+
+
+
 
     /**
      * Constructor for creating a new player with a new name.
@@ -100,7 +98,7 @@ public abstract class Player extends Character {
      */
     public int getTotalAttack() {
         if (playerClass != null)
-            return attack + playerClass.getAttackModifier();
+            return attack + playerClass.getATTACK_MODIFIER();
         else return raceModifier.modifyAttack(attack);
     }
 
@@ -110,7 +108,7 @@ public abstract class Player extends Character {
      */
     public int getTotalMagicAttack() {
         if (playerClass != null)
-            return magicalAttack + playerClass.getMagicAttackModifier();
+            return magicalAttack + playerClass.getMAGIC_ATTACK_MODIFIER();
         else return  raceModifier.modifyMagicAttack(magicalAttack);
     }
 
@@ -124,7 +122,7 @@ public abstract class Player extends Character {
     public int getTotalDefence(int damage) {
         int defence = super.getTotalDefence(damage) + this.defence;
         if (playerClass != null)
-            defence += playerClass.getDefenceModifier();
+            defence += playerClass.getDEFENCE_MODIFIER();
        return raceModifier.modifyDefence(defence);
     }
 
