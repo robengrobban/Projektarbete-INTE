@@ -131,6 +131,15 @@ class CharacterTest {
     }
 
     /**
+     * Checks that placing a null Character throws null pointer exception.
+     */
+    @Test
+    void placingNullCharacterThrowsException() {
+        assertThrows(NullPointerException.class, () -> {
+            MAP.placeCharacter(null, 0, 0);
+        });
+    }
+    /**
      * Checks that isWithinRange returns true when within range.
      */
     @Test

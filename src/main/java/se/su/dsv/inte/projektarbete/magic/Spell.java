@@ -27,11 +27,11 @@ public abstract class Spell {
     public Spell(String name, String description, int range, int manaCost) {
 
         // Verify name
-        if ( name == null || name.isEmpty() ) {
+        if ( name == null || name.trim().isEmpty() ) {
             throw new IllegalArgumentException("The name must be set.");
         }
         // Verify description
-        else if ( description == null || description.isEmpty()) {
+        else if ( description == null || description.trim().isEmpty()) {
             throw new IllegalArgumentException("The description must be set.");
         }
         // Verify range
@@ -118,6 +118,25 @@ public abstract class Spell {
         else {
             return false;
         }
+    }
+
+    /**
+     * Is a target within range of a source
+     * @param source Character, the source
+     * @param target Character, the target
+     * @return boolean, true if it is within range
+     */
+    protected boolean isWithinRange(Character source, Character target) {
+        return source.isWithinRange(target, this.getRange());
+    }
+
+    /**
+     * Use the spell with mana
+     * @param source Character, the source of the spell
+     * @return boolean, true if Character was able to use this spell with mana
+     */
+    protected boolean useWithMana(Character source) {
+        return source.changeCurrentMana(-this.getManaCost());
     }
 
 }

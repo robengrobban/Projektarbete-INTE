@@ -1,8 +1,9 @@
 package se.su.dsv.inte.projektarbete.characters;
 
 import se.su.dsv.inte.projektarbete.ElementType;
+import se.su.dsv.inte.projektarbete.MathHandler;
 import se.su.dsv.inte.projektarbete.armour.Armour;
-import se.su.dsv.inte.projektarbete.map.Point;
+import se.su.dsv.inte.projektarbete.map.MapPoint;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -20,7 +21,7 @@ public class Character {
     private Armour armour;
     private Weapon weapon;
     private ElementType elementType;
-    private Point point;
+    private MapPoint mapPoint;
 
     /**
      * Constructor with basic values for name, armour and weapon.
@@ -94,18 +95,18 @@ public class Character {
 
     /**
      * Set the point for this character
-     * @param point Point, the point for this character
+     * @param mapPoint Point, the point for this character
      */
-    public void setPoint(Point point) {
-        this.point = point;
+    public void setPoint(MapPoint mapPoint) {
+        this.mapPoint = mapPoint;
     }
 
     /**
      * Get the point of the Character
      * @return Point, the point of the character
      */
-    public Point getPoint() {
-        return this.point;
+    public MapPoint getPoint() {
+        return this.mapPoint;
     }
 
     /**
@@ -302,8 +303,8 @@ public class Character {
      * @return if target is with in range of this or not.
      */
     public boolean isWithinRange(Character target, int range) {
-        int[] sourceCoordinates = this.point.getCoordinates();
-        int[] targetCoordinates = target.point.getCoordinates();
+        int[] sourceCoordinates = this.mapPoint.getCoordinates();
+        int[] targetCoordinates = target.mapPoint.getCoordinates();
 
         if (sourceCoordinates[0] == targetCoordinates[0]) {
             return Math.abs(sourceCoordinates[1] - targetCoordinates[1]) <= range;
@@ -312,20 +313,7 @@ public class Character {
             return Math.abs(sourceCoordinates[0] - targetCoordinates[0]) <= range;
         }
         else {
-            return pythagoras(sourceCoordinates[0], sourceCoordinates[1], targetCoordinates[0], targetCoordinates[1]) <= range;
+            return new MathHandler().pythagoras(sourceCoordinates[0], sourceCoordinates[1], targetCoordinates[0], targetCoordinates[1]) <= range;
         }
-    }
-
-    /**
-     * @param x1 x value of point of first point.
-     * @param y1 y value of point of first point.
-     * @param x2 x value of point of second point.
-     * @param y2 y value of point of second point.
-     * @return int, the length of the hypotenuse between the points.
-     */
-    private int pythagoras(int x1, int y1, int x2, int y2) {
-        double a = Math.pow(Math.abs(y1 - y2), 2.0);
-        double b = Math.pow(Math.abs(x1 - x2), 2.0);
-        return (int) Math.sqrt(a + b);
     }
 }

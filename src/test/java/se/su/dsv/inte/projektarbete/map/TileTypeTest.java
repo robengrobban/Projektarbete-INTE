@@ -18,7 +18,6 @@ public class TileTypeTest {
     @Test
     void passableArePassable() {
         assertTrue(new Ground().isPassable());
-        assertTrue(new Door().isPassable());
         assertTrue(new Toxic().isPassable());
     }
 
@@ -44,6 +43,16 @@ public class TileTypeTest {
     @Test
     void playerAllowedInGroundTile() {
         assertTrue(GROUND.isAllowedCharacter(ELF));
+    }
+
+    /**
+     * Checks that a null character throws exception.
+     */
+    @Test
+    void nullCharacterThrowsException() {
+        assertThrows(NullPointerException.class, () -> {
+           GROUND.isAllowedCharacter(null);
+        });
     }
 
     /**

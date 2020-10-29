@@ -2,7 +2,6 @@ package se.su.dsv.inte.projektarbete.player;
 
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.characters.Character;
-import se.su.dsv.inte.projektarbete.magic.FireSpell;
 import se.su.dsv.inte.projektarbete.magic.Spell;
 import se.su.dsv.inte.projektarbete.quest.Quest;
 import se.su.dsv.inte.projektarbete.quest.QuestManager;
@@ -10,6 +9,9 @@ import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 import java.util.ArrayList;
 
+/**
+ * Class representing a base player that is to be extended with a specific player race.
+ */
 public abstract class Player extends Character {
 
     private int defence;
@@ -22,13 +24,17 @@ public abstract class Player extends Character {
 
     private QuestManager questManager;
     private PlayerClass playerClass;
+    /**
+     * Race modifier used to modify physical/magic attack and defence.
+     */
+    private RaceModifier raceModifier;
     private ArrayList<Spell> spells;
     private int spellLimit;
 
     /**
      * Constructor for creating a new player with a new name.
      */
-    public Player(String name) {
+    public Player(String name, int attackMod, int magicAttackMod, int defenceMod, int magicDefenceMod) {
         super(name, null, null,10, 20);
         if (name == null || name.trim().equals("")) {
             throw new IllegalArgumentException("Name must be set.");
@@ -37,6 +43,7 @@ public abstract class Player extends Character {
         experience = 0;
         questManager = new QuestManager(new ArrayList<Quest>());
         addPlayerClass(null);
+        setRaceModifier(attackMod, magicAttackMod, defenceMod, magicDefenceMod);
         spells = new ArrayList<Spell>();
         defence = 2;
         attack = 2;
@@ -55,7 +62,8 @@ public abstract class Player extends Character {
      */
     public Player(String name, int health, int maxMana, int damage, int defence,
                   int attack, int magicalDefence, int magicalAttack, int experience, int level, Weapon weapon,
-                  Armour armour, PlayerClass playerClass, ArrayList<Spell> spells) {
+                  Armour armour, PlayerClass playerClass, ArrayList<Spell> spells,
+                  int attackMod, int magicAttackMod, int defenceMod, int magicDefenceMod) {
         super(name, armour, weapon, health, maxMana);
 
         this.defence = defence;
@@ -66,11 +74,16 @@ public abstract class Player extends Character {
         this.level = level;
         changeCurrentHealth(-damage);
         addPlayerClass(playerClass);
+        setRaceModifier(attackMod, magicAttackMod, defenceMod, magicDefenceMod);
         questManager = new QuestManager(new ArrayList<Quest>());
         if (spells == null)
-            spells = new ArrayList<Spell>();
+            this.spells = new ArrayList<Spell>();
         else
             this.spells = spells;
+    }
+
+    private void setRaceModifier(int attackMod, int magicAttackMod, int defenceMod, int magicDefenceMod) {
+        raceModifier = new RaceModifier(attackMod, magicAttackMod, defenceMod, magicDefenceMod);
     }
 
     /**
@@ -79,6 +92,66 @@ public abstract class Player extends Character {
      */
     public int getTotalHealth() {
         return getMaxHealth();
+    }
+
+    /**
+     * Gets the total attack of the player
+     * @return total calculated attack.
+     */
+    public int getTotalAttack() {
+        if (playerClass != null)
+            return attack + playerClass.getAttackModifier();
+        else return raceModifier.modifyAttack(attack);
+    }
+
+    /**
+     * Gets the total magic attack of the player
+     * @return total calculated magic attack.
+     */
+    public int getTotalMagicAttack() {
+        if (playerClass != null)
+            return magicalAttack + playerClass.getMagicAttackModifier();
+        else return  raceModifier.modifyMagicAttack(magicalAttack);
+    }
+
+    /**
+     * Overrides to get total defence from character with added magicDefence and defence modifyer if player
+     * has a job player class.
+     * @param damage Base damage dealt to the player.
+     * @return Total defence for the player.
+     */
+    @Override
+    public int getTotalDefence(int damage) {
+        int defence = super.getTotalDefence(damage) + this.defence;
+        if (playerClass != null)
+            defence += playerClass.getDefenceModifier();
+       return raceModifier.modifyDefence(defence);
+    }
+
+    /**
+     * Overrides to get total magic defence from character with added magicDefence and magicdefence modifyer if player
+     * has a job player class.
+     * @param damage Base damage dealt to the player.
+     * @return Total magic defence for the player.
+     */
+    @Override
+    public int getTotalMagicDefence(int damage) {
+        int defence = super.getTotalMagicDefence(damage) + this.magicalDefence;
+        if (playerClass != null)
+            defence += playerClass.getMAGIC_DEFENCE_MODIFIER();
+        return raceModifier.modifyMagicDefence(defence);
+    }
+
+    /**
+     * Retrieves a spell for the index if it exists.
+     * @param index Index of the spell to be retrieved.
+     * @return Requested spell.
+     */
+    public Spell getSpell(int index) {
+        if (index < 0 || index > 10 || index >= spells.size()) {
+            throw new IllegalArgumentException("index out of range");
+        }
+        return spells.get(index);
     }
 
     /**
@@ -95,56 +168,6 @@ public abstract class Player extends Character {
      */
     public int getLevel() {
         return level;
-    }
-
-    public int getTotalAttack() {
-        if (playerClass != null)
-            return attack + playerClass.getAttackModifier();
-        else return attack;
-    }
-
-    public int getTotalMagicAttack() {
-        if (playerClass != null)
-            return magicalAttack + playerClass.getMagicAttackModifier();
-        else return  magicalAttack;
-    }
-
-    public int getDefence() {
-        return this.defence;
-    }
-
-    @Override
-    public int getTotalDefence(int damage) {
-        int defence = super.getTotalDefence(damage) + this.defence;
-        if (playerClass != null)
-            defence += playerClass.getDefenceModifier();
-       return defence;
-    }
-
-    public int getMagicDefence() {
-        if (playerClass != null)
-            return magicalDefence + playerClass.getMagicDefenceModifier();
-        else return magicalDefence;
-    }
-
-    @Override
-    public int getTotalMagicDefence(int damage) {
-        int defence = super.getTotalMagicDefence(damage) + this.magicalDefence;
-        if (playerClass != null)
-            defence += playerClass.getMagicDefenceModifier();
-        return defence;
-    }
-
-    /**
-     * Retrieves a spell for the index if it exists.
-     * @param index Index of the spell to be retrieved.
-     * @return Requested spell.
-     */
-    public Spell getSpell(int index) {
-        if (index < 0 || index > 10 || index > spells.size() - 1) {
-            throw new IllegalArgumentException("index out of range");
-        }
-        return spells.get(index);
     }
 
     /**
@@ -166,19 +189,39 @@ public abstract class Player extends Character {
         }
     }
 
+    /**
+     * Damages the player and returns if player is alive after that or not.
+     * @param weapon
+     * @return
+     */
     public boolean damaged(Weapon weapon) {
         super.hurt(weapon.getTotalDamage());
         return super.isAlive();
     }
 
+    /**
+     * Checks if the player can use a spell based on player class.
+     * @return
+     */
+    public boolean canUseMagic() {
+        if (playerClass != null) {
+            return playerClass.canUseMagic();
+        }
+        return false;
+    }
+
+    /**
+     * Adds a player class (job - magician, warrior etc.) which modifies stats.
+     * @param playerClass
+     */
     public void addPlayerClass(PlayerClass playerClass) {
-        //TODO: should modify magic list
         this.playerClass = playerClass;
         if (playerClass != null && playerClass.canUseMagic()) {
             spellLimit = 10;
+            //:TODO - should modify the list of spells.
         }
         else if (canUseMagic()){
-            spellLimit = 3; //TODO: Check all four combinations for spell limit.
+            spellLimit = 3;
         }
     }
 
@@ -202,13 +245,11 @@ public abstract class Player extends Character {
         return false;
     }
 
-    public boolean canUseMagic() {
-        if (playerClass != null) {
-            return playerClass.canUseMagic();
-        }
-        return false;
-    }
-
+    /**
+     * Replaces a spell with another spell at selected index.
+     * @param newSpell New spell to replace the old.
+     * @param replacedIndex Index for the spell to be replaced (as selected in a list with matching positions).
+     */
     public void replaceSpell(Spell newSpell, int replacedIndex) {
         spells.set(replacedIndex, newSpell);
     }
