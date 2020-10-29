@@ -7,11 +7,11 @@ public abstract class PlayerClass {
     private final int MAGIC_DEFENCE_MODIFIER;
 
     /**
-     * Construcor for setting all modifier values.
-     * @param attackModifier
-     * @param magicAttackModifier
-     * @param defenceModifier
-     * @param magicDefenceModifier
+     * Constructor for setting all modifier values.
+     * @param attackModifier Modifier value for attack.
+     * @param magicAttackModifier Modifier value for magic attack.
+     * @param defenceModifier Modifier value for defence.
+     * @param magicDefenceModifier Modifier value for magic defence.
      */
     public PlayerClass(int attackModifier, int magicAttackModifier, int defenceModifier, int magicDefenceModifier) {
         this.ATTACK_MODIFIER = attackModifier;
