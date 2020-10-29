@@ -3,7 +3,6 @@ package se.su.dsv.inte.projektarbete.player;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.characters.Character;
 import se.su.dsv.inte.projektarbete.magic.Spell;
-import se.su.dsv.inte.projektarbete.quest.Quest;
 import se.su.dsv.inte.projektarbete.quest.QuestManager;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
@@ -18,18 +17,16 @@ public abstract class Player extends Character {
     private int magicalDefence;
     private int attack;
     private int magicalAttack;
-
+    private int spellLimit;
     private int experience;
     private int level; //Max 20
-
-    private QuestManager questManager;
-    private PlayerClass playerClass;
-    /**
-     * Race modifier used to modify physical/magic attack and defence.
-     */
-    private RaceModifier raceModifier;
     private ArrayList<Spell> spells;
-    private int spellLimit;
+    private PlayerClass playerClass;
+    private RaceModifier raceModifier;
+    private QuestManager questManager;
+
+
+
 
     /**
      * Constructor for creating a new player with a new name.
@@ -41,10 +38,10 @@ public abstract class Player extends Character {
         }
         level = 1;
         experience = 0;
-        questManager = new QuestManager(new ArrayList<Quest>());
+        questManager = new QuestManager(new ArrayList<>());
         addPlayerClass(null);
         setRaceModifier(attackMod, magicAttackMod, defenceMod, magicDefenceMod);
-        spells = new ArrayList<Spell>();
+        spells = new ArrayList<>();
         defence = 2;
         attack = 2;
         magicalAttack= 2;
@@ -75,9 +72,9 @@ public abstract class Player extends Character {
         changeCurrentHealth(-damage);
         addPlayerClass(playerClass);
         setRaceModifier(attackMod, magicAttackMod, defenceMod, magicDefenceMod);
-        questManager = new QuestManager(new ArrayList<Quest>());
+        questManager = new QuestManager(new ArrayList<>());
         if (spells == null)
-            this.spells = new ArrayList<Spell>();
+            this.spells = new ArrayList<>();
         else
             this.spells = spells;
     }
@@ -100,7 +97,7 @@ public abstract class Player extends Character {
      */
     public int getTotalAttack() {
         if (playerClass != null)
-            return attack + playerClass.getAttackModifier();
+            return attack + playerClass.getATTACK_MODIFIER();
         else return raceModifier.modifyAttack(attack);
     }
 
@@ -110,12 +107,12 @@ public abstract class Player extends Character {
      */
     public int getTotalMagicAttack() {
         if (playerClass != null)
-            return magicalAttack + playerClass.getMagicAttackModifier();
+            return magicalAttack + playerClass.getMAGIC_ATTACK_MODIFIER();
         else return  raceModifier.modifyMagicAttack(magicalAttack);
     }
 
     /**
-     * Overrides to get total defence from character with added magicDefence and defence modifyer if player
+     * Overrides to get total defence from character with added magicDefence and defence modifier if player
      * has a job player class.
      * @param damage Base damage dealt to the player.
      * @return Total defence for the player.
@@ -124,12 +121,12 @@ public abstract class Player extends Character {
     public int getTotalDefence(int damage) {
         int defence = super.getTotalDefence(damage) + this.defence;
         if (playerClass != null)
-            defence += playerClass.getDefenceModifier();
+            defence += playerClass.getDEFENCE_MODIFIER();
        return raceModifier.modifyDefence(defence);
     }
 
     /**
-     * Overrides to get total magic defence from character with added magicDefence and magicdefence modifyer if player
+     * Overrides to get total magic defence from character with added magicDefence and magicDefence modifier if player
      * has a job player class.
      * @param damage Base damage dealt to the player.
      * @return Total magic defence for the player.
@@ -156,7 +153,7 @@ public abstract class Player extends Character {
 
     /**
      * Gets the experience the player currently has.
-     * @return
+     * @return Current experience.
      */
     public int getExperience() {
         return experience;
@@ -180,7 +177,7 @@ public abstract class Player extends Character {
 
     /**
      * Attacks a character with a weapon if it has one, else with base attack.
-     * @param attacked
+     * @param attacked The character that is attacked by the player.
      */
     public void attack(Character attacked) {
         if (getWeapon() != null && getWeapon().usable() && getWeapon().canAttack(attacked.getElementType()) && this.isWithinRange(attacked, getWeapon().getRange())) {
@@ -191,8 +188,8 @@ public abstract class Player extends Character {
 
     /**
      * Damages the player and returns if player is alive after that or not.
-     * @param weapon
-     * @return
+     * @param weapon Weapon damaging the player.
+     * @return True if the player is still alive after being damaged, else false.
      */
     public boolean damaged(Weapon weapon) {
         super.hurt(weapon.getTotalDamage());
@@ -201,7 +198,7 @@ public abstract class Player extends Character {
 
     /**
      * Checks if the player can use a spell based on player class.
-     * @return
+     * @return True if the player can use magic, else false.
      */
     public boolean canUseMagic() {
         if (playerClass != null) {
@@ -212,7 +209,7 @@ public abstract class Player extends Character {
 
     /**
      * Adds a player class (job - magician, warrior etc.) which modifies stats.
-     * @param playerClass
+     * @param playerClass The player class (job) to be added to the player.
      */
     public void addPlayerClass(PlayerClass playerClass) {
         this.playerClass = playerClass;
@@ -227,8 +224,8 @@ public abstract class Player extends Character {
 
     /**
      * Adds a spell if spell list is not full (10 spells)
-     * @param spell
-     * @return
+     * @param spell Spell to add to the players spells.
+     * @return True if spell could be added, else false.
      */
     public boolean addSpell(Spell spell) {
         if (canUseMagic())

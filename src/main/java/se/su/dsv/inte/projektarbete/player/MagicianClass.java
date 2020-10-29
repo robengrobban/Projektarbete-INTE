@@ -14,7 +14,7 @@ public class MagicianClass extends PlayerClass {
 
     /**
      * Used to tell that the player can use magic if they have this class even if the player race cannot.
-     * @return
+     * @return True always
      */
     public boolean canUseMagic() { return true; }
 }

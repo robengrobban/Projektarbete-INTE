@@ -262,7 +262,7 @@ class ElfTest {
     }
 
     @Test
-    void elfWithMagicianClassCanAddThreeSpellsMax() {
+    void elfWithWarriorClassCanAddThreeSpellsMax() {
         //Setup
         Elf elf = new Elf("Bosse");
         HashSet<ElementType> canAttack = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.AIR));
