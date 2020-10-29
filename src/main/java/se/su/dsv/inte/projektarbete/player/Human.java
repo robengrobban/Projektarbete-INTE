@@ -9,13 +9,8 @@ import se.su.dsv.inte.projektarbete.weapon.Weapon;
 public class Human extends Player{
 
     /**
-     * Race modifier used to modify physical/magic attack and defence.
-     */
-    private RaceModifier raceModifier;
-
-    /**
      * Constructor with only a name as parameter.
-     * @param name
+     * @param name Name of the human player
      */
     public Human(String name) {
         super(name, 10, -5, 10, -5);

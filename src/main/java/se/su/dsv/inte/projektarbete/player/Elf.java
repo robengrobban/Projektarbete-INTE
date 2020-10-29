@@ -7,7 +7,7 @@ public class Elf extends Player{
 
     /**
      * Constructor with only a name as parameter.
-     * @param name
+     * @param name Name of the elf player
      */
     public Elf(String name) {
         super(name, 5, 10, -15, 15);
