@@ -24,7 +24,7 @@ public abstract class PlayerClass {
      * Gets the modifier for the attack.
      * @return Attack modifier
      */
-    public int getAttackModifier() {
+    public int getATTACK_MODIFIER() {
         return ATTACK_MODIFIER;
     }
 
@@ -32,7 +32,7 @@ public abstract class PlayerClass {
      * Gets the modifier for the defence.
      * @return Defence modifier
      */
-    public int getDefenceModifier() {
+    public int getDEFENCE_MODIFIER() {
         return DEFENCE_MODIFIER;
     }
 
@@ -40,7 +40,7 @@ public abstract class PlayerClass {
      * Gets the modifier for the magic attack
      * @return Magic attack modifier
      */
-    public int getMagicAttackModifier() {
+    public int getMAGIC_ATTACK_MODIFIER() {
         return MAGIC_ATTACK_MODIFIER;
     }
 
