@@ -490,7 +490,7 @@ public class WeaponTest {
         int range = 1;
         int durability = 100;
         HashSet<ElementType> canAttack1 = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
-        HashSet<ElementType> canAttack2 = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+        HashSet<ElementType> canAttack2 = new HashSet<>(Arrays.asList(ElementType.WATER, ElementType.LAND));
 
         SimpleDamageModifier sdm1 = new SimpleDamageModifier("More...", 10, 2);
         SimpleDamageModifier sdm2 = new SimpleDamageModifier("More...", 10, 2);
@@ -516,6 +516,28 @@ public class WeaponTest {
 
         SimpleDamageModifier sdm1 = new SimpleDamageModifier("More...", 10, 2);
         SimpleDamageModifier sdm2 = new SimpleDamageModifier("Less...", 10, 2);
+
+        Weapon w1 = new Weapon(name, desc, baseDamage, range, canAttack1, durability, sdm1);
+        Weapon w2 = new Weapon(name, desc, baseDamage, range, canAttack2, durability, sdm2);
+
+        assertFalse(w1.equals(w2));
+    }
+
+    /**
+     * Test with equals method to determine if two weapons are alike with maximal constructor one with modifier and one without
+     */
+    @Test
+    public void testWeaponEqualsMethodMaximalOneWithModifierOneWithout() {
+        String name = "Sword #";
+        String desc = "The 123890123 sword ever created.";
+        int baseDamage = 13;
+        int range = 1;
+        int durability = 100;
+        HashSet<ElementType> canAttack1 = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+        HashSet<ElementType> canAttack2 = new HashSet<>(Arrays.asList(ElementType.LAND, ElementType.WATER));
+
+        SimpleDamageModifier sdm1 = new SimpleDamageModifier("More...", 10, 2);
+        SimpleDamageModifier sdm2 = null;
 
         Weapon w1 = new Weapon(name, desc, baseDamage, range, canAttack1, durability, sdm1);
         Weapon w2 = new Weapon(name, desc, baseDamage, range, canAttack2, durability, sdm2);
