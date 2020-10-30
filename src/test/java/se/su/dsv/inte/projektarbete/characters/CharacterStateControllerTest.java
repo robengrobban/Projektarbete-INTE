@@ -43,7 +43,7 @@ class CharacterStateControllerTest {
     public void setsCorrectState() {
         State neutralState = new NeutralState(neutralController);
         State hostileState = new HostileState(neutralController);
-        State deadState = new DeadState(neutralController);
+        State deadState = new DeadState();
         State chasingState = new ChasingState(neutralController);
 
         neutralController.setCurrentState(StateType.HOSTILE);
@@ -64,7 +64,7 @@ class CharacterStateControllerTest {
     void stateCase1() {
         State neutralState = new NeutralState(neutralController);
         State hostileState = new HostileState(neutralController);
-        State deadState = new DeadState(neutralController);
+        State deadState = new DeadState();
         Weapon weapon = new Weapon("sword", "super shiny", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
         NonPlayerCharacter enemy = new NonPlayerCharacter("Bob", null, weapon, StateType.NEUTRAL);
         Player player = new Elf("Gob");
@@ -76,12 +76,12 @@ class CharacterStateControllerTest {
 
         assertEquals(neutralState.toString(), enemy.getController().getCurrentState().toString());
 
-        enemy.getController().defend(enemy, player);
+        enemy.hurt(player.calculateDamage());
 
         assertEquals(hostileState.toString(), enemy.getController().getCurrentState().toString());
 
         while(enemy.getCurrentHealth() > 0) {
-            enemy.getController().defend(enemy, player);
+            enemy.hurt(player.calculateDamage());
         }
 
         assertEquals(deadState.toString(), enemy.getController().getCurrentState().toString());
@@ -92,7 +92,7 @@ class CharacterStateControllerTest {
     void stateCase2() {
         State neutralState = new NeutralState(neutralController);
         State hostileState = new HostileState(neutralController);
-        State deadState = new DeadState(neutralController);
+        State deadState = new DeadState();
         State chasingState = new ChasingState(neutralController);
         Weapon weapon = new Weapon("sword", "super shiny", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
         NonPlayerCharacter enemy = new NonPlayerCharacter("Bob", null, weapon, StateType.NEUTRAL);
@@ -106,7 +106,7 @@ class CharacterStateControllerTest {
         assertEquals(neutralState.toString(), enemy.getController().getCurrentState().toString());
 
         //PLAYER attacks ENEMY, check if ENEMY switches state to HOSTILE
-        enemy.getController().defend(enemy, player);
+        enemy.hurt(player.calculateDamage());
         assertEquals(hostileState.toString(), enemy.getController().getCurrentState().toString());
 
         //PLAYER moves outside ENEMY Weapon.getRange(), but it stays within VISIBILITY_RANGE. Checks if ENEMY state switches to CHASING
@@ -121,7 +121,7 @@ class CharacterStateControllerTest {
 
         //PLAYER moves back to both ENEMY VISIBILITY_RANGE and Weapon.getRange(), then attacks ENEMY. Checks if ENEMY changes state to HOSTILE
         map.placeCharacter(player, 3, 2);
-        enemy.getController().defend(enemy, player);
+        enemy.hurt(player.calculateDamage());
         assertEquals(hostileState.toString(), enemy.getController().getCurrentState().toString());
 
         //Kills ENEMY by lowering currentHealth to below 0, checks if ENEMY switches state to DEAD
@@ -133,7 +133,7 @@ class CharacterStateControllerTest {
     void stateCase3() {
         State neutralState = new NeutralState(neutralController);
         State hostileState = new HostileState(neutralController);
-        State deadState = new DeadState(neutralController);
+        State deadState = new DeadState();
         State chasingState = new ChasingState(neutralController);
         Weapon weapon = new Weapon("sword", "super shiny", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
         NonPlayerCharacter enemy = new NonPlayerCharacter("Bob", null, weapon, StateType.NEUTRAL);
@@ -163,7 +163,7 @@ class CharacterStateControllerTest {
     @Test
     void stateCase4() {
         State neutralState = new NeutralState(neutralController);
-        State deadState = new DeadState(neutralController);
+        State deadState = new DeadState();
         Weapon weapon = new Weapon("sword", "super shiny", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
         Player player = new Elf("Gob");
         player.setWeapon(weapon);
@@ -175,7 +175,7 @@ class CharacterStateControllerTest {
         map.placeCharacter(weakling, 1, 1);
         assertEquals(neutralState.toString(), weakling.getController().getCurrentState().toString());
 
-        weakling.getController().defend(weakling, player);
+        weakling.hurt(player.calculateDamage());
 
         assertEquals(deadState.toString(), weakling.getController().getCurrentState().toString());
     }

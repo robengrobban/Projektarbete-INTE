@@ -19,14 +19,14 @@ public class ChasingState implements State {
         }
     }
 
-    @Override
+    /*@Override
     public void defend(Character defender, Character attacker) {
         defender.hurt(attacker.CalculateDamage());
 
         if (!defender.isAlive()){
             controller.setCurrentState(StateType.DEAD);
         }
-    }
+    }*/
 
     @Override
     public String toString() {

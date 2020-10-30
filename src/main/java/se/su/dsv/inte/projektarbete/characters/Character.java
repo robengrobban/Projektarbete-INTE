@@ -291,7 +291,7 @@ public class Character {
      * Generates an integer value between the range of baseDamage and baseDamage + DAMAGE_RANGE
      * @return random damage value
      */
-    public int CalculateDamage() {
+    public int calculateDamage() {
         int damage = ThreadLocalRandom.current().nextInt(baseDamage, baseDamage + DAMAGE_RANGE);
         System.out.println("Output damage: " + damage);
         return damage;

@@ -7,7 +7,7 @@ public class NeutralState implements State {
         this.controller = controller;
     }
 
-    @Override
+    /*@Override
     public void defend(Character defender, Character attacker) {
         defender.hurt(attacker.CalculateDamage());
         if(defender.isAlive()) {
@@ -16,7 +16,7 @@ public class NeutralState implements State {
         else {
             controller.setCurrentState(StateType.DEAD);
         }
-    }
+    }*/
 
 
     @Override

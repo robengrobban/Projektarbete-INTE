@@ -10,7 +10,7 @@ public class CharacterStateController {
     public CharacterStateController(StateType stateType) {
         neutralState = new NeutralState(this);
         hostileState = new HostileState(this);
-        deadState = new DeadState(this);
+        deadState = new DeadState();
         chasingState = new ChasingState(this);
         setCurrentState(stateType);
     }
@@ -22,9 +22,9 @@ public class CharacterStateController {
         currentState.attack(attacker, defender);
     }
 
-    public void defend(Character defender, Character attacker) {
+    /*public void defend(Character defender, Character attacker) {
         currentState.defend(defender, attacker);
-    }
+    }*/
 
     /**
      * Returns the current state of CharacterStateController

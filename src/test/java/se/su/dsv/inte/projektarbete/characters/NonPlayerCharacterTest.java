@@ -16,7 +16,7 @@ class NonPlayerCharacterTest {
         NonPlayerCharacter c1 = new NonPlayerCharacter("Bobby", null, weapon, 2, 5, StateType.NEUTRAL);
         NonPlayerCharacter c2 = new NonPlayerCharacter("Bobby", null, weapon, 100, 5, StateType.NEUTRAL);
         CharacterStateController neutralController = new CharacterStateController(StateType.NEUTRAL);
-        State deadState = new DeadState(neutralController);
+        State deadState = new DeadState();
         State hostileState = new HostileState(neutralController);
 
         c1.hurt(5);

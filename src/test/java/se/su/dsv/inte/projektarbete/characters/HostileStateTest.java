@@ -49,7 +49,7 @@ class HostileStateTest {
     void defendRemovesHealth() {
         c1 = new NonPlayerCharacter("bob", null, weapon, 100, 100, StateType.HOSTILE);
         int startingHealth = c1.getCurrentHealth();
-        c1.getController().defend(c1, c2);
+        c1.hurt(c2.calculateDamage());
         int currentHealth = c1.getCurrentHealth();
         assertTrue(currentHealth < startingHealth);
     }
@@ -57,9 +57,9 @@ class HostileStateTest {
     @Test
     void defendSwitchesToDead() {
         NonPlayerCharacter weakling = new NonPlayerCharacter("bob", null, weapon, 1, 100, StateType.HOSTILE);
-        State deadState = new DeadState(neutralController);
+        State deadState = new DeadState();
 
-        weakling.getController().defend(weakling, c2);
+        weakling.hurt(c2.calculateDamage());
         assertEquals(deadState.toString(), weakling.getController().getCurrentState().toString());
     }
 }

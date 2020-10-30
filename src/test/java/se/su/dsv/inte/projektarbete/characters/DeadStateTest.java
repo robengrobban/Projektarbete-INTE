@@ -20,14 +20,4 @@ class DeadStateTest {
 
         assertThrows(IllegalArgumentException.class, () -> {deadCharacter.getController().attack(deadCharacter, livingCharacter);});
     }
-
-    @Test
-    void defendThrowsException() {
-        Map MAP = new Map(20, 20);
-        Weapon WEAPON = new Weapon("sword", "super shiny", 10, 2, new HashSet<>(Arrays.asList(ElementType.LAND)));
-        NonPlayerCharacter deadCharacter = new NonPlayerCharacter("Bob", null, WEAPON, StateType.DEAD);
-        NonPlayerCharacter livingCharacter = new NonPlayerCharacter("Bobby", null, WEAPON, StateType.NEUTRAL);
-
-        assertThrows(IllegalArgumentException.class, () -> {deadCharacter.getController().defend(deadCharacter, livingCharacter);});
-    }
 }

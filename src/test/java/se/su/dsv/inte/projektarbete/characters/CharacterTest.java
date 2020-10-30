@@ -4,16 +4,12 @@ import org.junit.jupiter.api.Test;
 import se.su.dsv.inte.projektarbete.ElementType;
 import se.su.dsv.inte.projektarbete.armour.Armour;
 import se.su.dsv.inte.projektarbete.armour.ArmourType;
-import se.su.dsv.inte.projektarbete.characters.*;
-import se.su.dsv.inte.projektarbete.characters.Character;
 import se.su.dsv.inte.projektarbete.map.Map;
-import se.su.dsv.inte.projektarbete.player.Player;
 import se.su.dsv.inte.projektarbete.weapon.Weapon;
 
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,7 +50,7 @@ class CharacterTest {
         int minValue = c1.getBaseDamage();
         int maxValue = minValue + 5;
         System.out.println("base damage: " + minValue);
-        int damage = c1.CalculateDamage();
+        int damage = c1.calculateDamage();
 
         assertTrue(damage < maxValue && damage >= minValue);
     }
@@ -246,5 +242,13 @@ class CharacterTest {
         int currentHealth = c.getCurrentHealth();
 
         assertEquals(startingHealth, currentHealth);
+    }
+
+    @Test
+    void isAliveDetectsHealth() {
+        Character c = new Character("Bob", null, null);
+        int startingHealth = c.getCurrentHealth();
+        c.hurt(100);
+        assertEquals(false, c.isAlive());
     }
 }
